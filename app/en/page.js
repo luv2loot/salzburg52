@@ -102,7 +102,7 @@ export default function EnHomePage() {
           lang={LANG}
         />
 
-        {snippet && (
+                {snippet && (
           <section className="app-shell snippet-root">
             <div className="surface snippet-inner">
               <p className="snippet-label text-muted">
@@ -116,6 +116,21 @@ export default function EnHomePage() {
             </div>
           </section>
         )}
+
+        <section className="app-shell feature-root">
+          <div className="surface feature-inner">
+            <h2 className="feature-title">What this site is for</h2>
+            <p className="feature-text">
+              Salzburg52 is a small personal hub: a mix of languages,
+              hospitality, and a bit of city life from Salzburg.
+            </p>
+            <ul className="feature-list">
+              <li>Get a quick idea of who I am and how I work.</li>
+              <li>Find ways to reach me in five different languages.</li>
+              <li>Collect personal notes and spots around Salzburg over time.</li>
+            </ul>
+          </div>
+        </section>
 
         <MediaStrip />
       </main>
