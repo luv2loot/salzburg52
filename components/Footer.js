@@ -11,28 +11,23 @@ const phrases = {
 const legalLabels = {
   en: {
     impressum: "Imprint",
-    privacy: "Privacy Policy",
-    cookies: "Cookies"
+    privacy: "Privacy Policy"
   },
   de: {
     impressum: "Impressum",
-    privacy: "Datenschutzerklärung",
-    cookies: "Cookies"
+    privacy: "Datenschutzerklärung"
   },
   it: {
     impressum: "Note legali",
-    privacy: "Informativa privacy",
-    cookies: "Cookie"
+    privacy: "Informativa privacy"
   },
   fr: {
     impressum: "Mentions légales",
-    privacy: "Politique de confidentialité",
-    cookies: "Cookies"
+    privacy: "Politique de confidentialité"
   },
   es: {
     impressum: "Aviso legal",
-    privacy: "Política de privacidad",
-    cookies: "Cookies"
+    privacy: "Política de privacidad"
   }
 };
 
@@ -52,8 +47,6 @@ export default function Footer({ lang = "en" }) {
             <a href="/legal/impressum">{labels.impressum}</a>
             <span>·</span>
             <a href="/legal/privacy">{labels.privacy}</a>
-            <span>·</span>
-            <a href="/legal/cookies">{labels.cookies}</a>
           </nav>
         </div>
 
