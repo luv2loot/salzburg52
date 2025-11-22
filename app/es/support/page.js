@@ -33,12 +33,6 @@ export default function EsSupportPage() {
               @am.rsbgg
             </a>
           </p>
-
-          <h2>Idiomas</h2>
-          <p>
-            Puedes escribir en español, alemán, inglés, italiano o francés. En
-            lo posible responderé en el mismo idioma.
-          </p>
         </div>
       </main>
       <Footer lang={LANG} />
