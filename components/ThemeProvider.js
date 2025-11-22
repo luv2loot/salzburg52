@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 const THEME_KEY = "salzburg52-theme";
+
 const ThemeContext = createContext({
   theme: "system",
   setTheme: () => {}
@@ -11,7 +12,7 @@ const ThemeContext = createContext({
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState("system");
 
-  // Load stored preference or default to "system"
+  // Load stored preference or default to system
   useEffect(() => {
     if (typeof window === "undefined") return;
     const stored = window.localStorage.getItem(THEME_KEY);
@@ -22,7 +23,7 @@ export function ThemeProvider({ children }) {
     }
   }, []);
 
-  // Apply theme class + persist to localStorage + react to system changes
+  // Apply theme + persist + react to system changes (when theme === system)
   useEffect(() => {
     if (typeof document === "undefined" || typeof window === "undefined") return;
 
