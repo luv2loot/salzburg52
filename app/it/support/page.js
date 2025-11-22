@@ -33,12 +33,6 @@ export default function ItSupportPage() {
               @am.rsbgg
             </a>
           </p>
-
-          <h2>Lingue</h2>
-          <p>
-            Puoi scrivermi in italiano, tedesco, inglese, francese o spagnolo.
-            Quando possibile rispondo nella stessa lingua.
-          </p>
         </div>
       </main>
       <Footer lang={LANG} />
