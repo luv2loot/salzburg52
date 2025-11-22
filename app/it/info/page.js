@@ -23,13 +23,6 @@ export default function ItInfoPage() {
             alla reception.
           </p>
 
-          <h2>Lingue</h2>
-          <p>
-            Parlo italiano, tedesco, inglese, francese e spagnolo. Cambiare
-            lingua più volte nello stesso turno è normale per me e aiuta gli
-            ospiti a sentirsi subito a loro agio.
-          </p>
-
           <h2>Personalità</h2>
           <p>
             Secondo il modello di Stefanie Stahl sono “IKDL” – introverso,
