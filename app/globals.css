@@ -514,3 +514,67 @@ a,
     align-items: flex-start;
   }
 }
+/* === Feature section on homepages === */
+
+.feature-root {
+  margin-top: 1.2rem;
+}
+
+.feature-inner {
+  padding: 1.5rem 1.6rem 1.6rem;
+}
+
+.feature-title {
+  margin: 0 0 0.6rem;
+  font-size: 1.1rem;
+}
+
+.feature-text {
+  margin: 0 0 0.8rem;
+  font-size: 0.94rem;
+  color: var(--color-muted);
+}
+
+.feature-list {
+  margin: 0;
+  padding-left: 1.15rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.feature-list li + li {
+  margin-top: 0.25rem;
+}
+
+/* === Footer tweaks for legal links === */
+
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.15rem;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+}
+
+.footer-links a {
+  color: var(--color-muted);
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .footer-right {
+    align-items: flex-start;
+  }
+}
+
