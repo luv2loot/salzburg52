@@ -1,28 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Cursor from "@/components/Cursor";
-import SettingsPanel from "@/components/SettingsPanel";
 import MediaStrip from "@/components/MediaStrip";
 
 import { getGreetingForTime, getHeroCopy } from "@/lib/copy";
 import { getRandomSnippet } from "@/lib/quotes";
 
 const LANG = "de";
-const THEME_KEY = "salzburg52-theme";
 const SNIPPET_KEY = `salzburg52-snippet-${LANG}`;
 
 export default function DeHomePage() {
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [theme, setTheme] = useState("system");
   const [greeting, setGreeting] = useState("");
   const [snippet, setSnippet] = useState(null);
 
@@ -34,38 +26,6 @@ export default function DeHomePage() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-
-    const storedTheme = window.localStorage.getItem(THEME_KEY);
-    if (
-      storedTheme === "light" ||
-      storedTheme === "dark" ||
-      storedTheme === "system"
-    ) {
-      setTheme(storedTheme);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof document === "undefined" || typeof window === "undefined") return;
-
-    const root = document.documentElement;
-    const prefersDark =
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-    const useDark = theme === "dark" || (theme === "system" && prefersDark);
-
-    if (useDark) {
-      root.classList.add("theme-dark");
-    } else {
-      root.classList.remove("theme-dark");
-    }
-
-    window.localStorage.setItem(THEME_KEY, theme);
-  }, [theme]);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
     const previousId = window.localStorage.getItem(SNIPPET_KEY) || undefined;
     const chosen = getRandomSnippet(LANG, { excludeId: previousId });
     if (chosen) {
@@ -74,25 +34,10 @@ export default function DeHomePage() {
     }
   }, []);
 
-  const handleLangChange = (nextLang) => {
-    if (!pathname) {
-      router.push(`/${nextLang}`);
-      return;
-    }
-    const parts = pathname.split("/").filter(Boolean);
-    parts[0] = nextLang;
-    const newPath = "/" + parts.join("/");
-    router.push(newPath || `/${nextLang}`);
-  };
-
-  const handleThemeChange = (value) => {
-    setTheme(value);
-  };
-
   return (
     <>
       <Cursor />
-      <Header lang={LANG} onOpenSettings={() => setIsSettingsOpen(true)} />
+      <Header lang={LANG} />
       <main>
         <Hero
           greeting={greeting || getGreetingForTime(LANG, new Date())}
@@ -102,7 +47,7 @@ export default function DeHomePage() {
           lang={LANG}
         />
 
-                     {snippet && (
+        {snippet && (
           <section className="app-shell snippet-root">
             <div className="surface snippet-inner">
               <p className="snippet-label text-muted">
@@ -126,25 +71,17 @@ export default function DeHomePage() {
             </p>
             <ul className="feature-list">
               <li>Ein Eindruck, wer ich bin und wie ich arbeite.</li>
-              <li>Kontaktmöglichkeiten in mehreren Sprachen.</li>
-              <li>Nach und nach mehr persönliche Orte und Eindrücke aus Salzburg.</li>
+              <li>Eine einfache Möglichkeit, mich zu erreichen.</li>
+              <li>
+                Nach und nach mehr persönliche Orte und Eindrücke aus Salzburg.
+              </li>
             </ul>
           </div>
         </section>
 
         <MediaStrip />
-
       </main>
       <Footer lang={LANG} />
-
-      <SettingsPanel
-        isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
-        lang={LANG}
-        onLangChange={handleLangChange}
-        theme={theme}
-        onThemeChange={handleThemeChange}
-      />
     </>
   );
 }
