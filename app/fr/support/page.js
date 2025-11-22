@@ -33,12 +33,6 @@ export default function FrSupportPage() {
               @am.rsbgg
             </a>
           </p>
-
-          <h2>Langues</h2>
-          <p>
-            Vous pouvez écrire en français, allemand, anglais, italien ou
-            espagnol. Je répondrai autant que possible dans la même langue.
-          </p>
         </div>
       </main>
       <Footer lang={LANG} />
