@@ -1,0 +1,60 @@
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import Cursor from "@/components/Cursor";
+
+const LANG = "de";
+
+export default function CookiesPage() {
+  return (
+    <>
+      <Cursor />
+      <Header lang={LANG} />
+      <main className="app-shell">
+        <div className="surface" style={{ padding: "1.75rem" }}>
+          <h1>Cookies</h1>
+          <p className="text-muted" style={{ fontSize: "0.9rem" }}>
+            Diese Seite verwendet nur die Cookies, die für den technischen
+            Betrieb notwendig sind. Es werden aktuell keine Werbe- oder
+            Analyse-Cookies gesetzt.
+          </p>
+
+          <h2>Was sind Cookies?</h2>
+          <p>
+            Cookies sind kleine Textdateien, die im Browser gespeichert werden,
+            um bestimmte Funktionen zu ermöglichen – zum Beispiel
+            Sitzungserhaltung oder Spracheinstellungen.
+          </p>
+
+          <h2>Eingesetzte Cookies</h2>
+          <p>
+            Die Anwendung selbst speichert keine eigenen Tracking-Cookies. Es
+            können jedoch technisch notwendige Cookies durch das Framework oder
+            den Hosting-Anbieter gesetzt werden, damit die Seite stabil läuft.
+          </p>
+
+          <h2>Lokale Einstellungen</h2>
+          <p>
+            Sprache und Darstellungsmodus (Light/Dark) werden im Browser
+            gespeichert – dafür wird derzeit{" "}
+            <code>localStorage</code> verwendet, nicht klassisch Cookies. Diese
+            Informationen verlassen Ihren Browser nicht.
+          </p>
+
+          <h2>Wie kann ich Cookies kontrollieren?</h2>
+          <p>
+            In Ihrem Browser können Sie Cookies löschen, einschränken oder
+            das Speichern von Cookies komplett deaktivieren. Dadurch kann die
+            Funktionalität mancher Websites beeinträchtigt werden.
+          </p>
+
+          <p className="text-muted" style={{ fontSize: "0.85rem" }}>
+            Hinweis: Wenn später zusätzliche Dienste eingebunden werden
+            (z.&nbsp;B. Analytics), müssen diese hier ergänzt und ggf. mit einem
+            Cookie-Banner kombiniert werden.
+          </p>
+        </div>
+      </main>
+      <Footer lang={LANG} />
+    </>
+  );
+}
