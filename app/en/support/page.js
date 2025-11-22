@@ -33,12 +33,6 @@ export default function EnSupportPage() {
               @am.rsbgg
             </a>
           </p>
-
-          <h2>Languages</h2>
-          <p>
-            You can write in English, German, Italian, French, or Spanish. I’ll
-            answer in the same language whenever possible.
-          </p>
         </div>
       </main>
       <Footer lang={LANG} />
