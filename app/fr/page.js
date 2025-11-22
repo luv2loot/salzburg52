@@ -1,28 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Cursor from "@/components/Cursor";
-import SettingsPanel from "@/components/SettingsPanel";
 import MediaStrip from "@/components/MediaStrip";
 
 import { getGreetingForTime, getHeroCopy } from "@/lib/copy";
 import { getRandomSnippet } from "@/lib/quotes";
 
 const LANG = "fr";
-const THEME_KEY = "salzburg52-theme";
 const SNIPPET_KEY = `salzburg52-snippet-${LANG}`;
 
 export default function FrHomePage() {
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [theme, setTheme] = useState("system");
   const [greeting, setGreeting] = useState("");
   const [snippet, setSnippet] = useState(null);
 
@@ -34,38 +26,6 @@ export default function FrHomePage() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-
-    const storedTheme = window.localStorage.getItem(THEME_KEY);
-    if (
-      storedTheme === "light" ||
-      storedTheme === "dark" ||
-      storedTheme === "system"
-    ) {
-      setTheme(storedTheme);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof document === "undefined" || typeof window === "undefined") return;
-
-    const root = document.documentElement;
-    const prefersDark =
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-    const useDark = theme === "dark" || (theme === "system" && prefersDark);
-
-    if (useDark) {
-      root.classList.add("theme-dark");
-    } else {
-      root.classList.remove("theme-dark");
-    }
-
-    window.localStorage.setItem(THEME_KEY, theme);
-  }, [theme]);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
     const previousId = window.localStorage.getItem(SNIPPET_KEY) || undefined;
     const chosen = getRandomSnippet(LANG, { excludeId: previousId });
     if (chosen) {
@@ -74,25 +34,10 @@ export default function FrHomePage() {
     }
   }, []);
 
-  const handleLangChange = (nextLang) => {
-    if (!pathname) {
-      router.push(`/${nextLang}`);
-      return;
-    }
-    const parts = pathname.split("/").filter(Boolean);
-    parts[0] = nextLang;
-    const newPath = "/" + parts.join("/");
-    router.push(newPath || `/${nextLang}`);
-  };
-
-  const handleThemeChange = (value) => {
-    setTheme(value);
-  };
-
   return (
     <>
       <Cursor />
-      <Header lang={LANG} onOpenSettings={() => setIsSettingsOpen(true)} />
+      <Header lang={LANG} />
       <main>
         <Hero
           greeting={greeting || getGreetingForTime(LANG, new Date())}
@@ -102,7 +47,7 @@ export default function FrHomePage() {
           lang={LANG}
         />
 
-                {snippet && (
+        {snippet && (
           <section className="app-shell snippet-root">
             <div className="surface snippet-inner">
               <p className="snippet-label text-muted">
@@ -121,30 +66,20 @@ export default function FrHomePage() {
           <div className="surface feature-inner">
             <h2 className="feature-title">L’idée du site</h2>
             <p className="feature-text">
-              Salzburg52 est un petit espace personnel sur l’hôtellerie, les
-              langues et la vie quotidienne à Salzbourg.
+              Salzburg52 est un petit espace personnel sur l’hôtellerie, le
+              front office et la vie quotidienne à Salzbourg.
             </p>
             <ul className="feature-list">
               <li>Donner une image claire de qui je suis et de mon travail.</li>
-              <li>Montrer comment j’utilise plusieurs langues au front office.</li>
+              <li>Proposer un moyen simple de me contacter si besoin.</li>
               <li>Partager quelques lieux et impressions de la ville.</li>
             </ul>
           </div>
         </section>
 
         <MediaStrip />
-
       </main>
       <Footer lang={LANG} />
-
-      <SettingsPanel
-        isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
-        lang={LANG}
-        onLangChange={handleLangChange}
-        theme={theme}
-        onThemeChange={handleThemeChange}
-      />
     </>
   );
 }
