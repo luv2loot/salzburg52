@@ -102,7 +102,7 @@ export default function DeHomePage() {
           lang={LANG}
         />
 
-        {snippet && (
+                     {snippet && (
           <section className="app-shell snippet-root">
             <div className="surface snippet-inner">
               <p className="snippet-label text-muted">
@@ -117,7 +117,23 @@ export default function DeHomePage() {
           </section>
         )}
 
+        <section className="app-shell feature-root">
+          <div className="surface feature-inner">
+            <h2 className="feature-title">Worum es auf dieser Seite geht</h2>
+            <p className="feature-text">
+              Salzburg52 ist eine kleine, persönliche Seite – irgendwo zwischen
+              Lebenslauf, Gästeperspektive und Stadt-Notizbuch.
+            </p>
+            <ul className="feature-list">
+              <li>Ein Eindruck, wer ich bin und wie ich arbeite.</li>
+              <li>Kontaktmöglichkeiten in mehreren Sprachen.</li>
+              <li>Nach und nach mehr persönliche Orte und Eindrücke aus Salzburg.</li>
+            </ul>
+          </div>
+        </section>
+
         <MediaStrip />
+
       </main>
       <Footer lang={LANG} />
 
