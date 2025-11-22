@@ -22,13 +22,6 @@ export default function EsInfoPage() {
             resolución tranquila de problemas que exige la hospitalidad.
           </p>
 
-          <h2>Idiomas</h2>
-          <p>
-            Hablo español, alemán, inglés, italiano y francés. Cambiar de idioma
-            varias veces durante un turno es normal y ayuda a que los huéspedes
-            se sientan cómodos.
-          </p>
-
           <h2>Personalidad</h2>
           <p>
             Según el modelo de Stefanie Stahl soy “IKDL”: introvertido, concreto,
