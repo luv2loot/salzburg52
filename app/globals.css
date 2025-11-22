@@ -516,43 +516,29 @@ a,
 }
 /* === Feature section on homepages === */
 
-.feature-root {
-  margin-top: 1.2rem;
+.footer-root {
+  margin-top: 1.8rem;
 }
 
-.feature-inner {
-  padding: 1.5rem 1.6rem 1.6rem;
+.footer-inner {
+  padding: 0.9rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.82rem;
 }
 
-.feature-title {
-  margin: 0 0 0.6rem;
-  font-size: 1.1rem;
-}
-
-.feature-text {
-  margin: 0 0 0.8rem;
-  font-size: 0.94rem;
-  color: var(--color-muted);
-}
-
-.feature-list {
-  margin: 0;
-  padding-left: 1.15rem;
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
-.feature-list li + li {
-  margin-top: 0.25rem;
-}
-
-/* === Footer tweaks for legal links === */
-
+.footer-left,
+.footer-center,
 .footer-right {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.15rem;
+  align-items: center;
+}
+
+.footer-center {
+  justify-content: center;
+  flex: 1;
 }
 
 .footer-links {
@@ -572,9 +558,24 @@ a,
   text-decoration: underline;
 }
 
+.footer-note {
+  white-space: nowrap;
+}
+
 @media (max-width: 640px) {
-  .footer-right {
+  .footer-inner {
+    flex-direction: column;
     align-items: flex-start;
   }
+
+  .footer-center {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .footer-right {
+    width: 100%;
+  }
 }
+
 
