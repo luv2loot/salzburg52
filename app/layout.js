@@ -1,4 +1,5 @@
 import "./globals.css";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const metadata = {
   title: "Salzburg52 – Amir Ismaili",
@@ -8,9 +9,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="theme-dark">
+    <html lang="en">
       <body className="app-body">
-        {children}
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
