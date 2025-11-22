@@ -12,9 +12,9 @@ const LANG_LABELS = {
 };
 
 const THEMES = [
+  { key: "system", label: "System" },
   { key: "light", label: "Light" },
-  { key: "dark", label: "Dark" },
-  { key: "system", label: "System" }
+  { key: "dark", label: "Dark" }
 ];
 
 export default function SettingsPanel({
