@@ -24,14 +24,6 @@ export default function DeInfoPage() {
             einen großen Unterschied im Aufenthalt machen können.
           </p>
 
-          <h2>Sprachen</h2>
-          <p>
-            Ich spreche Deutsch, Englisch, Italienisch, Französisch und
-            Spanisch. Sprachwechsel gehören für mich zum Alltag und helfen, dass
-            sich Gäste schneller wohlfühlen und weniger „fremd“ im Hotel
-            ankommen.
-          </p>
-
           <h2>Persönlichkeit</h2>
           <p>
             Nach dem Modell von Stefanie Stahl bin ich „IKDL“ – introvertiert,
