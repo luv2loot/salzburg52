@@ -20,21 +20,36 @@ export default function DeInfoPage() {
           <p>
             Mir gefällt die Mischung aus Struktur, Kommunikation und ruhigem
             Problemlösen, die die Hotellerie verlangt – besonders an der
-            Rezeption, wo jede Anreise anders ist.
+            Rezeption, wo jede Anreise anders ist und kleine Entscheidungen
+            einen großen Unterschied im Aufenthalt machen können.
           </p>
 
           <h2>Sprachen</h2>
           <p>
             Ich spreche Deutsch, Englisch, Italienisch, Französisch und
             Spanisch. Sprachwechsel gehören für mich zum Alltag und helfen, dass
-            sich Gäste schneller wohlfühlen.
+            sich Gäste schneller wohlfühlen und weniger „fremd“ im Hotel
+            ankommen.
           </p>
 
           <h2>Persönlichkeit</h2>
           <p>
             Nach dem Modell von Stefanie Stahl bin ich „IKDL“ – introvertiert,
-            konkret, logisch entscheidungsfreudig, entspannt. Das passt gut zum
-            Front Office: klar bleiben, auch wenn es voll wird.
+            konkret, logisch entscheidungsfreudig, entspannt. Für die Arbeit im
+            Front Office heißt das:
+          </p>
+          <ul>
+            <li>Ich höre lieber erst zu und handle dann.</li>
+            <li>Ich mag klare Abläufe und strukturierte Informationen.</li>
+            <li>Ich bleibe ruhig, auch wenn viele Dinge gleichzeitig passieren.</li>
+          </ul>
+
+          <h2>Worauf ich im Alltag achte</h2>
+          <p>
+            Mir ist wichtig, dass Gäste sich ernst genommen fühlen – egal ob es
+            um ein kleines Detail im Zimmer oder ein großes Problem in der Reise
+            geht. Höflichkeit, Ehrlichkeit und ein ruhiger Ton sind mir lieber
+            als große Show.
           </p>
 
           <h2>Online</h2>
