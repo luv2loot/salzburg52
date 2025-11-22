@@ -46,8 +46,8 @@ export default function Footer({ lang = "en" }) {
         <div className="footer-left">
           <span className="text-muted">© {year} Salzburg52 · Amir Ismaili</span>
         </div>
-        <div className="footer-right">
-          <span className="text-muted footer-note">{text}</span>
+
+        <div className="footer-center">
           <nav className="footer-links">
             <a href="/legal/impressum">{labels.impressum}</a>
             <span>·</span>
@@ -55,6 +55,10 @@ export default function Footer({ lang = "en" }) {
             <span>·</span>
             <a href="/legal/cookies">{labels.cookies}</a>
           </nav>
+        </div>
+
+        <div className="footer-right">
+          <span className="text-muted footer-note">{text}</span>
         </div>
       </div>
     </footer>
