@@ -23,12 +23,6 @@ export default function FrInfoPage() {
             office.
           </p>
 
-          <h2>Langues</h2>
-          <p>
-            Je parle français, allemand, anglais, italien et espagnol. Changer
-            de langue plusieurs fois pendant un service est normal pour moi.
-          </p>
-
           <h2>Personnalité</h2>
           <p>
             Selon le modèle de Stefanie Stahl, je suis « IKDL » – introverti,
