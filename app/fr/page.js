@@ -102,7 +102,7 @@ export default function FrHomePage() {
           lang={LANG}
         />
 
-        {snippet && (
+                {snippet && (
           <section className="app-shell snippet-root">
             <div className="surface snippet-inner">
               <p className="snippet-label text-muted">
@@ -117,7 +117,23 @@ export default function FrHomePage() {
           </section>
         )}
 
+        <section className="app-shell feature-root">
+          <div className="surface feature-inner">
+            <h2 className="feature-title">L’idée du site</h2>
+            <p className="feature-text">
+              Salzburg52 est un petit espace personnel sur l’hôtellerie, les
+              langues et la vie quotidienne à Salzbourg.
+            </p>
+            <ul className="feature-list">
+              <li>Donner une image claire de qui je suis et de mon travail.</li>
+              <li>Montrer comment j’utilise plusieurs langues au front office.</li>
+              <li>Partager quelques lieux et impressions de la ville.</li>
+            </ul>
+          </div>
+        </section>
+
         <MediaStrip />
+
       </main>
       <Footer lang={LANG} />
 
