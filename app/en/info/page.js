@@ -23,13 +23,6 @@ export default function EnInfoPage() {
             desk, where every guest has a different story and expectation.
           </p>
 
-          <h2>Languages</h2>
-          <p>
-            I speak English, German, Italian, French, and Spanish. Switching
-            languages during one shift is normal for me – it keeps things
-            dynamic and helps guests feel at home more quickly.
-          </p>
-
           <h2>Personality</h2>
           <p>
             According to the Stefanie Stahl model, I am “IKDL” – introverted,
