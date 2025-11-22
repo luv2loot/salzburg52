@@ -33,12 +33,6 @@ export default function DeSupportPage() {
               @am.rsbgg
             </a>
           </p>
-
-          <h2>Sprachen</h2>
-          <p>
-            Du kannst auf Deutsch, Englisch, Italienisch, Französisch oder
-            Spanisch schreiben. Ich antworte möglichst in derselben Sprache.
-          </p>
         </div>
       </main>
       <Footer lang={LANG} />
