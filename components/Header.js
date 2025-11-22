@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useMemo } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
+
+import SettingsPanel from "@/components/SettingsPanel";
+import { useTheme } from "@/components/ThemeProvider";
 
 const SUPPORTED_LANGS = ["en", "de", "it", "fr", "es"];
 
@@ -12,8 +15,11 @@ function buildHref(lang, segment) {
   return `/${lang}/${segment}`;
 }
 
-export default function Header({ lang = "en", onOpenSettings }) {
+export default function Header({ lang = "en" }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { theme, setTheme } = useTheme();
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const activeLang = useMemo(() => {
     if (!pathname) return lang;
@@ -30,45 +36,67 @@ export default function Header({ lang = "en", onOpenSettings }) {
     { key: "support", label: "Support" }
   ];
 
+  const handleLangChange = (nextLang) => {
+    if (!pathname) {
+      router.push(`/${nextLang}`);
+      return;
+    }
+    const parts = pathname.split("/").filter(Boolean);
+    parts[0] = nextLang;
+    const newPath = "/" + parts.join("/");
+    router.push(newPath || `/${nextLang}`);
+  };
+
   return (
-    <header className="app-shell header-root">
-      <div className="surface header-inner">
-        <div className="header-left">
-          <Link href={`/${activeLang}`} className="header-logo">
-            <span className="header-logo-dot" />
-            <span className="header-logo-text">Salzburg52</span>
-          </Link>
-        </div>
+    <>
+      <header className="app-shell header-root">
+        <div className="surface header-inner">
+          <div className="header-left">
+            <Link href={`/${activeLang}`} className="header-logo">
+              <span className="header-logo-dot" />
+              <span className="header-logo-text">Salzburg52</span>
+            </Link>
+          </div>
 
-        <nav className="header-nav">
-          {navItems.map((item) => {
-            const href = buildHref(
-              activeLang,
-              item.key === "home" ? "" : item.key
-            );
-            const isActive = pathname === href;
-            return (
-              <Link
-                key={item.key}
-                href={href}
-                className={`header-nav-link${isActive ? " is-active" : ""}`}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
+          <nav className="header-nav">
+            {navItems.map((item) => {
+              const href = buildHref(
+                activeLang,
+                item.key === "home" ? "" : item.key
+              );
+              const isActive = pathname === href;
+              return (
+                <Link
+                  key={item.key}
+                  href={href}
+                  className={`header-nav-link${isActive ? " is-active" : ""}`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
 
-        <div className="header-right">
-          <button
-            type="button"
-            className="header-settings-btn"
-            onClick={onOpenSettings}
-          >
-            Settings
-          </button>
+          <div className="header-right">
+            <button
+              type="button"
+              className="header-settings-btn"
+              onClick={() => setIsSettingsOpen(true)}
+            >
+              Settings
+            </button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      <SettingsPanel
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        lang={activeLang}
+        onLangChange={handleLangChange}
+        theme={theme}
+        onThemeChange={setTheme}
+      />
+    </>
   );
 }
