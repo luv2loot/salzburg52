@@ -102,7 +102,7 @@ export default function EsHomePage() {
           lang={LANG}
         />
 
-        {snippet && (
+                {snippet && (
           <section className="app-shell snippet-root">
             <div className="surface snippet-inner">
               <p className="snippet-label text-muted">
@@ -117,7 +117,23 @@ export default function EsHomePage() {
           </section>
         )}
 
+        <section className="app-shell feature-root">
+          <div className="surface feature-inner">
+            <h2 className="feature-title">De qué va esta página</h2>
+            <p className="feature-text">
+              Salzburg52 es un espacio personal donde se mezclan idiomas,
+              recepción de hotel y un poco de vida en Salzburgo.
+            </p>
+            <ul className="feature-list">
+              <li>Presentar quién soy y cómo trabajo en el front office.</li>
+              <li>Ofrecer formas de contacto en varios idiomas.</li>
+              <li>Ir sumando poco a poco rincones y notas de la ciudad.</li>
+            </ul>
+          </div>
+        </section>
+
         <MediaStrip />
+
       </main>
       <Footer lang={LANG} />
 
