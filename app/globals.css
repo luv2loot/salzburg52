@@ -53,6 +53,7 @@ body {
 
 .app-body {
   min-height: 100vh;
+  min-height: 100svh;
   background: radial-gradient(circle at top, #eef2ff 0, var(--color-bg) 44%);
   color: var(--color-text);
 }
