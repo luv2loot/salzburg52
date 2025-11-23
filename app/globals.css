@@ -624,5 +624,11 @@ a,
 .snippet-refresh-btn:hover {
   opacity: 1;
 }
+.homepage-snippet-box {
+  margin-top: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
 
 
