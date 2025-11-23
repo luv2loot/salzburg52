@@ -779,4 +779,18 @@ a,
 .snippet-inner {
   animation: snippetFadeIn 0.25s ease-out;
 }
+/* Slightly tighten top spacing on mobile so content starts a bit higher */
+@media (max-width: 480px) {
+  .header-root {
+    padding-top: 0.9rem;
+  }
+
+  .hero-root {
+    padding-top: 0.9rem;
+  }
+
+  .mediastrip-root {
+    margin-top: 1.5rem;
+  }
+}
 
