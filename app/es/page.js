@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Cursor from "@/components/Cursor";
 import MediaStrip from "@/components/MediaStrip";
-
+import SnippetRefreshButton from "@/components/SnippetRefreshButton";
 import { getGreetingForTime, getHeroCopy } from "@/lib/copy";
 import { getRandomSnippet } from "@/lib/quotes";
 
