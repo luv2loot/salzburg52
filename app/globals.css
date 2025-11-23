@@ -604,5 +604,25 @@ a,
   background: rgba(148, 163, 184, 0.2);
 }
 
+.snippet-refresh-btn {
+  font-size: 0.9rem;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-color, #ffffff20);
+  background: var(--surface-2, #ffffff10);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+  opacity: 0.65;
+}
+
+.snippet-refresh-btn:hover {
+  opacity: 1;
+}
 
 
