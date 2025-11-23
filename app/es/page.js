@@ -8,6 +8,7 @@ import Hero from "@/components/Hero";
 import Cursor from "@/components/Cursor";
 import MediaStrip from "@/components/MediaStrip";
 import SnippetRefreshButton from "@/components/SnippetRefreshButton";
+
 import { getGreetingForTime, getHeroCopy } from "@/lib/copy";
 import { getRandomSnippet } from "@/lib/quotes";
 
@@ -34,6 +35,17 @@ export default function EsHomePage() {
     }
   }, []);
 
+  const handleRefreshSnippet = () => {
+    if (!snippet) return;
+    if (typeof window === "undefined") return;
+
+    const next = getRandomSnippet(LANG, { excludeId: snippet.id });
+    if (next) {
+      setSnippet(next);
+      window.localStorage.setItem(SNIPPET_KEY, next.id);
+    }
+  };
+
   return (
     <>
       <Cursor />
@@ -50,13 +62,16 @@ export default function EsHomePage() {
         {snippet && (
           <section className="app-shell snippet-root">
             <div className="surface snippet-inner">
-              <p className="snippet-label text-muted">
-                {snippet.kind === "quote"
-                  ? "Cita"
-                  : snippet.kind === "fact"
-                  ? "Dato curioso"
-                  : "Sólo por diversión"}
-              </p>
+              <div className="snippet-header">
+                <p className="snippet-label text-muted">
+                  {snippet.kind === "quote"
+                    ? "Cita"
+                    : snippet.kind === "fact"
+                    ? "Dato curioso"
+                    : "Sólo por diversión"}
+                </p>
+                <SnippetRefreshButton onClick={handleRefreshSnippet} />
+              </div>
               <p className="snippet-text">{snippet.text}</p>
             </div>
           </section>
