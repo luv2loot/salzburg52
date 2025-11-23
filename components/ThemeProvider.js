@@ -6,7 +6,6 @@ const THEME_KEY = "salzburg52-theme";
 
 const ThemeContext = createContext({
   theme: "system",
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setTheme: () => {}
 });
 
@@ -24,7 +23,7 @@ export function ThemeProvider({ children }) {
     }
   }, []);
 
-  // Apply theme + persist + react to system changes (when theme === system)
+  // Apply theme + persist + react to system changes when theme === system
   useEffect(() => {
     if (typeof document === "undefined" || typeof window === "undefined") return;
 
