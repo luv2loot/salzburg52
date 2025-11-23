@@ -8,13 +8,14 @@ import Hero from "@/components/Hero";
 import Cursor from "@/components/Cursor";
 import MediaStrip from "@/components/MediaStrip";
 import SnippetRefreshButton from "@/components/SnippetRefreshButton";
+
 import { getGreetingForTime, getHeroCopy } from "@/lib/copy";
 import { getRandomSnippet } from "@/lib/quotes";
 
-const LANG = "de";
+const LANG = "en";
 const SNIPPET_KEY = `salzburg52-snippet-${LANG}`;
 
-export default function DeHomePage() {
+export default function EnHomePage() {
   const [greeting, setGreeting] = useState("");
   const [snippet, setSnippet] = useState(null);
 
@@ -34,6 +35,17 @@ export default function DeHomePage() {
     }
   }, []);
 
+  const handleRefreshSnippet = () => {
+    if (!snippet) return;
+    if (typeof window === "undefined") return;
+
+    const next = getRandomSnippet(LANG, { excludeId: snippet.id });
+    if (next) {
+      setSnippet(next);
+      window.localStorage.setItem(SNIPPET_KEY, next.id);
+    }
+  };
+
   return (
     <>
       <Cursor />
@@ -50,13 +62,16 @@ export default function DeHomePage() {
         {snippet && (
           <section className="app-shell snippet-root">
             <div className="surface snippet-inner">
-              <p className="snippet-label text-muted">
-                {snippet.kind === "quote"
-                  ? "Zitat"
-                  : snippet.kind === "fact"
-                  ? "Fun Fact"
-                  : "Nur zum Spaß"}
-              </p>
+              <div className="snippet-header">
+                <p className="snippet-label text-muted">
+                  {snippet.kind === "quote"
+                    ? "Quote"
+                    : snippet.kind === "fact"
+                    ? "Fun fact"
+                    : "Just for fun"}
+                </p>
+                <SnippetRefreshButton onClick={handleRefreshSnippet} />
+              </div>
               <p className="snippet-text">{snippet.text}</p>
             </div>
           </section>
@@ -64,17 +79,15 @@ export default function DeHomePage() {
 
         <section className="app-shell feature-root">
           <div className="surface feature-inner">
-            <h2 className="feature-title">Worum es auf dieser Seite geht</h2>
+            <h2 className="feature-title">What this site is for</h2>
             <p className="feature-text">
-              Salzburg52 ist eine kleine, persönliche Seite – irgendwo zwischen
-              Lebenslauf, Gästeperspektive und Stadt-Notizbuch.
+              Salzburg52 is a small personal hub: a mix of hospitality,
+              structure, and a bit of city life from Salzburg.
             </p>
             <ul className="feature-list">
-              <li>Ein Eindruck, wer ich bin und wie ich arbeite.</li>
-              <li>Eine einfache Möglichkeit, mich zu erreichen.</li>
-              <li>
-                Nach und nach mehr persönliche Orte und Eindrücke aus Salzburg.
-              </li>
+              <li>Get a quick idea of who I am and how I work.</li>
+              <li>Have a simple way to reach me if needed.</li>
+              <li>Collect personal notes and spots around Salzburg over time.</li>
             </ul>
           </div>
         </section>
