@@ -6,8 +6,7 @@ import { useMemo, useState } from "react";
 
 import SettingsPanel from "@/components/SettingsPanel";
 import { useTheme } from "@/components/ThemeProvider";
-
-const SUPPORTED_LANGS = ["en", "de", "it", "fr", "es"];
+import { SUPPORTED_LANGS } from "@/lib/copy";
 
 function buildHref(lang, segment) {
   if (!SUPPORTED_LANGS.includes(lang)) lang = "en";
@@ -49,7 +48,7 @@ export default function Header({ lang = "en" }) {
 
   return (
     <>
-      <header className="app-shell header-root">
+      <header className="app-shell header-root" role="banner">
         <div className="surface header-inner">
           <div className="header-left">
             <Link href={`/${activeLang}`} className="header-logo">
@@ -58,7 +57,7 @@ export default function Header({ lang = "en" }) {
             </Link>
           </div>
 
-          <nav className="header-nav">
+          <nav className="header-nav" aria-label="Main">
             {navItems.map((item) => {
               const href = buildHref(
                 activeLang,
@@ -70,6 +69,7 @@ export default function Header({ lang = "en" }) {
                   key={item.key}
                   href={href}
                   className={`header-nav-link${isActive ? " is-active" : ""}`}
+                  aria-current={isActive ? "page" : undefined}
                 >
                   {item.label}
                 </Link>
@@ -82,6 +82,8 @@ export default function Header({ lang = "en" }) {
               type="button"
               className="header-settings-btn"
               onClick={() => setIsSettingsOpen(true)}
+              aria-haspopup="dialog"
+              aria-expanded={isSettingsOpen}
             >
               Settings
             </button>
