@@ -11,6 +11,21 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Amir Ismaili",
+  "jobTitle": "Front office apprentice",
+  "url": "https://salzburg52.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Salzburg",
+    "addressCountry": "Austria"
+  }
+}
+</script>
+
         {/* Google Search Console Verification */}
        <meta name="google-site-verification" content="BLcpIn7aBbclpXOlLBAxj2DZculO65iACJN4kcC20mc" />"
         />
