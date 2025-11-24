@@ -1,3 +1,7 @@
+"use client";
+
+import Link from "next/link";
+
 const year = new Date().getFullYear();
 
 const phrases = {
@@ -36,17 +40,19 @@ export default function Footer({ lang = "en" }) {
   const labels = legalLabels[lang] ?? legalLabels.en;
 
   return (
-    <footer className="app-shell footer-root">
+    <footer className="app-shell footer-root" role="contentinfo">
       <div className="surface footer-inner">
         <div className="footer-left">
-          <span className="text-muted">© {year} Salzburg52 · Amir Ismaili</span>
+          <span className="text-muted">
+            © {year} Salzburg52 · Amir Ismaili
+          </span>
         </div>
 
         <div className="footer-center">
-          <nav className="footer-links">
-            <a href="/legal/impressum">{labels.impressum}</a>
+          <nav className="footer-links" aria-label="Legal">
+            <Link href="/legal/impressum">{labels.impressum}</Link>
             <span>·</span>
-            <a href="/legal/privacy">{labels.privacy}</a>
+            <Link href="/legal/privacy">{labels.privacy}</Link>
           </nav>
         </div>
 
