@@ -11,23 +11,17 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* Google Search Console Verification */}
         <meta
           name="google-site-verification"
           content="BLcpIn7aBbclpXOlLBAxj2DZculO65iACJN4kcC20mc"
         />
 
-        {/* Canonical URL */}
         <link rel="canonical" href="https://salzburg52.com" />
-
-        {/* Basic meta */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#050509" />
 
-        {/* Structured data (JSON-LD) */}
         <script
           type="application/ld+json"
-          // JSON must be injected as a string in JSX
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
