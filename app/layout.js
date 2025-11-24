@@ -12,9 +12,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         {/* Google Search Console Verification */}
-        <meta
-          name="google-site-verification"
-          content="BLcpIn7aBbclpXOlLBAxj2DZculO65iACJN4kcC20mc"
+       <meta name="google-site-verification" content="BLcpIn7aBbclpXOlLBAxj2DZculO65iACJN4kcC20mc" />"
         />
 
         {/* Canonical URL */}
