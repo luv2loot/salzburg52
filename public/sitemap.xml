@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Root -->
+  <url>
+    <loc>https://salzburg52.com</loc>
+  </url>
+
+  <!-- English -->
+  <url>
+    <loc>https://salzburg52.com/en</loc>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/en/info</loc>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/en/salzburg</loc>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/en/support</loc>
+  </url>
+
+  <!-- German -->
+  <url>
+    <loc>https://salzburg52.com/de</loc>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/de/info</loc>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/de/salzburg</loc>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/de/support</loc>
+  </url>
+
+  <!-- Italian -->
+  <url>
+    <loc>https://salzburg52.com/it</loc>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/it/info</loc>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/it/salzburg</loc>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/it/support</loc>
+  </url>
+
+  <!-- French -->
+  <url>
+    <loc>https://salzburg52.com/fr</loc>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/fr/info</loc>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/fr/salzburg</loc>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/fr/support</loc>
+  </url>
+
+  <!-- Spanish -->
+  <url>
+    <loc>https://salzburg52.com/es</loc>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/es/info</loc>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/es/salzburg</loc>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/es/support</loc>
+  </url>
+
+  <!-- Legal pages -->
+  <url>
+    <loc>https://salzburg52.com/legal/impressum</loc>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/legal/privacy</loc>
+  </url>
+
+</urlset>
