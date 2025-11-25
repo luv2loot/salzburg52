@@ -5,11 +5,11 @@ import Link from "next/link";
 const year = new Date().getFullYear();
 
 const phrases = {
-  en: "Built in Salzburg with way too much coffee.",
-  de: "Entstanden in Salzburg mit viel zu viel Kaffee.",
-  it: "Creato a Salisburgo con troppo caffè.",
-  fr: "Créé à Salzbourg avec beaucoup trop de café.",
-  es: "Creado en Salzburgo con demasiado café."
+  en: "Crafted with dedication in Salzburg.",
+  de: "Mit Hingabe in Salzburg gestaltet.",
+  it: "Realizzato con dedizione a Salisburgo.",
+  fr: "Conçu avec dévouement à Salzbourg.",
+  es: "Elaborado con dedicación en Salzburgo."
 };
 
 const legalLabels = {
@@ -44,7 +44,7 @@ export default function Footer({ lang = "en" }) {
       <div className="surface footer-inner">
         <div className="footer-left">
           <span className="text-muted">
-            © {year} Salzburg52 · Amir Ismaili
+            © {year} Salzburg52
           </span>
         </div>
 

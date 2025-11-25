@@ -1,5 +1,6 @@
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import MusicPlayer from "@/components/MusicPlayer";
 
 export const metadata = {
   title: "Salzburg52 – Amir Ismaili",
@@ -37,6 +38,7 @@ export default function RootLayout({ children }) {
       </head>
 
       <body className="app-body">
+        <MusicPlayer />
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

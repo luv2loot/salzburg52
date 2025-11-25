@@ -10,11 +10,14 @@ export default function EsSupportPage() {
       <Cursor />
       <Header lang={LANG} />
       <main className="app-shell">
-        <div className="surface" style={{ padding: "1.75rem" }}>
-          <h1>Soporte & contacto</h1>
-          <p>
-            Si tienes preguntas sobre Salzburgo, idiomas o este sitio, puedes
-            contactarme directamente.
+        <div style={{ marginBottom: "2rem", borderRadius: "18px", overflow: "hidden", height: "250px", boxShadow: "0 18px 45px rgba(15, 23, 42, 0.08)" }}>
+          <img src="/images/salzburg_austria_his_c717a1e9.jpg" alt="Salzburg" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        </div>
+        <div className="surface" style={{ padding: "2rem 2.2rem" }}>
+          <h1 style={{ marginTop: 0 }}>Contacto & Soporte</h1>
+          <p style={{ lineHeight: 1.7, color: "var(--color-muted)" }}>
+            Para consultas sobre hospitalidad en Salzburgo, recomendaciones locales 
+            o cualquier pregunta sobre nuestros servicios, no dude en ponerse en contacto.
           </p>
 
           <h2>Email</h2>
@@ -22,7 +25,7 @@ export default function EsSupportPage() {
             <a href="mailto:info@salzburg52.com">info@salzburg52.com</a>
           </p>
 
-          <h2>Redes</h2>
+          <h2>Redes Sociales</h2>
           <p>
             Instagram:{" "}
             <a

@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Cursor from "@/components/Cursor";
 import MediaStrip from "@/components/MediaStrip";
+import Showcase from "@/components/Showcase";
 import SnippetRefreshButton from "@/components/SnippetRefreshButton";
 
 import { getGreetingForTime, getHeroCopy } from "@/lib/copy";
@@ -79,18 +80,35 @@ export default function ItHomePage() {
 
         <section className="app-shell feature-root">
           <div className="surface feature-inner">
-            <h2 className="feature-title">A cosa serve questo sito</h2>
+            <h2 className="feature-title">Il Mio Percorso Professionale</h2>
             <p className="feature-text">
-              Salzburg52 è un piccolo spazio personale: ospitalità, struttura e
-              un po&rsquo; di vita a Salisburgo vista dal front office.
+              Come apprendista presso l'HYPERION Hotel Salisburgo, sto sviluppando competenze in 
+              ospitalità professionale mentre condivido prospettive su eccellenza nel servizio e conoscenza locale.
             </p>
             <ul className="feature-list">
-              <li>Far capire velocemente chi sono e come lavoro.</li>
-              <li>Dare un contatto semplice, se serve.</li>
-              <li>
-                Raccogliere nel tempo appunti e posti preferiti in città.
-              </li>
+              <li>Impara dall'esperienza pratica nel servizio di ospitalità di lusso.</li>
+              <li>Scopri prospettive pratiche sulla creazione di esperienze memorabili per gli ospiti.</li>
+              <li>Esplora Salisburgo dalla prospettiva dell'ospitalità professionale.</li>
             </ul>
+          </div>
+        </section>
+
+        <Showcase />
+
+        <section style={{ marginTop: "3rem" }}>
+          <div className="app-shell" style={{ padding: "0 2.2rem" }}>
+            <h2 style={{ fontSize: "1.4rem", fontWeight: 600, marginBottom: "2rem" }}>Salisburgo & Ospitalità</h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.2rem", maxWidth: "900px", margin: "0 auto" }}>
+              <div style={{ borderRadius: "14px", overflow: "hidden", aspectRatio: "1 / 1", boxShadow: "0 8px 24px rgba(15, 23, 42, 0.1)", transition: "transform 0.3s ease, boxShadow 0.3s ease", cursor: "pointer" }} onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 12px 32px rgba(15, 23, 42, 0.15)"; }} onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(15, 23, 42, 0.1)"; }}>
+                <img src="/images/salzburg_austria_his_ea8bfaf1.jpg" alt="Strade storiche Salisburgo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              </div>
+              <div style={{ borderRadius: "14px", overflow: "hidden", aspectRatio: "1 / 1", boxShadow: "0 8px 24px rgba(15, 23, 42, 0.1)", transition: "transform 0.3s ease, boxShadow 0.3s ease", cursor: "pointer" }} onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 12px 32px rgba(15, 23, 42, 0.15)"; }} onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(15, 23, 42, 0.1)"; }}>
+                <img src="/images/salzburg_austria_mou_7fa6ee31.jpg" alt="Paesaggio Salisburgo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              </div>
+              <div style={{ borderRadius: "14px", overflow: "hidden", aspectRatio: "1 / 1", boxShadow: "0 8px 24px rgba(15, 23, 42, 0.1)", transition: "transform 0.3s ease, boxShadow 0.3s ease", cursor: "pointer" }} onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 12px 32px rgba(15, 23, 42, 0.15)"; }} onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(15, 23, 42, 0.1)"; }}>
+                <img src="/images/luxury_hotel_interio_dd2a3b13.jpg" alt="Interno dell'hotel" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              </div>
+            </div>
           </div>
         </section>
 

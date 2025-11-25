@@ -1,0 +1,42 @@
+~/workspace$ cd ~/workspace
+rm -rf attached_assets
+git add -A
+git commit -m "Remove large audio files"
+git push origin main
+[main 2fef9a2] Remove large audio files
+ 19 files changed, 0 insertions(+), 0 deletions(-)
+ delete mode 100644 attached_assets/Audio_salzburg52_1764029284161.mp3
+ delete mode 100644 "attached_assets/Beautiful Relaxing Music \342\226\266\357\270\217 5-Star Hotel Lobby \360\237\217\251 Perfect for Studying, Casual Gathering with Friends [JjD1HLafdA4]_1764026378312.mp3"
+ delete mode 100644 attached_assets/generated_images/fine_dining_experience.png
+ delete mode 100644 attached_assets/generated_images/luxury_hotel_lobby_elegance.png
+ delete mode 100644 attached_assets/generated_images/professional_hospitality_service.png
+ delete mode 100644 attached_assets/generated_images/salzburg_cityscape_sunset_view.png
+ delete mode 100644 attached_assets/image_1764027952532.png
+ delete mode 100644 attached_assets/image_1764028608052.png
+ delete mode 100644 attached_assets/stock_images/luxury_hotel_interio_59b25bc9.jpg
+ delete mode 100644 attached_assets/stock_images/luxury_hotel_interio_aa4bb2e2.jpg
+ delete mode 100644 attached_assets/stock_images/luxury_hotel_interio_dd2a3b13.jpg
+ delete mode 100644 attached_assets/stock_images/professional_hospita_001878c8.jpg
+ delete mode 100644 attached_assets/stock_images/professional_hospita_13c23690.jpg
+ delete mode 100644 attached_assets/stock_images/professional_hospita_96a18705.jpg
+ delete mode 100644 attached_assets/stock_images/salzburg_austria_his_c717a1e9.jpg
+ delete mode 100644 attached_assets/stock_images/salzburg_austria_his_ddc72f4b.jpg
+ delete mode 100644 attached_assets/stock_images/salzburg_austria_his_ea8bfaf1.jpg
+ delete mode 100644 attached_assets/stock_images/salzburg_austria_mou_6393989e.jpg
+ delete mode 100644 attached_assets/stock_images/salzburg_austria_mou_7fa6ee31.jpg
+Enumerating objects: 350, done.
+Counting objects: 100% (349/349), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (273/273), done.
+Writing objects: 100% (310/310), 236.52 MiB | 4.84 MiB/s, done.
+Total 310 (delta 177), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (177/177), completed with 7 local objects.
+remote: warning: File public/ambient_music.mp3 is 67.69 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB
+remote: error: Trace: 7d741772a8c7d425d70182ca7597319f3bc7a01d8f4e1664208c9eb6d10c22e4
+remote: error: See https://gh.io/lfs for more information.
+remote: error: File attached_assets/Beautiful Relaxing Music ▶️ 5-Star Hotel Lobby 🏩 Perfect for Studying, Casual Gathering with Friends [JjD1HLafdA4]_1764026378312.mp3 is 161.07 MB; this exceeds GitHub's file size limit of 100.00 MB
+remote: error: GH001: Large files detected. You may want to try Git Large File Storage - https://git-lfs.github.com.
+To https://github.com/luv2loot/salzburg52
+ ! [remote rejected] main -> main (pre-receive hook declined)
+error: failed to push some refs to 'https://github.com/luv2loot/salzburg52'
+~/workspace$ 
