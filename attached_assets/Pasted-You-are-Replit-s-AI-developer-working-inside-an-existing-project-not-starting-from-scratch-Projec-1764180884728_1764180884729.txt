@@ -1,0 +1,517 @@
+You are Replit’s AI developer working inside an existing project, not starting from scratch.
+
+Project: salzburg52.com – my personal website.
+
+Current tech stack: [REPLACE THIS WITH THE REAL STACK, e.g. “React + Vite + TypeScript + Tailwind” or “Vanilla HTML/CSS/JS”].
+
+Important:
+
+Do NOT change the tech stack.
+
+Do NOT create a new app or repo. Work entirely within the existing codebase.
+
+You may heavily refactor files, create new components/pages, and reorganize code.
+
+I am running you in Autonomous: Max. You are allowed to:
+
+Plan your own task list.
+
+Edit multiple files.
+
+Add / move / delete components.
+
+Run, debug and fix the project.
+
+Your job is to turn this site into a multi-language, multi-page, highly interactive “digital world”, inspired by top-level studio sites, while keeping the Salzburg52 + HYPERION Hotel Salzburg apprentice story.
+
+0. IMPLEMENTATION PRIORITIES (DO THESE IN THIS ORDER)
+
+You may not finish 100% of this spec in one run. If you cannot, follow this priority order:
+
+Keep the app building and running without errors.
+
+Home: new cinematic Home hub with a 3D floating card cluster + parallax (Blux-style).
+
+Global animation & interaction system:
+
+Scroll-based reveals
+
+Microinteractions (hover, focus)
+
+Signature interaction(s)
+
+Journey: dedicated Journey page with an animated timeline.
+
+Salzburg Experience: reworked Salzburg page with a Day/Night toggle.
+
+Theme/vibe system (Light / Dark / one extra vibe) with a simple Settings entry point.
+
+Basic multi-language/i18n structure and fixing obvious language mismatches.
+
+Initial Playground and Hospitality Lab zones with basic content.
+
+(Optional if time) Memory Wall skeleton.
+
+Animations and the 3D floating effect are not optional in this run. Implement them in a clean, reusable way.
+
+Always finish higher items before starting lower ones. Leave TODOs/comments for anything unfinished.
+
+1. SITUATION / CONTEXT
+
+Current state (high level):
+
+Dark-themed, card-based layout with pages like Home, Info, Salzburg, Support, Settings.
+
+Home: hero card “Welcome to Salzburg52”, “Just for fun” card, “My Professional Journey” card, “My Journey at HYPERION Hotel Salzburg” section with images, some “double-click to play music” behavior.
+
+Layout: centered, with a lot of empty dark space; feels like a nice static portfolio, not an immersive world.
+
+Multi-language: there are multiple languages, but it’s inconsistent. Example: “My Journey at HYPERION Hotel Salzburg” appears in English on non-English pages.
+
+Support page is not needed anymore.
+
+Goal:
+Turn this into a personal digital universe that looks like it took months of thought: multiple zones, rich interactions, and clear personality.
+
+2. TASK
+
+Your main objectives:
+
+Transform the current site into a multi-page “world” with distinct zones:
+
+Home gateway / world hub
+
+Journey
+
+Salzburg Experience
+
+Info (About + Contact)
+
+Settings / personalization
+
+Playground / Fun
+
+Hospitality Lab (professional thoughts)
+
+(Optional) Memory Wall
+These can be pages or major sections, but they must exist and be reachable. Top-level nav labels are flexible.
+
+Implement, in this run:
+
+A floating 3D card hub with parallax on Home (Blux-style).
+
+A global animation system (scroll reveals, microinteractions, at least one signature interaction).
+
+An interactive Journey timeline.
+
+A Day/Night Salzburg experience with different moods.
+
+Establish:
+
+A basic multi-language structure (even if only partially filled now).
+
+A theme/vibe system (Light/Dark + one extra vibe).
+
+Remove any dedicated “Support” area; Contact must be via:
+
+Email: info@salzburg52.com
+
+Instagram (link or handle) shown clearly on Info and/or footer.
+
+3. ACTION – DETAILED SPEC
+3.1 Persona
+
+Act as:
+
+Senior front-end engineer
+
+Motion/interaction designer
+
+Multi-language UX/UI architect
+
+Use modern patterns for the given stack. Refactor aggressively but keep things understandable and extendable.
+
+3.2 Keep vs Change
+
+Keep:
+
+Brand: Salzburg52
+
+Core story: apprentice at HYPERION Hotel Salzburg
+
+Salzburg + hospitality as key narrative elements
+
+Change:
+
+Layout, navigation, structure, components, animation patterns – you can redesign them heavily.
+
+Navigation is flexible: choose which zones are top-level menu items vs accessed from the Home hub.
+
+Multi-language:
+
+Implement at least a basic i18n structure (e.g. translation files or a central translations object).
+
+All major text (nav, headings, section titles, buttons, hero text) should be easy to translate, even if some languages still use placeholders for now.
+
+Fix obvious mismatches like English headings on non-English pages.
+
+3.3 Animation References
+
+Use these only as interaction/quality references (do not copy designs):
+
+Blux Studio: floating projects, clean typography, smooth scroll reveals, polished transitions.
+
+Pixlspace: kinetic hero text, lively motion, strong but controlled visuals.
+
+Théo Bonnefous: sections that feel like “biomes”, interactive text, immersive scroll storytelling.
+
+Principles to adopt:
+
+Smooth scroll-based animation.
+
+Sections/zones feel distinct.
+
+Microinteractions on hover/focus.
+
+High performance (transform + opacity).
+
+Remember: 3D floating cards + animation system are high-priority and must be implemented this run.
+
+3.4 Zones to Implement
+A. HOME – Cinematic Gateway + 3D Floating World Hub
+
+Goals: first impression, “this is a universe”.
+
+Hero section:
+
+Big headline (“Welcome to Salzburg52” or similar).
+
+Short subtitle explaining this is a digital universe about me, Salzburg, and hospitality.
+
+Subtle animated background (gradient, noise, low-intensity particles) using CSS only or a very lightweight approach.
+
+Mode selector (simple):
+
+e.g. three modes: Professional / Fun / Experimental.
+
+Changing mode:
+
+Updates accent color and/or background styling.
+
+Changes which cards/sections are visually emphasized.
+
+Wire this through state so it can be reused later in Settings/theme logic.
+
+Floating 3D Card Cluster (Blux-style) – REQUIRED:
+
+Under the hero, create a component that renders a cluster of 4–6 cards in “3D” space.
+
+One larger primary card, several smaller secondary cards.
+
+Each card represents a zone (Journey, Salzburg, Playground, Hospitality Lab, Info/Settings, etc.).
+
+Use CSS perspective, translate3d, rotateX, rotateY for depth.
+
+Add mouse-move parallax:
+
+Track cursor position relative to the cluster.
+
+Tilt the cluster and/or individual cards slightly based on this.
+
+Hovered card:
+
+Comes slightly forward (translateZ or scale).
+
+Gains stronger shadow and maybe higher brightness.
+
+Clicking a card navigates to its route/section.
+
+Optional (only if time): clicking the logo opens this hub as a full-screen overlay too.
+
+B. JOURNEY – Interactive Timeline
+
+Turn “My Professional Journey” + “My Journey at HYPERION Hotel Salzburg” into a dedicated Journey zone.
+
+Layout:
+
+Vertical timeline.
+
+Timeline spine with dots for each milestone.
+
+Milestones:
+
+Title + time period.
+
+Short text (2–4 sentences).
+
+Optional icon or thumbnail image.
+
+Use placeholder text where necessary; I will edit later.
+
+Motion:
+
+As the user scrolls, milestones fade/slide in (staggered).
+
+Slight hover/focus lift on each milestone.
+
+Make the content easy to edit: e.g. an array of milestone objects in one config file.
+
+C. SALZBURG EXPERIENCE – Day/Night World
+
+Rework the Salzburg page into a Day/Night Salzburg experience.
+
+Top section:
+
+Title, short intro line.
+
+Day / Night toggle (switch, segmented control, or tabs).
+
+Behavior:
+
+Switching between Day and Night:
+
+Changes page background (lighter/sky vs darker/night gradient).
+
+Adjusts accent colors (e.g. warm vs cool).
+
+Optionally swaps a hero image/illustration.
+
+Content:
+
+A grid of 4–8 “places / experiences” cards.
+
+Each card:
+
+Title (place or activity).
+
+Short description (1–2 sentences).
+
+Tag (View, Walk, Food, Coffee, Hidden Gem, etc.).
+
+On hover:
+
+Lift + shadow + small transform.
+
+No heavy map APIs. If you want, you can visually hint at a map by positioning cards, but keep it simple.
+
+D. INFO – About + Contact
+
+Info should clearly answer: who, where, how to contact.
+
+Sections:
+
+About Me – concise bio.
+
+About HYPERION Hotel Salzburg – short description.
+
+About Salzburg – short context.
+
+Quick Facts – card grid (languages spoken, role, interests, fun facts).
+
+Contact / Owner:
+
+Email: mailto:info@salzburg52.com.
+
+Instagram: visible link/handle.
+
+Short line like “For collaborations or questions, contact me via email or Instagram.”
+
+Design:
+
+Clean, card-based layout with subtle hover effects.
+
+Minimal but intentional animations.
+
+No separate Support page. Info + footer is enough.
+
+E. SETTINGS – Personalisation Hub (Basic)
+
+For this run, build a simple but real Settings zone.
+
+Features:
+
+Language selector (hooks into the i18n structure).
+
+Theme selector:
+
+At least 3 themes: Light, Dark, and one “vibe” (e.g. “Salzburg Night” or “Neon”).
+
+Accessibility basics:
+
+Font size: normal / large.
+
+Reduced motion toggle (if on, skip or simplify animations).
+
+Implementation:
+
+Use CSS variables or a theme context/provider for colors and basic typography.
+
+Animations for theme change: short transition for color/background.
+
+Reduced motion: use a flag in animation utilities to disable or shorten animations where needed.
+
+F. PLAYGROUND – Fun Zone (Initial)
+
+Create a basic Playground zone.
+
+Include at least:
+
+One lightweight interactive widget, e.g.
+
+“Check-in Chaos Simulator”: random guest situations with multiple-choice responses, purely front-end.
+
+Or a fun interactive background/shape responding to cursor or scroll.
+
+Design:
+
+More playful, but still visually consistent with the rest of the site.
+
+G. HOSPITALITY LAB – Serious Content
+
+Create a Hospitality Lab zone.
+
+Content:
+
+3–6 cards/sections with principles or short essays on hospitality/service.
+
+Placeholder text is ok; I’ll replace it.
+
+Motion:
+
+Calm scroll reveals (no crazy animations).
+
+Focus is on readability and professionalism.
+
+H. MEMORY WALL – Optional Skeleton
+
+If there is still bandwidth after A–G:
+
+Create a simple Memory Wall zone:
+
+Grid of cards with memory text, date, tag (guest story, team moment, Salzburg memory, etc.).
+
+Data can come from a static array.
+
+Optionally, a client-side form to add a card (no backend).
+
+If time is tight, create only the skeleton (page + component + example data).
+
+4. MULTI-LANGUAGE (i18n)
+
+For this run:
+
+Set up a basic i18n structure:
+
+e.g. translation files per language or a central translations object.
+
+Localize at least:
+
+Nav labels.
+
+Page titles.
+
+Main headings like “My Journey at HYPERION Hotel Salzburg”.
+
+Make the Settings language selector switch the current language using this structure.
+
+Fix obvious language mismatches where practical.
+
+5. ANIMATION & INTERACTION SYSTEM (HIGH PRIORITY)
+
+This is a core deliverable in this run.
+
+Global rules:
+
+Use GPU-friendly transforms (translate, scale, rotate) + opacity.
+
+Define a small set of timing + easing tokens and reuse them.
+
+Respect the Reduced Motion flag from Settings (disable or simplify animations when it’s on).
+
+Required patterns:
+
+Page load animations for main content.
+
+Scroll-triggered reveals for sections/cards (IntersectionObserver or a suitable library).
+
+Hover microinteractions on buttons, cards, nav items.
+
+The Floating 3D Card Cluster on Home with parallax behavior.
+
+Signature interaction – choose at least one:
+
+Custom cursor or cursor halo that reacts to hover over interactive elements.
+
+Hero text where some words react/animate on hover.
+
+“Biome” style changes between major zones (background / subtle motion profile changes).
+
+Make sure the animation logic is centralized (e.g. animation helpers or config) instead of random inline values everywhere.
+
+6. THEME / VIBE SYSTEM
+
+Implement theme support with at least:
+
+Light theme
+
+Dark theme
+
+One additional vibe theme (e.g. “Salzburg Night”)
+
+Requirements:
+
+Central theme definition (colors, backgrounds, maybe minor typography tweaks).
+
+Simple API (context/store) to switch themes from Settings and optionally from the Home mode selector.
+
+Animated transitions of color/background (around 150–300ms).
+
+7. CODE STRUCTURE & QUALITY
+
+The project must build and run.
+
+Organize code so it’s clear and extendable. For example, if React-like:
+
+components/ – shared elements (Nav, Layout, FloatingHub, Timeline, Cards, etc.).
+
+pages/ or routes – top-level zones (home, journey, salzburg, info, settings, playground, hospitality-lab, optional memory-wall).
+
+theme/, i18n/, animations/ – configuration and utilities.
+
+Avoid duplication:
+
+Reuse card components, section shells, animation helpers.
+
+Use comments where helpful to explain key pieces.
+
+8. EXPLANATION AFTER IMPLEMENTATION
+
+When you’re done with your changes for this run, provide a summary in the chat:
+
+What you implemented versus the priority list (0.1–0.9).
+
+Locations of key systems:
+
+Floating Home hub component (file path, how to add/edit cards).
+
+Journey timeline config/data.
+
+Salzburg Day/Night toggle logic & styles.
+
+Theme system (where themes are defined, how to add one).
+
+Animation system (helpers/config).
+
+i18n structure (where translation text lives, how to add languages).
+
+Anything you intentionally left as TODO or partial implementation because of time/complexity.
+
+Focus on completing as much of this spec as possible in this session, with a strong emphasis on:
+
+The 3D floating Home hub,
+
+The global animation system,
+
+The Journey page,
+
+And the Salzburg Day/Night experience.

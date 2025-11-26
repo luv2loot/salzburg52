@@ -10,6 +10,7 @@ import Cursor from "@/components/Cursor";
 import MediaStrip from "@/components/MediaStrip";
 import Showcase from "@/components/Showcase";
 import SnippetRefreshButton from "@/components/SnippetRefreshButton";
+import FloatingCardHub from "@/components/FloatingCardHub";
 
 import { getGreetingForTime, getHeroCopy } from "@/lib/copy";
 import { getRandomSnippet } from "@/lib/quotes";
@@ -238,6 +239,8 @@ export default function EnHomePage() {
           accent={heroCopy.accent}
           lang={LANG}
         />
+
+        <FloatingCardHub lang={LANG} />
 
         {snippet && (
           <motion.section 
