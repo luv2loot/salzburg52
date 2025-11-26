@@ -24,12 +24,20 @@ app/                    # Next.js App Router pages
 └── globals.css        # Global styles with theme tokens
 
 components/            # React components
+├── animations/        # Reusable animation components
+│   ├── FloatingElements.js  # Floating orbs, shapes, gradients
+│   ├── MagneticButton.js    # Magnetic hover effects
+│   ├── Marquee.js           # Scrolling text strips
+│   ├── TextReveal.js        # Text reveal animations
+│   └── TiltCard.js          # 3D tilt cards
 ├── Cursor.js          # Custom cursor
+├── CursorSpotlight.js # Cursor spotlight effect
 ├── FloatingCardHub.js # 3D navigation hub with parallax
 ├── Footer.js          # Site footer with contact info
-├── Header.js          # Navigation with all zones
-├── Hero.js            # Hero section with animations
-├── MediaStrip.js      # Media display
+├── Header.js          # Navigation with S·52 logo
+├── Hero.js            # Cinematic hero with gradient canvas
+├── Logo.js            # S·52 gradient logo with sheen
+├── MediaStrip.js      # Media display with stats
 ├── MusicPlayer.js     # Ambient music player
 ├── Showcase.js        # Gallery with hover animations
 ├── SettingsPanel.js   # Theme/accessibility settings
@@ -157,7 +165,17 @@ Centralized in `lib/translations.js`:
 - Personal journey as HYPERION Hotel apprentice
 
 ## Recent Changes
-- **2024-11-26 (Latest):** Refinements & Fixes
+- **2024-11-26 (Latest):** Premium Animation Overhaul & Logo Design
+  - **S·52 Logo:** Minimalist gradient logo with animated sheen on hover
+  - **Cinematic Hero:** GPU-accelerated gradient canvas background with flowing color orbs
+  - **Floating Elements:** Animated orbs (blue, purple, pink, cyan) with depth effects
+  - **Grid Overlay:** Subtle radial grid pattern for premium aesthetic
+  - **Grain Texture:** Film grain overlay for cinematic quality
+  - **Service Marquee:** Horizontal scrolling text with service keywords
+  - **Improved Contrast:** Dark text on light backgrounds for readability
+  - **Animation Components:** Reusable TextReveal, Marquee, MagneticButton, FloatingElements
+  
+- **2024-11-26 (Earlier):** Refinements & Fixes
   - **Theme System Enhanced:** Added System (OS preference) and Auto (time-based 6AM-6PM) options
   - **FloatingCardHub Navigation:** Fixed links to Journey, Playground, Hospitality Lab pages
   - **Salzburg Day/Night:** Separate day activities (8) and night activities (8) with content toggle
