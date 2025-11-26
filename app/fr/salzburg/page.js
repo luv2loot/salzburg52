@@ -1,12 +1,39 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Cursor from "@/components/Cursor";
 
 const LANG = "fr";
+
+const DINING_RECOMMENDATIONS = {
+  "night-2": {
+    title: "Meilleurs Restaurants",
+    venues: [
+      "Restaurant Ikarus – 2 Étoiles Michelin",
+      "Esszimmer – Haute Cuisine Autrichienne",
+      "St. Peter Stiftskulinarium – Cadre Historique"
+    ]
+  },
+  "night-3": {
+    title: "Bars à Vin",
+    venues: [
+      "Weinstube K+K – Vins Locaux",
+      "Vinotek Stöckl – Sélection Curatée",
+      "Die Weisse – Spécialités Autrichiennes"
+    ]
+  },
+  "night-6": {
+    title: "Meilleurs Rooftops",
+    venues: [
+      "IMLAUER Sky – Vues Panoramiques",
+      "M32 à Mönchsberg – Vue sur la Forteresse",
+      "Steinterrasse – Vue Historique"
+    ]
+  }
+};
 
 const DAY_ACTIVITIES = [
   {
@@ -49,7 +76,7 @@ const DAY_ACTIVITIES = [
     title: "Culture du Café",
     description: "Cafés traditionnels de style viennois servant mélange riche, pâtisseries délicates et l'art intemporel de la vie de café autrichienne.",
     tag: "Food",
-    image: "/images/fine_dining_experience.png"
+    image: "/images/professional_hospita_13c23690.jpg"
   },
   {
     id: "day-7",
@@ -129,6 +156,35 @@ const NIGHT_ACTIVITIES = [
 function PlaceCard({ place, isNightMode, index }) {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
+  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["8deg", "-8deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-8deg", "8deg"]);
+
+  const handleMouseMove = (e) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+    setIsHovered(false);
+  };
 
   useEffect(() => {
     setIsVisible(false);
@@ -181,24 +237,27 @@ function PlaceCard({ place, isNightMode, index }) {
   };
 
   const tagStyle = tagColors[place.tag] || tagColors.View;
+  const recommendations = DINING_RECOMMENDATIONS[place.id];
 
   return (
     <motion.div
       ref={ref}
       className="place-card"
-      initial={{ opacity: 0, y: 40 }}
-      animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 40, scale: 0.95 }}
+      animate={isVisible ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 40, scale: 0.95 }}
       transition={{ 
-        duration: 0.6, 
-        delay: index * 0.1,
+        duration: 0.7, 
+        delay: index * 0.12,
         ease: [0.16, 1, 0.3, 1]
       }}
-      whileHover={{ 
-        y: -8, 
-        scale: 1.02,
-        transition: { duration: 0.3 }
-      }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={handleMouseLeave}
       style={{
+        rotateX: isHovered ? rotateX : 0,
+        rotateY: isHovered ? rotateY : 0,
+        transformStyle: "preserve-3d",
+        perspective: 1000,
         background: isNightMode 
           ? "rgba(15, 23, 42, 0.7)"
           : "rgba(255, 255, 255, 0.8)",
@@ -210,10 +269,14 @@ function PlaceCard({ place, isNightMode, index }) {
         borderRadius: "24px",
         overflow: "hidden",
         cursor: "pointer",
-        boxShadow: isNightMode 
-          ? "0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05)"
-          : "0 8px 32px rgba(31, 38, 135, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8)",
-        transition: "background 0.6s ease, border 0.6s ease, box-shadow 0.3s ease"
+        boxShadow: isHovered
+          ? isNightMode 
+            ? "0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(139, 92, 246, 0.15)"
+            : "0 20px 60px rgba(31, 38, 135, 0.15), 0 0 40px rgba(37, 99, 235, 0.08)"
+          : isNightMode 
+            ? "0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05)"
+            : "0 8px 32px rgba(31, 38, 135, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8)",
+        transition: "background 0.6s ease, border 0.6s ease, box-shadow 0.4s ease"
       }}
     >
       <div style={{
@@ -224,6 +287,10 @@ function PlaceCard({ place, isNightMode, index }) {
         <motion.img
           src={place.image}
           alt={place.title}
+          animate={{
+            scale: isHovered ? 1.1 : 1,
+          }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           style={{
             width: "100%",
             height: "100%",
@@ -231,8 +298,17 @@ function PlaceCard({ place, isNightMode, index }) {
             filter: isNightMode ? "brightness(0.7) saturate(0.9)" : "brightness(1) saturate(1.1)",
             transition: "filter 0.6s ease"
           }}
-          whileHover={{ scale: 1.1 }}
-          transition={{ duration: 0.4 }}
+        />
+        <motion.div 
+          animate={{ opacity: isHovered ? 0.9 : 0 }}
+          transition={{ duration: 0.3 }}
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: isNightMode 
+              ? "linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.7) 50%, transparent 100%)"
+              : "linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.7) 50%, transparent 100%)"
+          }}
         />
         <div style={{
           position: "absolute",
@@ -245,9 +321,61 @@ function PlaceCard({ place, isNightMode, index }) {
             : "linear-gradient(to top, rgba(255, 255, 255, 0.9), transparent)",
           transition: "background 0.6s ease"
         }} />
+        
+        <AnimatePresence>
+          {isHovered && recommendations && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.3 }}
+              style={{
+                position: "absolute",
+                bottom: "10px",
+                left: "10px",
+                right: "10px",
+                padding: "12px",
+                borderRadius: "12px",
+                background: isNightMode 
+                  ? "rgba(15, 23, 42, 0.95)"
+                  : "rgba(255, 255, 255, 0.95)",
+                backdropFilter: "blur(10px)",
+                border: isNightMode 
+                  ? "1px solid rgba(139, 92, 246, 0.3)"
+                  : "1px solid rgba(37, 99, 235, 0.2)",
+                boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)"
+              }}
+            >
+              <p style={{
+                margin: "0 0 6px",
+                fontSize: "0.7rem",
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "0.08em",
+                color: isNightMode ? "#a78bfa" : "#7c3aed"
+              }}>
+                {recommendations.title}
+              </p>
+              {recommendations.venues.map((venue, i) => (
+                <p key={i} style={{
+                  margin: "2px 0",
+                  fontSize: "0.72rem",
+                  color: isNightMode ? "#e2e8f0" : "#334155",
+                  lineHeight: 1.4
+                }}>
+                  • {venue}
+                </p>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
       
-      <div style={{ padding: "1.25rem" }}>
+      <motion.div 
+        animate={{ y: isHovered ? -4 : 0 }}
+        transition={{ duration: 0.3 }}
+        style={{ padding: "1.25rem" }}
+      >
         <div style={{
           display: "flex",
           justifyContent: "space-between",
@@ -263,33 +391,36 @@ function PlaceCard({ place, isNightMode, index }) {
           }}>
             {place.title}
           </h3>
-          <span style={{
-            padding: "0.25rem 0.75rem",
-            borderRadius: "999px",
-            fontSize: "0.75rem",
-            fontWeight: 600,
-            textTransform: "uppercase",
-            letterSpacing: "0.05em",
-            background: tagStyle.bg,
-            color: tagStyle.text,
-            transition: "background 0.6s ease, color 0.6s ease",
-            flexShrink: 0,
-            marginLeft: "0.5rem"
-          }}>
+          <motion.span 
+            animate={{ scale: isHovered ? 1.05 : 1 }}
+            style={{
+              padding: "0.25rem 0.75rem",
+              borderRadius: "999px",
+              fontSize: "0.75rem",
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "0.05em",
+              background: tagStyle.bg,
+              color: tagStyle.text,
+              transition: "background 0.6s ease, color 0.6s ease",
+              flexShrink: 0,
+              marginLeft: "0.5rem"
+            }}
+          >
             {place.tag}
-          </span>
+          </motion.span>
         </div>
         
         <p style={{
           margin: 0,
           fontSize: "0.9rem",
           lineHeight: 1.6,
-          color: isNightMode ? "#94a3b8" : "#64748b",
+          color: isNightMode ? "#cbd5e1" : "#64748b",
           transition: "color 0.6s ease"
         }}>
           {place.description}
         </p>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
@@ -336,8 +467,52 @@ function StarField() {
   );
 }
 
+const headerVariants = {
+  hidden: { opacity: 0, y: -30 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+  }
+};
+
+const toggleVariants = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: { 
+    opacity: 1, 
+    scale: 1,
+    transition: { duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }
+  }
+};
+
+const titleVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }
+  }
+};
+
+const subtitleVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }
+  }
+};
+
 export default function FrSalzburgPage() {
-  const [isNightMode, setIsNightMode] = useState(false);
+  const [isNightMode, setIsNightMode] = useState(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const currentHour = new Date().getHours();
+    const shouldBeNight = currentHour >= 18 || currentHour < 6;
+    setIsNightMode(shouldBeNight);
+    setMounted(true);
+  }, []);
 
   const currentActivities = isNightMode ? NIGHT_ACTIVITIES : DAY_ACTIVITIES;
 
@@ -350,10 +525,31 @@ export default function FrSalzburgPage() {
     }
   };
 
+  if (!mounted || isNightMode === null) {
+    return (
+      <div style={{ 
+        minHeight: "100vh", 
+        background: "#0f172a",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }}>
+        <motion.div
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+          style={{ color: "#94a3b8", fontSize: "1rem" }}
+        >
+          Chargement...
+        </motion.div>
+      </div>
+    );
+  }
+
   return (
     <>
       <Cursor />
       <motion.div
+        initial={false}
         animate={isNightMode ? backgroundStyles.night : backgroundStyles.day}
         transition={{ duration: 0.8, ease: "easeInOut" }}
         style={{
@@ -386,9 +582,8 @@ export default function FrSalzburgPage() {
           
           <main className="app-shell">
             <motion.section
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6 }}
+              initial="hidden"
+              animate="visible"
               style={{
                 padding: "2rem 2rem 3rem",
                 borderRadius: "32px",
@@ -422,12 +617,16 @@ export default function FrSalzburgPage() {
               />
 
               <div style={{ position: "relative", zIndex: 1 }}>
-                <div style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginBottom: "2rem"
-                }}>
+                <motion.div 
+                  variants={toggleVariants}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginBottom: "2rem"
+                  }}
+                >
                   <motion.div
+                    whileHover={{ scale: 1.02 }}
                     style={{
                       display: "flex",
                       alignItems: "center",
@@ -506,16 +705,14 @@ export default function FrSalzburgPage() {
                       Nuit
                     </motion.button>
                   </motion.div>
-                </div>
+                </motion.div>
 
                 <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.15, duration: 0.5 }}
+                  variants={headerVariants}
                   style={{
                     textAlign: "center",
                     fontSize: "0.75rem",
-                    color: isNightMode ? "#64748b" : "#94a3b8",
+                    color: isNightMode ? "#94a3b8" : "#94a3b8",
                     marginBottom: "1.5rem",
                     fontStyle: "italic",
                     transition: "color 0.6s ease"
@@ -525,12 +722,14 @@ export default function FrSalzburgPage() {
                 </motion.p>
 
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.6 }}
+                  variants={headerVariants}
                   style={{ textAlign: "center", marginBottom: "1rem" }}
                 >
                   <motion.span
+                    key={isNightMode ? "night-badge" : "day-badge"}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4 }}
                     style={{
                       display: "inline-block",
                       padding: "0.5rem 1rem",
@@ -556,9 +755,8 @@ export default function FrSalzburgPage() {
                 </motion.div>
 
                 <motion.h1
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.6 }}
+                  initial={false}
+                  animate={{ opacity: 1 }}
                   style={{
                     textAlign: "center",
                     fontSize: "clamp(2.5rem, 6vw, 4rem)",
@@ -566,29 +764,22 @@ export default function FrSalzburgPage() {
                     letterSpacing: "-0.03em",
                     margin: "0 0 1rem",
                     lineHeight: 1.1,
-                    background: isNightMode 
-                      ? "linear-gradient(135deg, #c4b5fd 0%, #67e8f9 50%, #f0abfc 100%)"
-                      : "linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #ec4899 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                    transition: "background 0.6s ease"
+                    color: isNightMode ? "#c4b5fd" : "#2563eb",
+                    transition: "color 0.6s ease"
                   }}
                 >
                   Expérience Salzbourg
                 </motion.h1>
 
                 <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4, duration: 0.6 }}
+                  variants={subtitleVariants}
                   style={{
                     textAlign: "center",
                     fontSize: "1.15rem",
                     lineHeight: 1.7,
                     maxWidth: "600px",
                     margin: "0 auto",
-                    color: isNightMode ? "#94a3b8" : "#64748b",
+                    color: isNightMode ? "#e2e8f0" : "#64748b",
                     transition: "color 0.6s ease"
                   }}
                 >
@@ -607,8 +798,9 @@ export default function FrSalzburgPage() {
             >
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.6 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
                 style={{
                   textAlign: "center",
                   marginBottom: "2.5rem"
@@ -625,12 +817,12 @@ export default function FrSalzburgPage() {
                 </h2>
                 <p style={{
                   fontSize: "1rem",
-                  color: isNightMode ? "#64748b" : "#94a3b8",
+                  color: isNightMode ? "#cbd5e1" : "#94a3b8",
                   margin: 0,
                   transition: "color 0.6s ease"
                 }}>
                   {isNightMode 
-                    ? "Ces lieux prennent vie quand le soleil se couche"
+                    ? "Ces lieux s'animent quand le soleil se couche"
                     : "Les expériences essentielles de Salzbourg à ne pas manquer"}
                 </p>
               </motion.div>
@@ -697,7 +889,7 @@ export default function FrSalzburgPage() {
               </h3>
               <p style={{
                 fontSize: "1rem",
-                color: isNightMode ? "#94a3b8" : "#64748b",
+                color: isNightMode ? "#e2e8f0" : "#64748b",
                 margin: "0 0 1.5rem",
                 maxWidth: "500px",
                 marginLeft: "auto",
@@ -706,7 +898,7 @@ export default function FrSalzburgPage() {
                 transition: "color 0.6s ease"
               }}>
                 {isNightMode 
-                  ? "Des sites historiques illuminés aux lieux chaleureux du soir, la magie nocturne de Salzbourg vous attend."
+                  ? "Des sites historiques illuminés aux lieux de soirée chaleureux, la magie nocturne de Salzbourg vous attend."
                   : "Que vous veniez pour la musique, les montagnes ou les souvenirs—Salzbourg vous accueille."}
               </p>
               <motion.button
@@ -729,7 +921,7 @@ export default function FrSalzburgPage() {
                   transition: "background 0.6s ease, box-shadow 0.6s ease"
                 }}
               >
-                Planifier Votre Visite
+                Planifiez votre visite
               </motion.button>
             </motion.section>
           </main>
