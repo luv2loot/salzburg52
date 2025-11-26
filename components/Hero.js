@@ -49,13 +49,26 @@ function GradientCanvas() {
   const mouseY = useMotionValue(0.5);
   const animationRef = useRef(null);
   const timeRef = useRef(0);
+  const isPausedRef = useRef(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mediaQuery.matches);
+    
+    const handleChange = (e) => setPrefersReducedMotion(e.matches);
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+    
     const canvas = canvasRef.current;
     if (!canvas) return;
     
     const ctx = canvas.getContext("2d");
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     
     const resize = () => {
       canvas.width = window.innerWidth * dpr;
@@ -74,6 +87,15 @@ function GradientCanvas() {
     };
     
     window.addEventListener("mousemove", handleMouseMove);
+
+    const handleVisibilityChange = () => {
+      isPausedRef.current = document.hidden;
+      if (!document.hidden && !animationRef.current) {
+        animate();
+      }
+    };
+    
+    document.addEventListener("visibilitychange", handleVisibilityChange);
     
     const colors = [
       { r: 37, g: 99, b: 235 },
@@ -85,13 +107,18 @@ function GradientCanvas() {
     const blobs = colors.map((color, i) => ({
       x: 0.2 + (i * 0.2),
       y: 0.3 + (i % 2) * 0.4,
-      radius: 0.3 + Math.random() * 0.2,
+      radius: 0.3 + Math.random() * 0.15,
       color,
       speed: 0.0005 + Math.random() * 0.001,
       phase: Math.random() * Math.PI * 2,
     }));
     
     const animate = () => {
+      if (isPausedRef.current) {
+        animationRef.current = null;
+        return;
+      }
+      
       timeRef.current += 0.016;
       const t = timeRef.current;
       const mx = mouseX.get();
@@ -99,7 +126,7 @@ function GradientCanvas() {
       
       ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
       
-      blobs.forEach((blob, i) => {
+      blobs.forEach((blob) => {
         const bx = blob.x + Math.sin(t * blob.speed * 100 + blob.phase) * 0.1 + (mx - 0.5) * 0.1;
         const by = blob.y + Math.cos(t * blob.speed * 80 + blob.phase) * 0.1 + (my - 0.5) * 0.1;
         
@@ -112,8 +139,8 @@ function GradientCanvas() {
           blob.radius * Math.min(window.innerWidth, window.innerHeight)
         );
         
-        gradient.addColorStop(0, `rgba(${blob.color.r}, ${blob.color.g}, ${blob.color.b}, 0.4)`);
-        gradient.addColorStop(0.5, `rgba(${blob.color.r}, ${blob.color.g}, ${blob.color.b}, 0.1)`);
+        gradient.addColorStop(0, `rgba(${blob.color.r}, ${blob.color.g}, ${blob.color.b}, 0.35)`);
+        gradient.addColorStop(0.5, `rgba(${blob.color.r}, ${blob.color.g}, ${blob.color.b}, 0.08)`);
         gradient.addColorStop(1, `rgba(${blob.color.r}, ${blob.color.g}, ${blob.color.b}, 0)`);
         
         ctx.fillStyle = gradient;
@@ -128,9 +155,27 @@ function GradientCanvas() {
     return () => {
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", handleMouseMove);
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
+      }
     };
-  }, [mouseX, mouseY]);
+  }, [mouseX, mouseY, prefersReducedMotion]);
+
+  if (prefersReducedMotion) {
+    return (
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 0,
+          opacity: 0.7,
+          background: "radial-gradient(ellipse at 30% 30%, rgba(37, 99, 235, 0.3) 0%, transparent 50%), radial-gradient(ellipse at 70% 60%, rgba(124, 58, 237, 0.25) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(236, 72, 153, 0.2) 0%, transparent 50%)",
+        }}
+      />
+    );
+  }
 
   return (
     <canvas
