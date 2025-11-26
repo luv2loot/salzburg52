@@ -114,15 +114,17 @@ All zones accessible from the 3D floating card hub on the home page.
 - Settings persist to localStorage
 
 ## Theme System
-Three complete themes with smooth 250ms transitions:
-- **Light** (default) - Clean white backgrounds
+Five theme options with smooth 250ms transitions:
+- **System** - Follows OS dark/light preference (auto-updates when OS changes)
+- **Auto (Time)** - Light theme 6AM-6PM, dark theme at night (checks every minute)
+- **Light** - Clean white backgrounds
 - **Dark** - Rich dark mode
 - **Salzburg Night** - Special purple/blue tones (--primary: #7C3AED, --secondary: #4F46E5)
 
 CSS variables for all themes in globals.css:
 - `.theme-light`, `.theme-dark`, `.theme-salzburg-night`
-- System preference detection on first load
-- localStorage persistence
+- System preference detection and time-based auto switching
+- localStorage persistence for user preference
 
 ## i18n Translation System
 Centralized in `lib/translations.js`:
@@ -155,7 +157,18 @@ Centralized in `lib/translations.js`:
 - Personal journey as HYPERION Hotel apprentice
 
 ## Recent Changes
-- **2024-11-26 (Latest):** Digital World Transformation
+- **2024-11-26 (Latest):** Refinements & Fixes
+  - **Theme System Enhanced:** Added System (OS preference) and Auto (time-based 6AM-6PM) options
+  - **FloatingCardHub Navigation:** Fixed links to Journey, Playground, Hospitality Lab pages
+  - **Salzburg Day/Night:** Separate day activities (8) and night activities (8) with content toggle
+  - **Translations Fixed:** "Your Digital World" and "My Journey at HYPERION" now translated in all languages
+  - **Animations Extended:** Scroll/hover animations added to Showcase, Info pages, and galleries
+  - **Cursor Visibility:** Improved visibility on dark backgrounds with glow effect
+  - **Check-in Chaos:** Fixed text contrast/readability for all themes
+  - **Instagram Link:** Updated to @am.rsbgg
+  - **Coming Soon Removed:** MediaStrip now shows "Insights & Notes"
+  
+- **2024-11-26 (Earlier):** Digital World Transformation
   - **FloatingCardHub:** 3D navigation hub with mouse parallax, perspective transforms, spring animations
   - **Journey Page:** Interactive timeline with 6 milestones, scroll-triggered reveals
   - **Salzburg Experience:** Day/Night toggle with animated starfield and mode transitions
@@ -163,7 +176,6 @@ Centralized in `lib/translations.js`:
   - **Hospitality Lab:** Professional principles with calm scroll reveals
   - **Settings Page:** Theme/language/accessibility hub with visual previews
   - **i18n System:** Centralized translations with t() and getNavItems() helpers
-  - **Theme System:** Light/Dark/Salzburg Night with localStorage persistence
   - **Navigation Update:** Removed Support, added Journey/Playground/Hospitality Lab
   - **All 5 Languages:** Complete pages for en, de, es, fr, it
 
