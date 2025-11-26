@@ -101,13 +101,14 @@ export default function Header({ lang = "en" }) {
             <Link 
               href={`/${activeLang}`} 
               className="header-logo-link"
+              aria-label="Salzburg52 Home"
               style={{ 
                 textDecoration: "none",
                 display: "inline-flex",
                 alignItems: "center",
               }}
             >
-              <Logo size={28} showText={true} />
+              <Logo size={36} showText={true} />
             </Link>
           </div>
 

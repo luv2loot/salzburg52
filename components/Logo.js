@@ -2,8 +2,9 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
+import Image from "next/image";
 
-export default function Logo({ size = 40, showText = true, className = "" }) {
+export default function Logo({ size = 40, showText = false, className = "" }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -12,7 +13,7 @@ export default function Logo({ size = 40, showText = true, className = "" }) {
       style={{
         display: "inline-flex",
         alignItems: "center",
-        gap: "0.75rem",
+        gap: "0.5rem",
         position: "relative",
       }}
       onMouseEnter={() => setIsHovered(true)}
@@ -22,13 +23,12 @@ export default function Logo({ size = 40, showText = true, className = "" }) {
         style={{
           display: "inline-flex",
           alignItems: "center",
-          gap: "0.75rem",
           transformOrigin: "center",
           backfaceVisibility: "hidden",
           willChange: "transform",
         }}
         animate={{
-          scale: isHovered ? 1.03 : 1,
+          scale: isHovered ? 1.05 : 1,
         }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
       >
@@ -42,95 +42,33 @@ export default function Logo({ size = 40, showText = true, className = "" }) {
             justifyContent: "center",
           }}
         >
-          <svg
+          <Image
+            src="/images/logo.png"
+            alt="Salzburg52"
             width={size}
             height={size}
-            viewBox="0 0 48 48"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            style={{ display: "block" }}
-          >
-            <defs>
-              <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#3B82F6" />
-                <stop offset="100%" stopColor="#8B5CF6" />
-              </linearGradient>
-              <linearGradient id="sheenGradient" x1="0%" y1="50%" x2="100%" y2="50%">
-                <stop offset="0%" stopColor="rgba(255,255,255,0)" />
-                <stop offset="40%" stopColor="rgba(255,255,255,0)" />
-                <stop offset="50%" stopColor="rgba(255,255,255,0.5)" />
-                <stop offset="60%" stopColor="rgba(255,255,255,0)" />
-                <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-              </linearGradient>
-              <clipPath id="logoClipPath">
-                <rect x="4" y="4" width="40" height="40" rx="12" />
-              </clipPath>
-            </defs>
-
-            <rect
-              x="4"
-              y="4"
-              width="40"
-              height="40"
-              rx="12"
-              fill="url(#logoGradient)"
-            />
-
-            <rect
-              x="4"
-              y="4"
-              width="40"
-              height="40"
-              rx="12"
-              fill="none"
-              stroke="rgba(255,255,255,0.15)"
-              strokeWidth="1"
-            />
-
-            <text
-              x="24"
-              y="29"
-              fill="white"
-              fontSize="14"
-              fontWeight="700"
-              fontFamily="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-              textAnchor="middle"
-              letterSpacing="-0.3"
-            >
-              S·52
-            </text>
-
-            <motion.rect
-              x="-40"
-              y="4"
-              width="40"
-              height="40"
-              fill="url(#sheenGradient)"
-              clipPath="url(#logoClipPath)"
-              animate={{
-                x: isHovered ? 88 : -40,
-              }}
-              transition={{
-                duration: 0.6,
-                ease: [0.32, 0.72, 0, 1],
-              }}
-            />
-          </svg>
+            style={{
+              objectFit: "contain",
+              display: "block",
+            }}
+            priority
+          />
 
           <motion.div
             style={{
               position: "absolute",
-              inset: -3,
-              borderRadius: 15,
-              background: "linear-gradient(135deg, rgba(59, 130, 246, 0.4), rgba(139, 92, 246, 0.4))",
-              filter: "blur(10px)",
+              inset: -4,
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(139, 92, 246, 0.4), rgba(168, 85, 247, 0.2))",
+              filter: "blur(12px)",
               zIndex: -1,
               pointerEvents: "none",
             }}
             animate={{
-              opacity: isHovered ? 0.7 : 0,
+              opacity: isHovered ? 0.8 : 0,
+              scale: isHovered ? 1.1 : 0.9,
             }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.3 }}
           />
         </div>
 
@@ -142,6 +80,7 @@ export default function Logo({ size = 40, showText = true, className = "" }) {
               letterSpacing: "-0.01em",
               color: "var(--color-text)",
               whiteSpace: "nowrap",
+              marginLeft: "0.25rem",
             }}
             animate={{
               color: isHovered ? "#8B5CF6" : "var(--color-text)",
@@ -174,58 +113,20 @@ export function LogoMark({ size = 32 }) {
           backfaceVisibility: "hidden",
         }}
         animate={{
-          scale: isHovered ? 1.05 : 1,
+          scale: isHovered ? 1.08 : 1,
         }}
         transition={{ type: "spring", stiffness: 400, damping: 20 }}
       >
-        <svg
+        <Image
+          src="/images/logo.png"
+          alt="Salzburg52"
           width={size}
           height={size}
-          viewBox="0 0 48 48"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{ display: "block" }}
-        >
-          <defs>
-            <linearGradient id="markGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#3B82F6" />
-              <stop offset="100%" stopColor="#8B5CF6" />
-            </linearGradient>
-          </defs>
-
-          <rect
-            x="4"
-            y="4"
-            width="40"
-            height="40"
-            rx="12"
-            fill="url(#markGradient)"
-          />
-
-          <rect
-            x="4"
-            y="4"
-            width="40"
-            height="40"
-            rx="12"
-            fill="none"
-            stroke="rgba(255,255,255,0.15)"
-            strokeWidth="1"
-          />
-
-          <text
-            x="24"
-            y="29"
-            fill="white"
-            fontSize="14"
-            fontWeight="700"
-            fontFamily="system-ui, -apple-system, sans-serif"
-            textAnchor="middle"
-            letterSpacing="-0.3"
-          >
-            S·52
-          </text>
-        </svg>
+          style={{
+            objectFit: "contain",
+            display: "block",
+          }}
+        />
       </motion.div>
     </div>
   );
@@ -233,59 +134,22 @@ export function LogoMark({ size = 32 }) {
 
 export function LogoAnimated({ size = 48 }) {
   return (
-    <motion.svg
-      width={size}
-      height={size}
-      viewBox="0 0 48 48"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+    <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      style={{ display: "block" }}
+      style={{ display: "inline-block" }}
     >
-      <defs>
-        <linearGradient id="animLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <motion.stop
-            offset="0%"
-            animate={{ stopColor: ["#3B82F6", "#8B5CF6", "#3B82F6"] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-          />
-          <motion.stop
-            offset="100%"
-            animate={{ stopColor: ["#8B5CF6", "#3B82F6", "#8B5CF6"] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-          />
-        </linearGradient>
-      </defs>
-
-      <rect
-        x="4"
-        y="4"
-        width="40"
-        height="40"
-        rx="12"
-        fill="url(#animLogoGradient)"
+      <Image
+        src="/images/logo.png"
+        alt="Salzburg52"
+        width={size}
+        height={size}
+        style={{
+          objectFit: "contain",
+          display: "block",
+        }}
       />
-
-      <motion.g
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-      >
-        <text
-          x="24"
-          y="29"
-          fill="white"
-          fontSize="14"
-          fontWeight="700"
-          fontFamily="system-ui"
-          textAnchor="middle"
-          letterSpacing="-0.3"
-        >
-          S·52
-        </text>
-      </motion.g>
-    </motion.svg>
+    </motion.div>
   );
 }
