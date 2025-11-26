@@ -4,9 +4,9 @@
 Salzburg52 is a professional portfolio showcasing your apprenticeship journey at HYPERION Hotel Salzburg. This is a multilingual Next.js 15 App Router project featuring a cinematic "digital world" concept with 3D navigation hub, multiple interactive zones, three theme modes, and premium Apple-inspired design.
 
 **Tech Stack:**
-- Next.js 15.1.3 (App Router) - Latest stable version
-- React 18.3.1
-- Framer Motion (premium animations with scroll triggers, parallax, 3D transforms)
+- Next.js 16.0.5 (App Router with Turbopack) - Latest stable version
+- React 19.2.0
+- Framer Motion 12.x (premium animations with scroll triggers, parallax, 3D transforms)
 - Node.js 20
 
 ## Project Structure
@@ -165,7 +165,15 @@ Centralized in `lib/translations.js`:
 - Personal journey as HYPERION Hotel apprentice
 
 ## Recent Changes
-- **2024-11-26 (Latest):** Premium Animation Overhaul & Logo Design
+- **2024-11-26 (Latest):** Next.js 16 Upgrade & Navigation Fixes
+  - **Next.js 16.0.5:** Upgraded from 15.1.3 to latest stable with Turbopack
+  - **React 19.2.0:** Updated React and React DOM to latest versions
+  - **Navigation Alignment:** Fixed underline alignment for longer language translations
+  - **Multilingual Nav:** All nav items now display on single lines (white-space: nowrap)
+  - **CSS Underline:** Changed from absolute to relative positioning for proper text alignment
+  - **Config Cleanup:** Removed deprecated swcMinify, added allowedDevOrigins for dev server
+
+- **2024-11-26 (Earlier):** Premium Animation Overhaul & Logo Design
   - **New Logo:** Image-based lettermark logo (S + five two) with purple/navy design
   - **Cinematic Hero:** GPU-accelerated gradient canvas background with flowing color orbs
   - **Floating Elements:** Animated orbs (blue, purple, pink, cyan) with depth effects
@@ -216,7 +224,8 @@ Centralized in `lib/translations.js`:
 - Backdrop filters for frosted glass effects
 - Smooth scroll with easing functions
 - Lazy loading for images
-- Next.js 15 smaller bundle sizes
+- Next.js 16 Turbopack for faster development builds
+- Smaller production bundles with React 19
 
 ## Accessibility
 - Semantic HTML with proper ARIA labels
@@ -228,7 +237,7 @@ Centralized in `lib/translations.js`:
 
 ## Notes
 - Professional apprentice portfolio at HYPERION Hotel Salzburg
-- Multilingual Next.js 15 App Router (5 languages)
+- Multilingual Next.js 16 App Router (5 languages)
 - Framer Motion for premium animations
 - SEO-optimized with sitemap and metadata
 - Background music 40% volume (double-click control)
