@@ -14,10 +14,10 @@ export default function EsSupportPage() {
           <img src="/images/salzburg_austria_his_c717a1e9.jpg" alt="Salzburg" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </div>
         <div className="surface" style={{ padding: "2rem 2.2rem" }}>
-          <h1 style={{ marginTop: 0 }}>Contacto & Soporte</h1>
+          <h1 style={{ marginTop: 0 }}>Contacto y Soporte</h1>
           <p style={{ lineHeight: 1.7, color: "var(--color-muted)" }}>
             Para consultas sobre hospitalidad en Salzburgo, recomendaciones locales 
-            o cualquier pregunta sobre nuestros servicios, no dude en ponerse en contacto.
+            o cualquier pregunta sobre mis servicios, no dudes en ponerte en contacto.
           </p>
 
           <h2>Email</h2>

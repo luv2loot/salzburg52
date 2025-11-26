@@ -14,10 +14,10 @@ export default function DeSupportPage() {
           <img src="/images/salzburg_austria_his_c717a1e9.jpg" alt="Salzburg" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </div>
         <div className="surface" style={{ padding: "2rem 2.2rem" }}>
-          <h1 style={{ marginTop: 0 }}>Kontakt & Support</h1>
+          <h1 style={{ marginTop: 0 }}>Kontakt und Support</h1>
           <p style={{ lineHeight: 1.7, color: "var(--color-muted)" }}>
             Für Anfragen bezüglich Salzburger Gastfreundschaft, lokale Empfehlungen 
-            oder Fragen zu unseren Dienstleistungen kontaktieren Sie uns gerne.
+            oder Fragen zu meinen Dienstleistungen kontaktiere mich gerne.
           </p>
 
           <h2>E-Mail</h2>

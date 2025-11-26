@@ -8,12 +8,12 @@ const LANG = "fr";
 
 export default function FrInfoPage() {
   const hospitality_images = [
-    { src: "/images/luxury_hotel_lobby_elegance.png", alt: "Luxury Hotel Lobby" },
-    { src: "/images/luxury_hotel_interio_59b25bc9.jpg", alt: "Hotel Interieur Design" },
-    { src: "/images/fine_dining_experience.png", alt: "Fine Dining" },
-    { src: "/images/luxury_hotel_interio_aa4bb2e2.jpg", alt: "Luxus Hotel" },
-    { src: "/images/professional_hospitality_service.png", alt: "Professioneller Service" },
-    { src: "/images/luxury_hotel_interio_dd2a3b13.jpg", alt: "Premium Hotel Zimmer" }
+    { src: "/images/luxury_hotel_lobby_elegance.png", alt: "Hall d'Hôtel de Luxe" },
+    { src: "/images/luxury_hotel_interio_59b25bc9.jpg", alt: "Design Intérieur d'Hôtel" },
+    { src: "/images/fine_dining_experience.png", alt: "Expérience Gastronomique" },
+    { src: "/images/luxury_hotel_interio_aa4bb2e2.jpg", alt: "Hôtel de Luxe" },
+    { src: "/images/professional_hospitality_service.png", alt: "Service Professionnel" },
+    { src: "/images/luxury_hotel_interio_dd2a3b13.jpg", alt: "Chambre Premium" }
   ];
 
   return (
@@ -22,39 +22,40 @@ export default function FrInfoPage() {
       <Header lang={LANG} />
       <main className="app-shell">
         <div style={{ marginBottom: "2rem", borderRadius: "18px", overflow: "hidden", height: "280px", boxShadow: "0 18px 45px rgba(15, 23, 42, 0.08)" }}>
-          <img src="/images/professional_hospita_96a18705.jpg" alt="Professional hospitality" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src="/images/professional_hospita_96a18705.jpg" alt="Hospitalité professionnelle" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </div>
         <div className="surface" style={{ padding: "2rem 2.2rem" }}>
           <h1 style={{ marginTop: 0 }}>À Propos de Salzburg52</h1>
           <p style={{ lineHeight: 1.7 }}>
-            Salzburg52 incarne l'essence de l'hospitalité raffinée dans l'une des villes 
-            les plus enchanteresses d'Europe. Enracinés dans l'excellence du service 
-            professionnel et l'expertise locale, nous représentons l'harmonie parfaite 
-            entre l'hospitalité autrichienne traditionnelle et les standards contemporains.
+            Salzburg52 est ma marque professionnelle et mon portfolio en tant qu'apprenti 
+            à l'HYPERION Hotel Salzbourg. Cet espace partage mon parcours dans le développement 
+            d'une expertise en hospitalité professionnelle, combinant apprentissage pratique 
+            et réflexions sur l'excellence du service et la connaissance authentique de Salzbourg.
           </p>
           <p style={{ lineHeight: 1.7 }}>
-            Notre fondement repose sur l'excellence du front office de l'HYPERION Hotel Salzburg, 
-            où l'attention aux détails, le professionnalisme serein et le soin authentique 
-            créent des expériences mémorables pour les clients.
+            Ma formation se construit à travers le travail à la réception de l'HYPERION Hotel Salzbourg, 
+            où j'apprends l'importance de l'attention aux détails, du professionnalisme serein 
+            et du soin authentique pour créer des expériences mémorables pour les clients.
           </p>
 
           <h2>Galerie d'Hospitalité</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "1.5rem", margin: "2rem 0" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1.2rem", margin: "2rem auto", maxWidth: "1000px" }}>
             {hospitality_images.map((img, idx) => (
-              <div key={idx} style={{ borderRadius: "18px", overflow: "hidden", height: "200px", boxShadow: "0 12px 32px rgba(15, 23, 42, 0.12)", transition: "transform 0.3s ease", cursor: "pointer" }} onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-8px)"} onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}>
+              <div key={idx} style={{ borderRadius: "16px", overflow: "hidden", aspectRatio: "1 / 1", boxShadow: "0 8px 24px rgba(15, 23, 42, 0.1)", transition: "transform 0.3s ease, boxShadow 0.3s ease", cursor: "pointer" }} onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 12px 32px rgba(15, 23, 42, 0.15)"; }} onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(15, 23, 42, 0.1)"; }}>
                 <img src={img.src} alt={img.alt} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
             ))}
           </div>
 
-          <h2>Notre Approche</h2>
+          <h2>Mon Approche</h2>
           <p style={{ lineHeight: 1.7 }}>
-            Nous croyons en une prestation de services structurée combinée à une hospitalité 
-            chaleureuse. Chaque interaction avec les clients est une opportunité de présenter 
-            le charme de Salzbourg tout en maintenant les plus hauts standards professionnels.
+            Je crois en une prestation de services structurée combinée à une hospitalité 
+            chaleureuse. Chaque interaction avec les clients est une opportunité d'appliquer 
+            ce que j'ai appris et de présenter le charme de Salzbourg tout en maintenant 
+            des standards professionnels.
           </p>
 
-          <h2>Philosophie de Service</h2>
+          <h2>Philosophie Professionnelle</h2>
           <ul style={{ lineHeight: 1.8 }}>
             <li>Écoute attentive et réponses réfléchies aux besoins des clients</li>
             <li>Communication claire et transmission organisée de l'information</li>
@@ -62,7 +63,7 @@ export default function FrInfoPage() {
             <li>Interactions honnêtes et courtoises plutôt que des politesses superficielles</li>
           </ul>
 
-          <h2>Nous Contacter</h2>
+          <h2>Me Contacter</h2>
           <p style={{ lineHeight: 1.7 }}>
             Instagram :{" "}
             <a

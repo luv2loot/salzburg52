@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import SettingsPanel from "@/components/SettingsPanel";
 import { useTheme } from "@/components/ThemeProvider";
@@ -14,11 +15,61 @@ function buildHref(lang, segment) {
   return `/${lang}/${segment}`;
 }
 
+function NavLink({ href, isActive, children }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <Link
+      href={href}
+      className={`header-nav-link-premium${isActive ? " is-active" : ""}`}
+      aria-current={isActive ? "page" : undefined}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <motion.span
+        className="header-nav-link-text"
+        animate={{
+          color: isActive || isHovered ? "var(--color-text)" : "var(--color-muted)"
+        }}
+        transition={{ duration: 0.2 }}
+      >
+        {children}
+      </motion.span>
+      
+      <motion.span
+        className="header-nav-underline"
+        initial={{ scaleX: 0, opacity: 0 }}
+        animate={{ 
+          scaleX: isActive || isHovered ? 1 : 0,
+          opacity: isActive || isHovered ? 1 : 0
+        }}
+        transition={{ 
+          duration: 0.25, 
+          ease: [0.32, 0.72, 0, 1]
+        }}
+      />
+      
+      <AnimatePresence>
+        {(isActive || isHovered) && (
+          <motion.span
+            className="header-nav-glow"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.3 }}
+          />
+        )}
+      </AnimatePresence>
+    </Link>
+  );
+}
+
 export default function Header({ lang = "en" }) {
   const pathname = usePathname();
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isSettingsHovered, setIsSettingsHovered] = useState(false);
 
   const activeLang = useMemo(() => {
     if (!pathname) return lang;
@@ -48,16 +99,44 @@ export default function Header({ lang = "en" }) {
 
   return (
     <>
-      <header className="app-shell header-root" role="banner">
-        <div className="surface header-inner">
-          <div className="header-left">
-            <Link href={`/${activeLang}`} className="header-logo">
-              <span className="header-logo-dot" />
-              <span className="header-logo-text">Salzburg52</span>
+      <header className="app-shell header-root-premium" role="banner">
+        <motion.div 
+          className="surface header-inner-premium"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+          <div className="header-left-premium">
+            <Link href={`/${activeLang}`} className="header-logo-premium">
+              <motion.span 
+                className="header-logo-dot-premium"
+                animate={{ 
+                  boxShadow: [
+                    "0 0 8px rgba(37, 99, 235, 0.5)",
+                    "0 0 16px rgba(37, 99, 235, 0.8)",
+                    "0 0 8px rgba(37, 99, 235, 0.5)"
+                  ]
+                }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+              <motion.span 
+                className="header-logo-text-premium"
+                whileHover={{ 
+                  scale: 1.02,
+                  color: "var(--primary)"
+                }}
+                transition={{ duration: 0.2 }}
+              >
+                Salzburg52
+              </motion.span>
             </Link>
           </div>
 
-          <nav className="header-nav" aria-label="Main">
+          <nav className="header-nav-premium" aria-label="Main">
             {navItems.map((item) => {
               const href = buildHref(
                 activeLang,
@@ -65,30 +144,45 @@ export default function Header({ lang = "en" }) {
               );
               const isActive = pathname === href;
               return (
-                <Link
+                <NavLink
                   key={item.key}
                   href={href}
-                  className={`header-nav-link${isActive ? " is-active" : ""}`}
-                  aria-current={isActive ? "page" : undefined}
+                  isActive={isActive}
                 >
                   {item.label}
-                </Link>
+                </NavLink>
               );
             })}
           </nav>
 
-          <div className="header-right">
-            <button
+          <div className="header-right-premium">
+            <motion.button
               type="button"
-              className="header-settings-btn"
+              className="header-settings-btn-premium"
               onClick={() => setIsSettingsOpen(true)}
+              onMouseEnter={() => setIsSettingsHovered(true)}
+              onMouseLeave={() => setIsSettingsHovered(false)}
               aria-haspopup="dialog"
               aria-expanded={isSettingsOpen}
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              animate={{
+                boxShadow: isSettingsHovered 
+                  ? "0 8px 24px rgba(37, 99, 235, 0.25), 0 0 20px rgba(37, 99, 235, 0.15)"
+                  : "0 4px 12px rgba(37, 99, 235, 0.1)"
+              }}
             >
-              Settings
-            </button>
+              <span className="settings-btn-text">Settings</span>
+              <motion.span 
+                className="settings-btn-icon"
+                animate={{ rotate: isSettingsHovered ? 90 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                ⚙
+              </motion.span>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
       </header>
 
       <SettingsPanel

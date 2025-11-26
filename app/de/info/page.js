@@ -8,12 +8,12 @@ const LANG = "de";
 
 export default function DeInfoPage() {
   const hospitality_images = [
-    { src: "/images/luxury_hotel_lobby_elegance.png", alt: "Luxury Hotel Lobby" },
+    { src: "/images/luxury_hotel_lobby_elegance.png", alt: "Elegante Hotellobby" },
     { src: "/images/luxury_hotel_interio_59b25bc9.jpg", alt: "Hotel Interieur Design" },
-    { src: "/images/fine_dining_experience.png", alt: "Fine Dining" },
+    { src: "/images/fine_dining_experience.png", alt: "Gehobene Gastronomie" },
     { src: "/images/luxury_hotel_interio_aa4bb2e2.jpg", alt: "Luxus Hotel" },
     { src: "/images/professional_hospitality_service.png", alt: "Professioneller Service" },
-    { src: "/images/luxury_hotel_interio_dd2a3b13.jpg", alt: "Premium Hotel Zimmer" }
+    { src: "/images/luxury_hotel_interio_dd2a3b13.jpg", alt: "Premium Hotelzimmer" }
   ];
 
   return (
@@ -22,19 +22,19 @@ export default function DeInfoPage() {
       <Header lang={LANG} />
       <main className="app-shell">
         <div style={{ marginBottom: "2rem", borderRadius: "18px", overflow: "hidden", height: "280px", boxShadow: "0 18px 45px rgba(15, 23, 42, 0.08)" }}>
-          <img src="/images/professional_hospita_96a18705.jpg" alt="Professional hospitality" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src="/images/professional_hospita_96a18705.jpg" alt="Professionelle Gastfreundschaft" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </div>
         <div className="surface" style={{ padding: "2rem 2.2rem" }}>
           <h1 style={{ marginTop: 0 }}>Über Salzburg52</h1>
           <p style={{ lineHeight: 1.7 }}>
-            Salzburg52 ist meine professionelle Marke und Portfolio als Lehrling im HYPERION Hotel Salzburg. 
-            Dieser Raum teilt meine Reise bei der Entwicklung von Expertise in professioneller Gastfreundschaft, 
-            wobei praktisches Lernen mit Einblicken in Service-Exzellenz und authentisches Salzburger Wissen kombiniert wird.
+            Salzburg52 ist meine professionelle Marke und mein Portfolio als Lehrling im HYPERION Hotel Salzburg. 
+            Hier teile ich meinen Weg in der Entwicklung von Expertise in professioneller Gastfreundschaft – 
+            eine Verbindung aus praktischem Lernen, exzellentem Service und authentischem Salzburger Wissen.
           </p>
           <p style={{ lineHeight: 1.7 }}>
-            Meine Grundlage wird durch Rezeptionsarbeiten im HYPERION Hotel Salzburg aufgebaut, 
-            wo ich die Bedeutung von Liebe zum Detail, ruhiger Professionalität und echtem Mitgefühl 
-            bei der Schaffung unvergesslicher Gästeerlebnisse lerne.
+            Meine Grundlage entsteht durch die Arbeit an der Rezeption des HYPERION Hotel Salzburg, 
+            wo ich die Bedeutung von Liebe zum Detail, ruhiger Professionalität und aufrichtiger Fürsorge 
+            für unvergessliche Gästeerlebnisse erlerne.
           </p>
 
           <h2>Gastfreundschafts-Galerie</h2>

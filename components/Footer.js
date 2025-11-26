@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 const year = new Date().getFullYear();
 
@@ -35,31 +36,72 @@ const legalLabels = {
   }
 };
 
+function FooterLink({ href, children }) {
+  return (
+    <motion.span
+      className="footer-link-wrapper"
+      whileHover={{ y: -2 }}
+      transition={{ duration: 0.2 }}
+    >
+      <Link href={href} className="footer-link-premium">
+        <span className="footer-link-text">{children}</span>
+        <span className="footer-link-underline" />
+      </Link>
+    </motion.span>
+  );
+}
+
 export default function Footer({ lang = "en" }) {
   const text = phrases[lang] ?? phrases.en;
   const labels = legalLabels[lang] ?? legalLabels.en;
 
   return (
-    <footer className="app-shell footer-root" role="contentinfo">
-      <div className="surface footer-inner">
-        <div className="footer-left">
-          <span className="text-muted">
-            © {year} Salzburg52
-          </span>
-        </div>
+    <footer className="app-shell footer-root-premium" role="contentinfo">
+      <motion.div 
+        className="surface footer-inner-premium"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        viewport={{ once: true }}
+      >
+        <div className="footer-gradient-accent" />
+        
+        <div className="footer-content-wrapper">
+          <div className="footer-left-premium">
+            <motion.div 
+              className="footer-brand"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+            >
+              <span className="footer-brand-dot" />
+              <span className="footer-brand-text">Salzburg52</span>
+            </motion.div>
+            <span className="footer-copyright">
+              © {year} All rights reserved
+            </span>
+          </div>
 
-        <div className="footer-center">
-          <nav className="footer-links" aria-label="Legal">
-            <Link href="/legal/impressum">{labels.impressum}</Link>
-            <span>·</span>
-            <Link href="/legal/privacy">{labels.privacy}</Link>
-          </nav>
-        </div>
+          <div className="footer-center-premium">
+            <nav className="footer-links-premium" aria-label="Legal">
+              <FooterLink href="/legal/impressum">{labels.impressum}</FooterLink>
+              <span className="footer-divider">·</span>
+              <FooterLink href="/legal/privacy">{labels.privacy}</FooterLink>
+            </nav>
+          </div>
 
-        <div className="footer-right">
-          <span className="text-muted footer-note">{text}</span>
+          <div className="footer-right-premium">
+            <motion.span 
+              className="footer-note-premium"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              viewport={{ once: true }}
+            >
+              {text}
+            </motion.span>
+          </div>
         </div>
-      </div>
+      </motion.div>
     </footer>
   );
 }

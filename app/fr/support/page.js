@@ -14,10 +14,10 @@ export default function FrSupportPage() {
           <img src="/images/salzburg_austria_his_c717a1e9.jpg" alt="Salzburg" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </div>
         <div className="surface" style={{ padding: "2rem 2.2rem" }}>
-          <h1 style={{ marginTop: 0 }}>Contact & Support</h1>
+          <h1 style={{ marginTop: 0 }}>Contact et Support</h1>
           <p style={{ lineHeight: 1.7, color: "var(--color-muted)" }}>
             Pour toute demande concernant l'hospitalité à Salzbourg, des recommandations locales 
-            ou toute question sur nos services, n'hésitez pas à nous contacter.
+            ou toute question sur mes services, n'hésitez pas à me contacter.
           </p>
 
           <h2>E-mail</h2>

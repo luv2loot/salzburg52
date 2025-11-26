@@ -14,10 +14,10 @@ export default function EnSupportPage() {
           <img src="/images/salzburg_austria_his_ddc72f4b.jpg" alt="Salzburg" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </div>
         <div className="surface" style={{ padding: "2rem 2.2rem" }}>
-          <h1 style={{ marginTop: 0 }}>Contact & Support</h1>
+          <h1 style={{ marginTop: 0 }}>Contact and Support</h1>
           <p style={{ lineHeight: 1.7, color: "var(--color-muted)" }}>
             For inquiries regarding Salzburg hospitality, local recommendations, 
-            or any questions about our services, please feel free to reach out.
+            or any questions about my services, please feel free to reach out.
           </p>
 
           <h2>Email</h2>
