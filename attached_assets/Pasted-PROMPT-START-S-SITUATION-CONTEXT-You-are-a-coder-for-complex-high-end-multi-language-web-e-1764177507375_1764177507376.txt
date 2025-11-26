@@ -1,0 +1,185 @@
+PROMPT START
+
+S – SITUATION / CONTEXT
+You are a coder for complex, high-end, multi-language web experiences. The project is salzburg52.com.
+
+Current state (based on design and structure):
+- A dark-themed, card-based site with pages: Home, Info, Salzburg, Support, Settings.
+- Home has: 
+  - A hero card “Welcome to Salzburg52.”
+  - A “Just for fun” card with a joke.
+  - A “My Professional Journey” card.
+  - A section “My Journey at HYPERION Hotel Salzburg” with images.
+- There is some music/audio behavior (“Double-click to play music”).
+- Layout is centered and minimal but leaves a lot of empty space and feels more like a nice static portfolio than a unique, immersive experience.
+- There are multiple languages, but not all content respects the designated language. For example, the section title “My Journey at HYPERION Hotel Salzburg” is in English on non-English pages.
+
+Overall: it’s a good-looking base, but too safe and too focused only on Salzburg / Hyperion Hotel / hospitality / apprenticeship. The owner wants this to feel like a “digital universe” that looks like it took months of thought, not a simple website.
+
+T – TASK
+Your task is to:
+1. Transform this website into a multi-language, multi-page, highly interactive “world” that goes far beyond Salzburg/hospitality.
+2. Add new pages, new sections, new interactive and visual ideas, not just small tweaks.
+3. Refactor the code (from bottom to top if needed) to support:
+   - Complex animations.
+   - Theme/vibe switching.
+   - Language switching.
+   - A scalable component system.
+4. Fix language consistency (e.g., “My Journey at HYPERION Hotel Salzburg” should match the page language).
+5. Rethink pages like Info, Salzburg, Support, Settings so they feel intentional, rich, and unique.
+6. Add at least one “signature interaction” that makes people say: “I’ve never seen a site like this before.”
+
+A – ACTION (DETAILED INSTRUCTIONS)
+
+PERSONA
+Act as:
+- A senior front-end engineer.
+- A senior motion designer.
+- A multi-language UX/UI architect.
+You are comfortable working with HTML/CSS/JS, TypeScript, React, or similar. If the existing project uses a framework (React, Next.js, etc.), keep it but refactor heavily. If it is plain HTML/CSS/JS, modernize and modularize it.
+
+CONTEXT (WHAT YOU SHOULD KEEP / CHANGE)
+- Keep: brand name “Salzburg52”, the idea of professional/apprentice at HYPERION Hotel Salzburg, the concept of Salzburg and hospitality as part of the story.
+- Change: everything else is fair game. You can redesign layouts, nav, animations, interactions, and even restructure pages.
+- Ensure multi-language support is coherent:
+  - Fix mismatches like English headings on non-English pages.
+  - Build a simple language system so copy can be easily translated and swapped.
+
+TASK (SITE STRUCTURE & FEATURES TO BUILD)
+Redesign the site as a small “digital world” with these areas:
+
+1. HOME (Gateway)
+   - Cinematic hero: stronger visuals, maybe animated gradient or subtle video/illustration.
+   - A “mode selector”: Professional / Fun / Experimental (or similar).
+     - Each mode slightly changes:
+       - Accent colors.
+       - Background animation.
+       - What sections are highlighted first.
+   - Quick entry cards to:
+     - Journey
+     - Salzburg Experience
+     - Hospitality Lab
+     - Playground
+     - Settings
+
+2. JOURNEY (New page)
+   - Move the “My Professional Journey” content and “My Journey at HYPERION Hotel Salzburg” into a full interactive timeline/story.
+   - Scroll or horizontal timeline with:
+     - Stages of the apprenticeship.
+     - Photos, icons, short reflections.
+   - Use scroll-triggered animations, staggered entries, and clear storytelling.
+
+3. SALZBURG EXPERIENCE (Rework Salzburg page)
+   - Not just static info. Create:
+     - Day/Night toggle (and theme reacts to it).
+     - Interactive map or pseudo-map with clickable hotspots (places, tips, mini stories).
+     - A “Day in Salzburg” section (morning / afternoon / evening) with different visual and motion styling.
+
+4. INFO (Rework Info page)
+   - Turn it into a structured “About + Quick Facts” hub:
+     - About Me (short bio).
+     - About HYPERION Hotel Salzburg (short, focused).
+     - About Salzburg.
+     - Quick facts cards (small bite-sized info).
+   - Use cards, icons, small illustrations, and subtle hover effects.
+
+5. SUPPORT (Reposition)
+   - Option 1: Keep as a page but:
+     - Add FAQs, contact options, quick links (Settings, email, etc.).
+   - Option 2 (recommended): Move support content into:
+     - A “Support & Help” section inside Settings, and
+     - A footer link or a floating “Help” button.
+   - Either way, make support feel integrated, not an afterthought.
+
+6. SETTINGS (Central personalization hub)
+   - This page should handle:
+     - Language selection (multi-language switcher).
+     - Theme/vibe selection (Light / Dark / maybe extra “Neon / Retro / Minimal” modes).
+     - Time-of-day sync option (site automatically adapts theme to local time).
+     - Accessibility options (font size, reduced motion toggle).
+     - Support & Help if you relocate Support here.
+   - Animate theme changes smoothly: use CSS variables or theme provider to transition background and text colors, not hard cuts.
+
+7. PLAYGROUND / FUN ZONE (New page)
+   - A dedicated area for playful experiments:
+     - Small interactive jokes/games related to hospitality or travel.
+     - A “Check-in Chaos Simulator” or some small interactive element that’s fun but lightweight.
+     - Animated quotes, micro canvases, or a simple WebGL/canvas visual that responds to cursor/scroll.
+
+8. HOSPITALITY LAB (New page)
+   - A more serious/professional zone:
+     - Short insights, mini essays, or “principles of great hospitality.”
+     - Present them as cards or sections with scroll-based reveals.
+   - This keeps the site professional and gives depth to your role as an apprentice.
+
+9. MEMORY WALL / COMMUNITY (Optional but recommended)
+   - A simple “Memory Wall” where future guests, friends, or you yourself can add little memory cards (even if just client-side/dummy data for now).
+   - It adds a feeling of growth and life to the site.
+
+EXEMPLAR (QUALITY BAR)
+Use as reference the level of craft from:
+- Apple product pages (smooth motion, simplicity with depth).
+- Stripe/Linear-style marketing pages (clean, modern, slightly futuristic).
+- Webflow/awwwards-style creative portfolios with:
+  - Scroll-triggered storytelling.
+  - Microinteractions.
+  - Complex but tasteful animations.
+
+Don’t copy them visually. Aim for that level of polish and intentionality.
+
+TONE
+- Code + comments: clear, concise, professional.
+- UI copy: friendly, slightly playful, but still mature. 
+- Avoid cringe, but do allow a bit of personality in “Fun/Playground” areas.
+
+FORMAT & RESULT (WHAT YOUR OUTPUT MUST LOOK LIKE)
+
+1. CODE STRUCTURE
+   - Show a clear file/folder structure.
+   - Break UI into reusable components (if React/Next/etc.).
+   - Use modern CSS (or Tailwind) and keep styling organized.
+   - If using animation libraries (Framer Motion, GSAP, etc.), integrate them cleanly.
+
+2. MULTI-LANGUAGE IMPLEMENTATION
+   - Explain how text is stored (e.g., in JSON, in translation files, etc.).
+   - Show how to:
+     - Add a new language.
+     - Translate major UI strings (nav, buttons, headings like “My Journey at HYPERION Hotel Salzburg”).
+   - Ensure no heading is stuck in the wrong language.
+
+3. ANIMATION & INTERACTION SYSTEM
+   - Use consistent easing and duration ranges.
+   - Prefer transform/opacity for performance.
+   - Implement:
+     - Page-load animations.
+     - Scroll-triggered section reveals.
+     - Microinteractions on buttons, cards, nav elements.
+     - Optional: custom cursor halo or another signature interaction.
+
+4. THEME & VIBE SYSTEM
+   - Implement light/dark + at least one extra “vibe” theme.
+   - Theme switches should be animated smoothly.
+   - Document where in the code themes are defined and how to add another one.
+
+5. EXPLANATION
+   - After the code, briefly explain:
+     - The site architecture (pages and components).
+     - The design system (colors, typography scale, spacing).
+     - The animation system (how it’s wired).
+     - The language system.
+     - The theme/vibe system.
+     - How to add new pages or experiments without breaking the structure.
+
+R – RESULT (WHAT SUCCESS LOOKS LIKE)
+When you’re done, salzburg52.com should feel like:
+- A highly interactive, multi-language digital universe, not just a hotel/apprentice site.
+- A site that looks like it took months of design and engineering:
+  - Rich but controlled animations.
+  - Unique navigation and structure.
+  - Surprising “Playground” and “Lab” areas.
+- Something where a visitor genuinely thinks:
+  “I’ve never seen a personal site quite like this. This is new.”
+
+Now I will paste the current codebase. Transform it according to everything above.
+
+PROMPT END

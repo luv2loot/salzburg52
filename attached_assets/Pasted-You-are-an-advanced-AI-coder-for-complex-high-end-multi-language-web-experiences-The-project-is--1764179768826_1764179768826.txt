@@ -1,0 +1,579 @@
+You are an advanced AI coder for complex, high-end, multi-language web experiences.
+The project is salzburg52.com.
+
+The current tech stack is: [REPLACE THIS WITH ACTUAL STACK, e.g. “React + Vite + TypeScript + Tailwind” or “Plain HTML/CSS/JS”].
+Do NOT change the tech stack. Refactor and expand within it.
+
+Non-negotiable goals
+
+Turn the site into a multi-language, multi-page, highly interactive “digital world”, not just a linear portfolio.
+
+Implement a proper language system (no mixed-language headings; everything translates cleanly).
+
+The “world” must contain distinct content zones for at least:
+
+Home gateway / hub
+
+Journey (my path + HYPERION story)
+
+Salzburg Experience
+
+Info / About
+
+Settings / personalization
+
+Playground / Fun
+
+Hospitality Lab (more serious/professional content)
+These can be pages or major sections; they do not all have to be top-level nav items.
+
+Implement a theme/vibe system (light/dark + at least one extra “vibe”) with smooth, animated transitions.
+
+Implement a consistent motion/animation system: page transitions, scroll-based reveals, microinteractions, and at least one “signature interaction”.
+
+Keep the brand “Salzburg52” and the story of the apprentice at HYPERION Hotel Salzburg as core narrative elements.
+
+There is no dedicated Support area. Contact should be handled via:
+
+Email: info@salzburg52.com
+
+Instagram: a clear link/handle in Info and/or footer.
+
+Use the following sites only as quality and interaction references (do not copy designs or assets):
+
+bluxstudio.com – clean typographic layouts, smooth scroll reveals, floating project cards, polished transitions.
+
+pixlspace.io – kinetic hero text, motion-rich sections, fun but controlled interactions.
+
+theobonnefous.com – immersive “world-like” sections, playful yet refined text interactions and scroll storytelling.
+
+Follow the STAR structure and detailed spec below.
+
+S – SITUATION / CONTEXT
+
+Current state of salzburg52.com (high level):
+
+Dark-themed, card-based layout with pages like Home, Info, Salzburg, Support, Settings.
+
+Home includes:
+
+A hero card “Welcome to Salzburg52.”
+
+A “Just for fun” card with a joke.
+
+A “My Professional Journey” card.
+
+A “My Journey at HYPERION Hotel Salzburg” section with images.
+
+There is some basic music/audio behavior (“double-click to play music”).
+
+Layout is centered and minimal, leaving large empty areas and feeling more like a static portfolio than an immersive world.
+
+Site is multi-language, but language handling is inconsistent:
+
+Example: “My Journey at HYPERION Hotel Salzburg” appears in English on non-English pages.
+
+Overall:
+The base looks good and modern, but feels too safe, too linear, and too narrow (only Salzburg / Hyperion / apprenticeship). The ambition is a personal digital universe that clearly looks like it took months of design + engineering, not a template.
+
+T – TASK
+
+Your task is to:
+
+Transform this site into a multi-language, multi-page, highly interactive “world” that goes beyond just Salzburg/hospitality, while still keeping that story as a core thread.
+
+Add new pages, sections, and interactions – not just tweak the existing layout.
+
+Refactor the codebase to support:
+
+Complex but performant animations.
+
+Theme/vibe switching.
+
+Proper language switching.
+
+A scalable, reusable component system.
+
+Fix all language inconsistencies (e.g. “My Journey at HYPERION Hotel Salzburg” always respects the active language).
+
+Rethink existing pages so they become intentional, rich, and unique areas of the world.
+
+Add at least one signature interaction that makes visitors think:
+
+“I’ve never seen a personal site like this before.”
+
+A – ACTION (DETAILED SPEC)
+1. PERSONA
+
+Act as:
+
+A senior front-end engineer.
+
+A senior motion/interaction designer.
+
+A multi-language UX/UI architect.
+
+You are comfortable with modern front-end patterns in the given stack.
+Do not change the core stack; refactor and upgrade within it.
+
+2. KEEP vs CHANGE
+
+Keep:
+
+Brand name: “Salzburg52”.
+
+story: apprentice at HYPERION Hotel Salzburg.
+
+Salzburg and hospitality as important parts of the narrative.
+
+Change / Free to redesign:
+
+Layout, information architecture, page structure, nav behavior, animation patterns, and visual hierarchy.
+
+You are not required to keep the current nav labels or structure. You decide:
+
+Which items are top-level nav.
+
+Which zones are subpages, sections, or reachable via the World Hub.
+
+Multi-language:
+
+Implement a proper i18n/translation system (e.g. translation JSON files or similar, depending on stack).
+
+All major text (nav, headings, section titles, buttons, hero copy, etc.) must be translation-driven, not hard-coded.
+
+No “stuck” English (or other languages) on the wrong locale.
+
+3. ANIMATION / INTERACTION REFERENCES
+
+Aim for the level of polish and interaction style of:
+
+Blux Studio: floating project cards, clean layout, scroll reveals, subtle but precise transitions.
+
+Pixlspace: energetic hero section, kinetic text, lively yet controlled motion.
+
+Théo Bonnefous: sections that feel like different “biomes” or worlds, interactive text, immersive scrolling.
+
+Do not copy layouts or visuals. Translate their principles:
+
+Fluid, performant scroll-based animation.
+
+Strong typography with controlled motion.
+
+Sections that feel like distinct zones within one larger world.
+
+Carefully tuned microinteractions.
+
+4. SITE STRUCTURE – “DIGITAL WORLD” ZONES
+
+The world must contain at least these zones as pages or major sections.
+You are free to choose the navigation structure and naming, as long as these zones exist.
+
+4.1 HOME – Gateway & Floating World Hub
+
+Home should feel like the central hub of the Salzburg52 universe.
+
+Cinematic hero:
+
+Strong, large typography (e.g. “Welcome to Salzburg52 – A Personal Digital Universe”).
+
+Animated gradient / noise / subtle particles or abstract illustration in the background.
+
+Optional soft parallax linked to scroll or cursor.
+
+Mode Selector:
+
+A row of modes: e.g. Professional / Fun / Experimental.
+
+Changing the active mode:
+
+Updates accent colors and some background details.
+
+Slightly changes which zones/sections are emphasised (e.g. Professional pushes Journey + Hospitality Lab; Fun pushes Playground; Experimental surfaces more experimental content).
+
+Blux-style Floating Card Cluster (World Hub):
+
+Implement a cluster of floating cards in 3D space, not a flat grid.
+
+1 primary large card in the center (e.g. main “Salzburg52 Universe” or a key zone).
+
+3–5 secondary cards around it for major zones (Journey, Salzburg Experience, Playground, Hospitality Lab, Info/Settings, etc.).
+
+Behavior:
+
+Use CSS perspective + translate3d + rotateX/rotateY to create depth.
+
+The cluster reacts to mouse/pointer movement with subtle parallax tilt and translation.
+
+Each card:
+
+Idle: slightly floating, soft shadow, lower contrast.
+
+Hover/focus: moves closer (translateZ), sharper shadow, maybe slight scale.
+
+Active: brought forward, clear highlight.
+
+Clicking a card navigates to its zone (page or anchored section).
+
+Visual: a large, clean, empty canvas with cards floating in the center, inspired by the Blux gallery section.
+
+Logo / World Hub Overlay (optional):
+
+Clicking the Salzburg52 logo can open a full-screen overlay reusing the same floating card cluster as a “World Map”.
+
+4.2 JOURNEY – Interactive Timeline / Story
+
+Dedicated zone for “My Professional Journey” + “My Journey at HYPERION Hotel Salzburg”.
+
+Content:
+
+Timeline of stages:
+
+School / early steps.
+
+Start of apprenticeship.
+
+Milestones at HYPERION.
+
+Future ambitions.
+
+Each stage:
+
+Title + time range.
+
+Short text (2–4 sentences).
+
+Icon or image.
+
+Layout & motion:
+
+Either:
+
+Vertical scroll timeline with pinned sections, or
+
+Horizontal timeline with step navigation.
+
+Use scroll-triggered animations:
+
+Staggered text and image reveals.
+
+Progress line / dots that fill as you scroll.
+
+Optionally: hover tooltips or small audio notes on certain milestones.
+
+4.3 SALZBURG EXPERIENCE – Immersive City “World”
+
+Rework Salzburg content into an immersive Salzburg world.
+
+Day / Night toggle:
+
+Switch between Day Salzburg and Night Salzburg.
+
+Toggling:
+
+Changes background (color / gradient / illustration/photo).
+
+Adjusts accent colors.
+
+Can change small decorative details for atmosphere.
+
+“A Day in Salzburg”:
+
+Sections for Morning / Afternoon / Evening.
+
+Each section:
+
+Short narrative of what to do.
+
+1–2 images/visuals.
+
+Slightly different motion style.
+
+Stylized map or pseudo-map with hotspots:
+
+No need for real APIs; can be SVG or layout-based.
+
+Hotspots are clickable cards:
+
+Place name.
+
+1–2 sentences about why it matters.
+
+Tag (e.g. “Hidden gem”, “Viewpoint”, “Coffee”, etc.).
+
+On hover/click, show expanded card with smooth transition.
+
+4.4 INFO – Structured “About + Contact” Hub
+
+Info should quickly explain who you are, where you are, and how to contact you.
+
+Sections:
+
+About Me – short, focused bio.
+
+About HYPERION Hotel Salzburg – concise overview.
+
+About Salzburg – context.
+
+Quick Facts – grid of cards (languages, skills, interests, small personal facts).
+
+Contact / Owner:
+
+Email: clickable mailto:info@salzburg52.com.
+
+Instagram: clearly visible link/handle.
+
+Short line like “For collaborations or questions, reach out via email or Instagram.”
+
+Design:
+
+Clean card-based layout with icons where useful.
+
+Subtle hover elevation and opacity changes.
+
+Motion is polished but calmer than Playground.
+
+4.5 SETTINGS – Personalization Hub
+
+Settings is the control center of the world.
+
+Features:
+
+Language selection:
+
+Proper language switcher that updates translations globally.
+
+Theme / vibe selection:
+
+At least: Light, Dark, and one extra vibe (e.g. “Neon” or “Salzburg Night”).
+
+Time-of-day sync:
+
+Option to auto-switch theme based on local time (e.g. lighter in morning, darker at night).
+
+Accessibility:
+
+Font size toggle (normal / large).
+
+Reduced motion toggle that disables or simplifies non-essential animations.
+
+Implementation:
+
+Use CSS variables or a theme provider for color, typography scale, spacing etc.
+
+Animate theme changes with short transitions (no flashes).
+
+4.6 PLAYGROUND / FUN ZONE – Experiments
+
+A dedicated place for playful, non-serious interactions.
+
+Ideas:
+
+“Check-in Chaos Simulator”:
+
+Simple interactive widget that shows random guest scenarios and choices for how to respond.
+
+Animated quotes related to hospitality/travel that cycle with transitions.
+
+Lightweight interactive visual (e.g. particles or blob reacting to cursor).
+
+Tone:
+
+Playful but not childish.
+
+Experiments can be small but must feel intentional and polished.
+
+4.7 HOSPITALITY LAB – Serious Professional Zone
+
+This zone showcases your thinking about hospitality.
+
+Content:
+
+Short essays / principles:
+
+“What makes great front-office service.”
+
+“How to make guests feel seen.”
+
+“Lessons from working at HYPERION Hotel Salzburg.”
+
+Present as cards or clear sections.
+
+Motion:
+
+Scroll-triggered reveals.
+
+Animations support readability; no gimmicks.
+
+4.8 MEMORY WALL / COMMUNITY (Optional but Recommended)
+
+A Memory Wall page or section.
+
+Grid of memory cards:
+
+Short text/story.
+
+Date.
+
+Tag (guest story, team moment, Salzburg memory, etc.).
+
+Initially, static JSON data is fine.
+
+If feasible, add a small form to add memories client-side.
+
+5. MULTI-LANGUAGE IMPLEMENTATION
+
+Use translation files or suitable i18n for the stack:
+
+e.g. locales/en.json, locales/de.json, etc.
+
+All main text strings (nav labels, hero text, headings such as “My Journey at HYPERION Hotel Salzburg”, buttons, etc.) must come from translation keys.
+
+Show in the code:
+
+How translations are loaded and selected.
+
+How to add a new language.
+
+Make sure there are no hard-coded language leaks.
+
+6. ANIMATION & INTERACTION SYSTEM
+
+Build a cohesive motion system.
+
+General rules:
+
+Use transform + opacity for performance.
+
+Define a small set of easings and durations and reuse them.
+
+Respect the Reduced Motion toggle from Settings.
+
+Required patterns:
+
+Page load animations:
+
+Hero and nav fade/slide in, not pop in.
+
+Page transitions:
+
+Smooth transitions (fade/slide/scale) between major zones.
+
+Scroll-triggered reveals:
+
+Components animate in when entering viewport.
+
+Microinteractions:
+
+Buttons, cards, nav items, hotspots have subtle hover/active states.
+
+Floating Cards System (Blux-style):
+
+Reusable component for 3D floating card clusters:
+
+One primary card + several secondary cards.
+
+Depth via perspective + translate3d + rotateX/rotateY.
+
+Mouse movement controls parallax.
+
+Idle / hover / active states clearly defined.
+
+Use this on Home and optionally for other showcase sections.
+
+Signature interaction(s) – pick at least one:
+
+Custom cursor or cursor halo that reacts to interactive elements.
+
+Hero text with interactive/animated words (hover reveals imagery or color transitions).
+
+Biome-like section transitions where backgrounds and motion style shift noticeably between major zones.
+
+7. THEME / VIBE SYSTEM
+
+Implement at least three themes:
+
+Light
+
+Dark
+
+One additional vibe (e.g. “Neon” or “Salzburg Night”).
+
+Approach:
+
+Central theme configuration with:
+
+Color tokens.
+
+Typography scale adjustments (if needed).
+
+Optional decorative patterns/gradients.
+
+Theme context or global state to switch themes from Settings and mode selector.
+
+Animated transitions (≈150–300ms) for color/background changes.
+
+8. CODE STRUCTURE & QUALITY
+
+Show a clear file/folder structure. For example (if React/Next-style):
+
+components/ – shared components (nav, layout, card clusters, timeline, map/hotspots, cards, etc.).
+
+pages/ or routes/ – main pages/zones (home, journey, salzburg, info, settings, playground, hospitality-lab, optional memory-wall).
+
+theme/, i18n/, animations/ – configuration and utilities.
+
+Keep code modular and reusable:
+
+Reuse layout shells, card components, animation variants.
+
+Avoid copy-pasting similar markup across pages.
+
+9. EXPLANATION (AFTER THE CODE)
+
+After generating the code, include a short explanation section that covers:
+
+Site architecture:
+
+Which pages/zones exist and which key components they use.
+
+Design system:
+
+Where colors, typography scale, spacing tokens live.
+
+Animation system:
+
+How scroll-based animations, page transitions, and the floating cards system are implemented and configured.
+
+Language system:
+
+How translations are stored, how the current language is chosen, and how to add another language.
+
+Theme/vibe system:
+
+How theme switching works and where to extend it.
+
+Extensibility:
+
+How to safely add new pages or experiments (especially in the Playground) without breaking the structure.
+
+R – RESULT (WHAT SUCCESS LOOKS LIKE)
+
+When you are done, salzburg52.com should:
+
+Feel like a coherent, interactive, multi-language digital universe, not just a simple hotel/apprentice site.
+
+Present:
+
+Rich but controlled animations.
+
+A unique world structure (Home hub + distinct zones) with flexible navigation.
+
+Clear contact paths (info@salzburg52.com
+ + Instagram).
+
+Distinct spaces for Playground and Hospitality Lab that show both personality and professionalism.
+
+Leave visitors genuinely thinking:
+
+“I’ve never seen a personal site quite like this. This feels new and intentional, not a template.”
