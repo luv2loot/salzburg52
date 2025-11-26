@@ -11,6 +11,10 @@ import MediaStrip from "@/components/MediaStrip";
 import Showcase from "@/components/Showcase";
 import SnippetRefreshButton from "@/components/SnippetRefreshButton";
 import FloatingCardHub from "@/components/FloatingCardHub";
+import { ServiceMarquee, TextMarquee } from "@/components/animations/Marquee";
+import { FadeUp, StaggerContainer, StaggerItem } from "@/components/animations/TextReveal";
+import { GradientBlob, MouseFollowGradient } from "@/components/animations/FloatingElements";
+import { SpotlightCard } from "@/components/animations/TiltCard";
 
 import { getGreetingForTime, getHeroCopy } from "@/lib/copy";
 import { getRandomSnippet } from "@/lib/quotes";
@@ -240,6 +244,11 @@ export default function EnHomePage() {
           lang={LANG}
         />
 
+        <ServiceMarquee 
+          items={["Hospitality", "Service Excellence", "Guest Experience", "Front Office", "Salzburg Local", "Luxury Standards", "Professional Growth"]}
+          speed={40}
+        />
+
         <FloatingCardHub lang={LANG} />
 
         {snippet && (
@@ -403,6 +412,14 @@ export default function EnHomePage() {
         </motion.section>
 
         <MediaStrip />
+
+        <TextMarquee 
+          text="Welcome to my Digital World"
+          separator="✦"
+          speed={30}
+          className="my-4"
+          textClassName="text-gradient"
+        />
       </main>
       <Footer lang={LANG} />
     </>

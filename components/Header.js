@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import SettingsPanel from "@/components/SettingsPanel";
 import { useTheme } from "@/components/ThemeProvider";
 import { getNavItems, t, SUPPORTED_LANGS } from "@/lib/translations";
+import Logo from "@/components/Logo";
 
 function NavLink({ href, isActive, children }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -97,32 +98,8 @@ export default function Header({ lang = "en" }) {
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <div className="header-left-premium">
-            <Link href={`/${activeLang}`} className="header-logo-premium">
-              <motion.span 
-                className="header-logo-dot-premium"
-                animate={{ 
-                  boxShadow: [
-                    "0 0 8px rgba(37, 99, 235, 0.5)",
-                    "0 0 16px rgba(37, 99, 235, 0.8)",
-                    "0 0 8px rgba(37, 99, 235, 0.5)"
-                  ]
-                }}
-                transition={{ 
-                  duration: 2, 
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-              <motion.span 
-                className="header-logo-text-premium"
-                whileHover={{ 
-                  scale: 1.02,
-                  color: "var(--primary)"
-                }}
-                transition={{ duration: 0.2 }}
-              >
-                Salzburg52
-              </motion.span>
+            <Link href={`/${activeLang}`} className="header-logo-premium" style={{ textDecoration: "none" }}>
+              <Logo size={28} showText={true} />
             </Link>
           </div>
 
