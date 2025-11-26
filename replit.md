@@ -166,7 +166,7 @@ Centralized in `lib/translations.js`:
 
 ## Recent Changes
 - **2024-11-26 (Latest):** Premium Animation Overhaul & Logo Design
-  - **S·52 Logo:** Minimalist gradient logo with animated sheen on hover
+  - **New Logo:** Image-based lettermark logo (S + five two) with purple/navy design
   - **Cinematic Hero:** GPU-accelerated gradient canvas background with flowing color orbs
   - **Floating Elements:** Animated orbs (blue, purple, pink, cyan) with depth effects
   - **Grid Overlay:** Subtle radial grid pattern for premium aesthetic
