@@ -14,11 +14,18 @@ export const THEMES = [
   { key: "salzburg-night", label: "Salzburg Night" }
 ];
 
+export const FONT_SIZE_OPTIONS = [
+  { value: 90, label: "Small" },
+  { value: 100, label: "Normal" },
+  { value: 110, label: "Large" },
+  { value: 120, label: "Extra Large" }
+];
+
 const ThemeContext = createContext({
   theme: "system",
   appliedTheme: "light",
   setTheme: () => {},
-  fontSize: "normal",
+  fontSize: 100,
   setFontSize: () => {},
   reducedMotion: false,
   setReducedMotion: () => {}
@@ -47,7 +54,7 @@ function computeAppliedTheme(preference) {
 export function ThemeProvider({ children }) {
   const [theme, setThemeState] = useState("system");
   const [appliedTheme, setAppliedTheme] = useState("light");
-  const [fontSize, setFontSizeState] = useState("normal");
+  const [fontSize, setFontSizeState] = useState(100);
   const [reducedMotion, setReducedMotionState] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -70,8 +77,13 @@ export function ThemeProvider({ children }) {
     setThemeState(initialTheme);
     setAppliedTheme(computeAppliedTheme(initialTheme));
 
-    if (storedFontSize === "large") {
-      setFontSizeState("large");
+    if (storedFontSize) {
+      const parsedSize = parseInt(storedFontSize, 10);
+      if (FONT_SIZE_OPTIONS.some(opt => opt.value === parsedSize)) {
+        setFontSizeState(parsedSize);
+      } else if (storedFontSize === "large") {
+        setFontSizeState(110);
+      }
     }
 
     if (storedReducedMotion === "true") {
@@ -143,13 +155,21 @@ export function ThemeProvider({ children }) {
 
     const root = document.documentElement;
 
-    if (fontSize === "large") {
+    root.classList.remove("font-size-small", "font-size-normal", "font-size-large", "font-size-xlarge");
+
+    if (fontSize === 90) {
+      root.classList.add("font-size-small");
+    } else if (fontSize === 100) {
+      root.classList.add("font-size-normal");
+    } else if (fontSize === 110) {
       root.classList.add("font-size-large");
-    } else {
-      root.classList.remove("font-size-large");
+    } else if (fontSize === 120) {
+      root.classList.add("font-size-xlarge");
     }
 
-    window.localStorage.setItem(FONT_SIZE_KEY, fontSize);
+    root.style.setProperty("--font-scale", `${fontSize / 100}`);
+
+    window.localStorage.setItem(FONT_SIZE_KEY, String(fontSize));
   }, [fontSize, mounted]);
 
   useEffect(() => {
@@ -174,8 +194,9 @@ export function ThemeProvider({ children }) {
   };
 
   const setFontSize = (size) => {
-    if (size === "normal" || size === "large") {
-      setFontSizeState(size);
+    const numSize = typeof size === "string" ? parseInt(size, 10) : size;
+    if (FONT_SIZE_OPTIONS.some(opt => opt.value === numSize)) {
+      setFontSizeState(numSize);
     }
   };
 

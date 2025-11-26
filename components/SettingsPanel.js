@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { THEMES } from "@/components/ThemeProvider";
+import { THEMES, FONT_SIZE_OPTIONS } from "@/components/ThemeProvider";
 
 const LANG_LABELS = {
   en: "English",
@@ -68,7 +68,7 @@ export default function SettingsPanel({
   onLangChange,
   theme = "system",
   onThemeChange,
-  fontSize = "normal",
+  fontSize = 100,
   onFontSizeChange,
   reducedMotion = false,
   onReducedMotionChange
@@ -82,6 +82,37 @@ export default function SettingsPanel({
     return () => window.removeEventListener("keydown", handler);
   }, [isOpen, onClose]);
 
+  const currentFontSizeIndex = useMemo(() => {
+    const idx = FONT_SIZE_OPTIONS.findIndex(opt => opt.value === fontSize);
+    return idx >= 0 ? idx : 1;
+  }, [fontSize]);
+
+  const currentFontSizeLabel = useMemo(() => {
+    const option = FONT_SIZE_OPTIONS.find(opt => opt.value === fontSize);
+    return option ? `${option.label} (${option.value}%)` : `Normal (100%)`;
+  }, [fontSize]);
+
+  const handleSliderChange = (e) => {
+    const idx = parseInt(e.target.value, 10);
+    const option = FONT_SIZE_OPTIONS[idx];
+    if (option) {
+      onFontSizeChange?.(option.value);
+    }
+  };
+
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 8 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.05,
+        duration: 0.25,
+        ease: "easeOut"
+      }
+    })
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -89,137 +120,201 @@ export default function SettingsPanel({
           <motion.div
             className="settings-backdrop"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.4 }}
+            animate={{ opacity: 0.5 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.25 }}
             onClick={onClose}
           />
 
           <motion.div
-            className="settings-panel surface"
-            initial={{ opacity: 0, y: 20, scale: 0.98 }}
+            className="settings-panel-premium surface"
+            initial={{ opacity: 0, y: 24, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.98 }}
-            transition={{ duration: 0.22, ease: "easeOut" }}
+            exit={{ opacity: 0, y: 12, scale: 0.96 }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="settings-header">
-              <h2 className="settings-title">Settings</h2>
-              <button
+            <motion.div 
+              className="settings-header-premium"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.2 }}
+            >
+              <h2 className="settings-title-premium">Settings</h2>
+              <motion.button
                 type="button"
-                className="settings-close-btn"
+                className="settings-close-btn-premium"
                 onClick={onClose}
                 aria-label="Close settings"
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
-                ✕
-              </button>
-            </div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"/>
+                  <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </motion.button>
+            </motion.div>
 
-            <div className="settings-section">
-              <div className="settings-section-label">Language</div>
-              <div className="settings-pill-row">
+            <motion.div 
+              className="settings-section-premium"
+              custom={0}
+              variants={sectionVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <div className="settings-section-label-premium">Language</div>
+              <div className="settings-pill-row-premium">
                 {Object.entries(LANG_LABELS).map(([code, label]) => {
                   const active = code === lang;
                   return (
                     <motion.button
                       key={code}
                       type="button"
-                      className={`settings-pill${active ? " is-active" : ""}`}
+                      className={`settings-pill-premium${active ? " is-active" : ""}`}
                       onClick={() => onLangChange?.(code)}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
+                      whileHover={{ scale: 1.04, y: -1 }}
+                      whileTap={{ scale: 0.97 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
                     >
                       {label}
                     </motion.button>
                   );
                 })}
               </div>
-            </div>
+            </motion.div>
 
-            <div className="settings-section">
-              <div className="settings-section-label">Appearance</div>
-              <div className="settings-theme-row">
+            <motion.div 
+              className="settings-section-premium"
+              custom={1}
+              variants={sectionVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <div className="settings-section-label-premium">Appearance</div>
+              <div className="settings-theme-row-premium">
                 {THEMES.map((option) => {
                   const active = option.key === theme;
                   return (
                     <motion.button
                       key={option.key}
                       type="button"
-                      className={`settings-theme-btn${active ? " is-active" : ""}`}
+                      className={`settings-theme-btn-premium${active ? " is-active" : ""}`}
                       onClick={() => onThemeChange?.(option.key)}
-                      whileHover={{ scale: 1.03, y: -2 }}
-                      whileTap={{ scale: 0.97 }}
+                      whileHover={{ scale: 1.05, y: -3 }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
                       data-theme={option.key}
                     >
-                      <span className="settings-theme-icon">
+                      <span className="settings-theme-icon-premium">
                         {THEME_ICONS[option.key]}
                       </span>
-                      <span className="settings-theme-label">
+                      <span className="settings-theme-label-premium">
                         {THEME_LABELS[option.key]}
                       </span>
-                      {active && (
-                        <motion.span
-                          className="settings-theme-check"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ type: "spring", stiffness: 500 }}
-                        >
-                          ✓
-                        </motion.span>
-                      )}
+                      <AnimatePresence>
+                        {active && (
+                          <motion.span
+                            className="settings-theme-check-premium"
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0, opacity: 0 }}
+                            transition={{ type: "spring", stiffness: 500, damping: 25 }}
+                          >
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
                     </motion.button>
                   );
                 })}
               </div>
-            </div>
+            </motion.div>
 
-            <div className="settings-section">
-              <div className="settings-section-label">Accessibility</div>
+            <motion.div 
+              className="settings-section-premium"
+              custom={2}
+              variants={sectionVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <div className="settings-section-label-premium">Accessibility</div>
               
-              <div className="settings-toggle-row">
-                <span className="settings-toggle-label">Font Size</span>
-                <div className="settings-toggle-group">
-                  <motion.button
-                    type="button"
-                    className={`settings-toggle-btn${fontSize === "normal" ? " is-active" : ""}`}
-                    onClick={() => onFontSizeChange?.("normal")}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+              <div className="settings-slider-container">
+                <div className="settings-slider-header">
+                  <span className="settings-slider-label">Font Size</span>
+                  <motion.span 
+                    className="settings-slider-value"
+                    key={fontSize}
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.15 }}
                   >
-                    Normal
-                  </motion.button>
-                  <motion.button
-                    type="button"
-                    className={`settings-toggle-btn${fontSize === "large" ? " is-active" : ""}`}
-                    onClick={() => onFontSizeChange?.("large")}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Large
-                  </motion.button>
+                    {currentFontSizeLabel}
+                  </motion.span>
+                </div>
+                <div className="settings-slider-wrapper">
+                  <input
+                    type="range"
+                    min="0"
+                    max={FONT_SIZE_OPTIONS.length - 1}
+                    step="1"
+                    value={currentFontSizeIndex}
+                    onChange={handleSliderChange}
+                    className="settings-range-slider"
+                    aria-label="Font size"
+                  />
+                  <div className="settings-slider-ticks">
+                    {FONT_SIZE_OPTIONS.map((opt, idx) => (
+                      <div 
+                        key={opt.value} 
+                        className={`settings-slider-tick${idx === currentFontSizeIndex ? " is-active" : ""}`}
+                      >
+                        <span className="settings-slider-tick-label">{opt.label}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
               
-              <div className="settings-toggle-row">
-                <span className="settings-toggle-label">Reduced Motion</span>
+              <div className="settings-toggle-row-premium">
+                <div className="settings-toggle-info">
+                  <span className="settings-toggle-label-premium">Reduced Motion</span>
+                  <span className="settings-toggle-desc">Minimize animations</span>
+                </div>
                 <motion.button
                   type="button"
-                  className={`settings-switch${reducedMotion ? " is-on" : ""}`}
+                  className={`settings-switch-premium${reducedMotion ? " is-on" : ""}`}
                   onClick={() => onReducedMotionChange?.(!reducedMotion)}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   role="switch"
                   aria-checked={reducedMotion}
+                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
                 >
-                  <span className="settings-switch-track">
+                  <motion.span 
+                    className="settings-switch-track-premium"
+                    animate={{
+                      backgroundColor: reducedMotion 
+                        ? "rgba(37, 99, 235, 1)" 
+                        : "rgba(120, 120, 128, 0.32)"
+                    }}
+                    transition={{ duration: 0.2 }}
+                  >
                     <motion.span 
-                      className="settings-switch-thumb"
-                      animate={{ x: reducedMotion ? 18 : 2 }}
+                      className="settings-switch-thumb-premium"
+                      animate={{ 
+                        x: reducedMotion ? 20 : 2,
+                        scale: reducedMotion ? 1 : 0.95
+                      }}
                       transition={{ type: "spring", stiffness: 500, damping: 30 }}
                     />
-                  </span>
+                  </motion.span>
                 </motion.button>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         </>
       )}

@@ -98,7 +98,15 @@ export default function Header({ lang = "en" }) {
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <div className="header-left-premium">
-            <Link href={`/${activeLang}`} className="header-logo-premium" style={{ textDecoration: "none" }}>
+            <Link 
+              href={`/${activeLang}`} 
+              className="header-logo-link"
+              style={{ 
+                textDecoration: "none",
+                display: "inline-flex",
+                alignItems: "center",
+              }}
+            >
               <Logo size={28} showText={true} />
             </Link>
           </div>

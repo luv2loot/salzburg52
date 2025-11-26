@@ -1,20 +1,16 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Cursor from "@/components/Cursor";
 import MediaStrip from "@/components/MediaStrip";
-import Showcase from "@/components/Showcase";
 import SnippetRefreshButton from "@/components/SnippetRefreshButton";
 import FloatingCardHub from "@/components/FloatingCardHub";
 import { ServiceMarquee, TextMarquee } from "@/components/animations/Marquee";
-import { FadeUp, StaggerContainer, StaggerItem } from "@/components/animations/TextReveal";
-import { GradientBlob, MouseFollowGradient } from "@/components/animations/FloatingElements";
-import { SpotlightCard } from "@/components/animations/TiltCard";
 
 import { getGreetingForTime, getHeroCopy } from "@/lib/copy";
 import { getRandomSnippet } from "@/lib/quotes";
@@ -73,12 +69,6 @@ const featureIcons = {
   )
 };
 
-const galleryImages = [
-  { src: "/images/salzburg_austria_his_ea8bfaf1.jpg", alt: "Salzburg historic streets", label: "Historic Streets" },
-  { src: "/images/salzburg_austria_mou_7fa6ee31.jpg", alt: "Salzburg landscape", label: "Alpine Views" },
-  { src: "/images/luxury_hotel_interio_dd2a3b13.jpg", alt: "Hotel interior", label: "Luxury Interior" },
-  { src: "/images/professional_hospita_96a18705.jpg", alt: "Professional hospitality", label: "Service Excellence" }
-];
 
 function SectionDivider() {
   return (
@@ -96,71 +86,6 @@ function SectionDivider() {
         transformOrigin: "center"
       }}
     />
-  );
-}
-
-function ParallaxImage({ src, alt, label, index }) {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  });
-  
-  const y = useTransform(scrollYProgress, [0, 1], [30, -30]);
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.95, 1, 0.95]);
-
-  return (
-    <motion.div
-      ref={ref}
-      variants={staggerItem}
-      className="gallery-item"
-      style={{
-        borderRadius: "16px",
-        overflow: "hidden",
-        aspectRatio: "1 / 1",
-        boxShadow: "0 8px 32px rgba(15, 23, 42, 0.12)",
-        cursor: "pointer",
-        position: "relative",
-        background: "var(--color-bg-elevated)"
-      }}
-      whileHover={{ 
-        y: -8, 
-        boxShadow: "0 20px 50px rgba(37, 99, 235, 0.2)",
-        transition: { duration: 0.3 }
-      }}
-    >
-      <motion.div style={{ y, scale, height: "100%", width: "100%" }}>
-        <img 
-          src={src} 
-          alt={alt} 
-          style={{ 
-            width: "100%", 
-            height: "100%", 
-            objectFit: "cover",
-            transition: "transform 0.5s ease"
-          }} 
-        />
-      </motion.div>
-      <motion.div
-        className="gallery-label"
-        initial={{ opacity: 0, y: 20 }}
-        whileHover={{ opacity: 1, y: 0 }}
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          padding: "1.5rem 1rem 1rem",
-          background: "linear-gradient(to top, rgba(0,0,0,0.7), transparent)",
-          color: "white",
-          fontSize: "0.9rem",
-          fontWeight: 600,
-          letterSpacing: "0.02em"
-        }}
-      >
-        {label}
-      </motion.div>
-    </motion.div>
   );
 }
 
@@ -349,67 +274,6 @@ export default function EnHomePage() {
         </motion.section>
 
         <SectionDivider />
-
-        <Showcase lang="en" />
-
-        <SectionDivider />
-
-        <motion.section 
-          style={{ marginTop: "1rem", marginBottom: "3rem" }}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          variants={fadeInUp}
-        >
-          <div className="app-shell" style={{ padding: "0 2.2rem" }}>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              style={{ textAlign: "center", marginBottom: "2.5rem" }}
-            >
-              <span style={{
-                display: "inline-block",
-                padding: "0.4rem 1rem",
-                background: "linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(139, 92, 246, 0.08))",
-                borderRadius: "999px",
-                fontSize: "0.75rem",
-                fontWeight: 600,
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                color: "var(--primary)",
-                marginBottom: "1rem"
-              }}>
-                Gallery
-              </span>
-              <h2 style={{ fontSize: "1.6rem", fontWeight: 600, margin: 0 }}>Salzburg & Hospitality</h2>
-            </motion.div>
-            <motion.div 
-              style={{ 
-                display: "grid", 
-                gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", 
-                gap: "1.5rem", 
-                maxWidth: "1000px", 
-                margin: "0 auto" 
-              }}
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
-            >
-              {galleryImages.map((image, index) => (
-                <ParallaxImage 
-                  key={index}
-                  src={image.src}
-                  alt={image.alt}
-                  label={image.label}
-                  index={index}
-                />
-              ))}
-            </motion.div>
-          </div>
-        </motion.section>
 
         <MediaStrip />
 
