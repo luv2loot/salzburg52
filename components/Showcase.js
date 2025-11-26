@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, useInView } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { t } from "@/lib/translations";
 
 const getShowcaseItems = (lang) => [
@@ -99,14 +99,20 @@ function ShowcaseCard({ item, idx, lang }) {
         <div className="showcase-shimmer-border" />
         
         <div className="showcase-image-container-premium">
-          <Image
-            src={item.image}
-            alt={item.title}
-            className="showcase-image-premium"
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-            style={{ objectFit: "cover" }}
-          />
+          <motion.div
+            style={{ width: "100%", height: "100%", position: "relative" }}
+            animate={{ scale: isHovered ? 1.08 : 1 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <Image
+              src={item.image}
+              alt={item.title}
+              className="showcase-image-premium"
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+              style={{ objectFit: "cover" }}
+            />
+          </motion.div>
           
           <motion.div
             className="showcase-overlay-premium"
@@ -182,27 +188,43 @@ function ShowcaseCard({ item, idx, lang }) {
 
 export default function Showcase({ lang = "en" }) {
   const showcaseItems = getShowcaseItems(lang);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px 0px" });
+  
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+    }
+  };
   
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1,
+        staggerChildren: 0.12,
+        delayChildren: 0.15,
       },
     },
   };
 
   return (
-    <section className="showcase-root-premium">
+    <motion.section 
+      ref={sectionRef}
+      className="showcase-root-premium"
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={sectionVariants}
+    >
       <div className="app-shell">
         <motion.div
           className="showcase-header-premium"
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          viewport={{ once: true, margin: "-100px" }}
+          initial={{ opacity: 0, y: -25 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -25 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
         >
           <motion.span 
             className="showcase-label"
@@ -223,14 +245,13 @@ export default function Showcase({ lang = "en" }) {
           className="showcase-grid-premium"
           variants={containerVariants}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          animate={isInView ? "visible" : "hidden"}
         >
           {showcaseItems.map((item, idx) => (
             <ShowcaseCard key={idx} item={item} idx={idx} lang={lang} />
           ))}
         </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }

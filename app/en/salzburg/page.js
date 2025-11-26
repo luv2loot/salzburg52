@@ -8,62 +8,121 @@ import Cursor from "@/components/Cursor";
 
 const LANG = "en";
 
-const places = [
+const DAY_ACTIVITIES = [
   {
-    id: 1,
+    id: "day-1",
     title: "Salzburg Old Town",
-    description: "A UNESCO World Heritage Site with baroque architecture, charming squares, and centuries of history waiting to be discovered.",
-    tag: "View",
+    description: "Historic UNESCO World Heritage walking tour through baroque architecture, charming squares, and centuries of history in every cobblestone.",
+    tag: "Walk",
     image: "/images/salzburg_austria_his_ea8bfaf1.jpg"
   },
   {
-    id: 2,
-    title: "Hohensalzburg Fortress",
-    description: "One of Europe's largest medieval castles, offering panoramic views of the city and Alps from its hilltop perch.",
-    tag: "View",
-    image: "/images/salzburg_austria_his_c717a1e9.jpg"
-  },
-  {
-    id: 3,
+    id: "day-2",
     title: "Mirabell Palace & Gardens",
-    description: "Stunning baroque gardens with geometric flowerbeds, fountains, and the famous Sound of Music filming location.",
+    description: "Beautiful baroque gardens with geometric flowerbeds, fountains, and the famous Sound of Music filming location.",
     tag: "Walk",
     image: "/images/salzburg_austria_his_ddc72f4b.jpg"
   },
   {
-    id: 4,
+    id: "day-3",
     title: "Mozart's Birthplace",
-    description: "Visit the yellow townhouse on Getreidegasse where Wolfgang Amadeus Mozart was born in 1756.",
+    description: "Museum in the iconic yellow townhouse where Wolfgang Amadeus Mozart was born in 1756—explore his early life and musical genius.",
     tag: "Culture",
     image: "/images/salzburg_austria_mou_6393989e.jpg"
   },
   {
-    id: 5,
+    id: "day-4",
     title: "Getreidegasse",
-    description: "The iconic shopping street with ornate wrought-iron guild signs and hidden courtyards connecting to parallel lanes.",
+    description: "Famous shopping street with traditional ornate wrought-iron guild signs, boutique shops, and hidden courtyards connecting to parallel lanes.",
     tag: "Walk",
     image: "/images/salzburg_austria_mou_7fa6ee31.jpg"
   },
   {
-    id: 6,
-    title: "Salzach River Walks",
-    description: "Peaceful riverside promenades with ever-changing views of the fortress, especially magical at golden hour.",
+    id: "day-5",
+    title: "Hohensalzburg Fortress",
+    description: "Daytime panoramic views of the city from the iconic medieval fortress perched high above the old town.",
+    tag: "View",
+    image: "/images/salzburg_austria_his_c717a1e9.jpg"
+  },
+  {
+    id: "day-6",
+    title: "Local Coffee Culture",
+    description: "Traditional Viennese-style coffee houses serving rich melange, delicate pastries, and the timeless art of Austrian café life.",
+    tag: "Food",
+    image: "/images/fine_dining_experience.png"
+  },
+  {
+    id: "day-7",
+    title: "Salzach River Walk",
+    description: "Scenic riverside promenade along the emerald waters, connecting the old and new town with beautiful bridge views.",
     tag: "Walk",
     image: "/images/salzburg_cityscape_sunset_view.png"
   },
   {
-    id: 7,
-    title: "Local Coffee Culture",
-    description: "Traditional Viennese-style coffee houses serving rich melange and decadent cakes in elegant settings.",
-    tag: "Coffee",
+    id: "day-8",
+    title: "Mountain Viewpoints",
+    description: "Cable car to Untersberg mountain for breathtaking Alpine panoramas just minutes from the city center.",
+    tag: "View",
+    image: "/images/salzburg_austria_his_ddc72f4b.jpg"
+  }
+];
+
+const NIGHT_ACTIVITIES = [
+  {
+    id: "night-1",
+    title: "Fortress by Night",
+    description: "Illuminated fortress views and evening concerts at Hohensalzburg—a magical silhouette against the starlit sky.",
+    tag: "View",
+    image: "/images/salzburg_austria_his_c717a1e9.jpg"
+  },
+  {
+    id: "night-2",
+    title: "Fine Dining",
+    description: "Michelin-starred restaurants and local cuisine—indulge in exquisite Austrian dishes with panoramic views and candlelit ambiance.",
+    tag: "Food",
     image: "/images/fine_dining_experience.png"
   },
   {
-    id: 8,
-    title: "Mountain Viewpoints",
-    description: "Surrounding peaks like Untersberg and Gaisberg offer breathtaking Alpine panoramas just minutes from the city.",
-    tag: "Hidden Gem",
-    image: "/images/luxury_hotel_lobby_elegance.png"
+    id: "night-3",
+    title: "Wine Bars & Cellars",
+    description: "Cozy Austrian wine tastings in intimate cellars and stylish bars, savoring local Grüner Veltliner and regional specialties.",
+    tag: "Food",
+    image: "/images/luxury_hotel_interio_aa4bb2e2.jpg"
+  },
+  {
+    id: "night-4",
+    title: "Old Town at Dusk",
+    description: "Magical atmosphere with lit streets, glowing shop windows, and the timeless charm of Salzburg after sunset.",
+    tag: "Walk",
+    image: "/images/salzburg_austria_his_ea8bfaf1.jpg"
+  },
+  {
+    id: "night-5",
+    title: "Concert Halls",
+    description: "Salzburg Festival venues and classical music—experience world-class performances in historic concert halls.",
+    tag: "Music",
+    image: "/images/salzburg_austria_mou_6393989e.jpg"
+  },
+  {
+    id: "night-6",
+    title: "Rooftop Bars",
+    description: "City views under the stars—sip cocktails with panoramic vistas of the illuminated old town and fortress.",
+    tag: "Nightlife",
+    image: "/images/salzburg_cityscape_sunset_view.png"
+  },
+  {
+    id: "night-7",
+    title: "Jazz Clubs",
+    description: "Live music scene in the old town—discover intimate venues featuring local and international jazz artists.",
+    tag: "Music",
+    image: "/images/luxury_hotel_interio_dd2a3b13.jpg"
+  },
+  {
+    id: "night-8",
+    title: "Night Photography",
+    description: "Best spots for evening shots—capture the illuminated fortress, reflections on the Salzach, and atmospheric streets.",
+    tag: "Photo",
+    image: "/images/salzburg_austria_his_ddc72f4b.jpg"
   }
 ];
 
@@ -72,22 +131,27 @@ function PlaceCard({ place, isNightMode, index }) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
+    setIsVisible(false);
+    const timer = setTimeout(() => {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.1 }
+      );
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
+      if (ref.current) {
+        observer.observe(ref.current);
+      }
 
-    return () => observer.disconnect();
-  }, []);
+      return () => observer.disconnect();
+    }, 50);
+
+    return () => clearTimeout(timer);
+  }, [place.id]);
 
   const tagColors = {
     View: isNightMode 
@@ -99,12 +163,21 @@ function PlaceCard({ place, isNightMode, index }) {
     Culture: isNightMode 
       ? { bg: "rgba(236, 72, 153, 0.3)", text: "#f9a8d4" }
       : { bg: "rgba(236, 72, 153, 0.15)", text: "#db2777" },
-    Coffee: isNightMode 
+    Food: isNightMode 
       ? { bg: "rgba(245, 158, 11, 0.3)", text: "#fcd34d" }
       : { bg: "rgba(180, 83, 9, 0.15)", text: "#b45309" },
-    "Hidden Gem": isNightMode 
+    Music: isNightMode 
+      ? { bg: "rgba(168, 85, 247, 0.3)", text: "#d8b4fe" }
+      : { bg: "rgba(168, 85, 247, 0.15)", text: "#9333ea" },
+    Nightlife: isNightMode 
       ? { bg: "rgba(99, 102, 241, 0.3)", text: "#a5b4fc" }
-      : { bg: "rgba(99, 102, 241, 0.15)", text: "#4f46e5" }
+      : { bg: "rgba(99, 102, 241, 0.15)", text: "#4f46e5" },
+    Romance: isNightMode 
+      ? { bg: "rgba(244, 63, 94, 0.3)", text: "#fda4af" }
+      : { bg: "rgba(244, 63, 94, 0.15)", text: "#e11d48" },
+    Photo: isNightMode 
+      ? { bg: "rgba(34, 211, 238, 0.3)", text: "#67e8f9" }
+      : { bg: "rgba(14, 165, 233, 0.15)", text: "#0284c7" }
   };
 
   const tagStyle = tagColors[place.tag] || tagColors.View;
@@ -199,7 +272,9 @@ function PlaceCard({ place, isNightMode, index }) {
             letterSpacing: "0.05em",
             background: tagStyle.bg,
             color: tagStyle.text,
-            transition: "background 0.6s ease, color 0.6s ease"
+            transition: "background 0.6s ease, color 0.6s ease",
+            flexShrink: 0,
+            marginLeft: "0.5rem"
           }}>
             {place.tag}
           </span>
@@ -263,6 +338,8 @@ function StarField() {
 
 export default function EnSalzburgPage() {
   const [isNightMode, setIsNightMode] = useState(false);
+
+  const currentActivities = isNightMode ? NIGHT_ACTIVITIES : DAY_ACTIVITIES;
 
   const backgroundStyles = {
     day: {
@@ -431,6 +508,22 @@ export default function EnSalzburgPage() {
                   </motion.div>
                 </div>
 
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.15, duration: 0.5 }}
+                  style={{
+                    textAlign: "center",
+                    fontSize: "0.75rem",
+                    color: isNightMode ? "#64748b" : "#94a3b8",
+                    marginBottom: "1.5rem",
+                    fontStyle: "italic",
+                    transition: "color 0.6s ease"
+                  }}
+                >
+                  This toggle controls which activities are shown, independent of the site's global theme.
+                </motion.p>
+
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -547,14 +640,27 @@ export default function EnSalzburgPage() {
                 gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
                 gap: "1.5rem"
               }}>
-                {places.map((place, index) => (
-                  <PlaceCard 
-                    key={place.id} 
-                    place={place} 
-                    isNightMode={isNightMode}
-                    index={index}
-                  />
-                ))}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={isNightMode ? "night" : "day"}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                    style={{
+                      display: "contents"
+                    }}
+                  >
+                    {currentActivities.map((place, index) => (
+                      <PlaceCard 
+                        key={place.id} 
+                        place={place} 
+                        isNightMode={isNightMode}
+                        index={index}
+                      />
+                    ))}
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </motion.section>
 
