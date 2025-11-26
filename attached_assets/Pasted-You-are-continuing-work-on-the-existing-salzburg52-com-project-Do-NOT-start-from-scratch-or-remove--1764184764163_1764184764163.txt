@@ -1,0 +1,192 @@
+You are continuing work on the existing salzburg52.com project.
+Do NOT start from scratch or remove the new “digital world” structure you already implemented.
+Only refine and extend what’s there.
+
+Apply the following changes and fixes to the current codebase:
+
+1. Remove all “Coming Soon” UI
+
+Find every section, card, or text that says something like “Coming soon” or is clearly a placeholder section with that label.
+
+Remove those “Coming soon” blocks from the visible UI:
+
+Either delete those sections or replace them with real content/empty but clean layout.
+
+Do NOT break routing or the page structure; just remove the unfinished “Coming soon” messaging from the interface.
+
+2. Fix Instagram link
+
+Anywhere you link to Instagram, update the URL to:
+
+https://instagram.com/am.rsbgg
+
+Keep the visible label as “Instagram” (or its translated variants), but ensure the href points to am.rsbgg.
+
+3. Keep the “System” appearance setting
+
+In the Settings / Appearance area, ensure that:
+
+The System theme option (appearance based on OS/system preference) is still available and works.
+
+Do NOT remove or downgrade this option when you modify themes.
+
+If you changed theme logic in previous steps, verify:
+
+Light / Dark / any extra themes still work.
+
+System theme still respects the user’s OS theme where applicable.
+
+4. Add animations to gallery and all main sections/subpages
+
+Right now, Home and the digital world hub have strong animations. Extend this to other sections:
+
+Gallery / image sections (e.g. “My Journey at HYPERION Hotel Salzburg” gallery or similar):
+
+Add scroll-based animations (fade/slide-in) and subtle hover motion.
+
+Animations should feel similar to Home/Journey (same general timing/easing) but not identical copy-paste; vary direction, delay, or scale slightly.
+
+All main subpages/zones (Journey, Salzburg, Info, Playground, Hospitality Lab, etc.):
+
+Ensure each page has consistent section reveal animations:
+
+On scroll into view: fade/translate, with sensible stagger.
+
+On hover: cards/buttons lift slightly and feel alive.
+
+Reuse the same animation system/helpers you already created, so it stays consistent and easy to maintain.
+
+The overall goal: the whole site should feel animated and cohesive, not just the Home world hub.
+
+5. Fix “Journey” navigation from the digital world
+
+On the digital world / floating cards hub (Home):
+
+When the user clicks the Journey card, they should be navigated to the dedicated Journey page/route that you already created.
+
+If that route exists but isn’t wired, fix the link.
+
+If the card currently does nothing (or just scrolls nowhere), hook it up to the correct page.
+
+6. Apply the same design & animation improvements to Info
+
+Make sure the Info page benefits from the same design quality and animation system as Home / Journey:
+
+Use the updated card styles, spacing, and animations.
+
+No “old-looking” sections left over from the previous design.
+
+The “Learn more” button / link in “My Journey at HYPERION Hotel Salzburg”:
+
+Right now it leads to nothing or to a dead end.
+
+Make it navigate to the Journey page (or to a clearly defined section of that page).
+
+Overall, Info should feel like part of the same digital world, not an older leftover page.
+
+7. Day/Night behavior and time-based theme
+
+Right now the Salzburg Day/Night implementation is a manual toggle. I want BOTH:
+
+7.1 Time-based global theme switching
+
+Implement a feature that changes the global theme based on the user’s current local time.
+
+Example logic (you can adjust, but keep it simple and documented):
+
+“Day” theme between roughly 06:00 and 18:00
+
+“Night” theme outside that range
+
+Integrate this with the existing theme system:
+
+If the user selects System or a manual theme override in Settings, that preference should still be respected.
+
+If useful, add an explicit “Auto (by time)” theme mode in Appearance settings:
+
+When Auto is selected, use time-based logic.
+
+When a manual theme is selected, ignore time-based switching.
+
+7.2 Separate day/night activities on the Salzburg page
+
+Keep the manual Day/Night toggle on the Salzburg Experience page, but make it meaningful:
+
+Under Day, show daytime activities / places.
+
+Under Night, show night activities / places.
+
+The local Salzburg page styling should change between Day and Night:
+
+Background and accent colors adjust to match the mood.
+
+This content toggle is independent of the global theme:
+
+Even if the global theme is in “Night” mode, the user can manually switch the Salzburg content to view “day activities” and vice versa.
+
+In short:
+
+Global theme: can change automatically by time of day (with user control).
+
+Salzburg page: Day/Night toggle controls the content and local styling for activities.
+
+8. Check-in Chaos Simulator – readability per theme
+
+In the Playground / Check-in Chaos Simulator, the answer options are currently hard to read.
+
+Fix this so the answers are clearly readable in all active themes:
+
+Ensure text color has enough contrast against its background in Light, Dark, and any extra vibe themes.
+
+If needed, adjust:
+
+Background surfaces (e.g. darken/lighten cards depending on theme).
+
+Text color tokens.
+
+Hover/selected states, so selected answers are still readable.
+
+Use your existing theme tokens (e.g. variables or design system) so this stays consistent and easy to maintain.
+
+After changes, the simulator should feel visually clear and usable, not washed out or low contrast.
+
+9. Cursor visibility on dark pages
+
+The custom cursor is currently too dark on dark pages and hard to see.
+
+Update the cursor styling so it is always clearly visible, regardless of theme/background:
+
+For dark backgrounds, the cursor should be lighter or have a clear outline/glow.
+
+For light backgrounds, ensure there is still enough contrast (e.g. darker cursor with light border or shadow).
+
+You can:
+
+Make the cursor theme-aware (different variants per theme), or
+
+Use a single design with a border/halo that makes it visible on both light and dark surfaces.
+
+Keep the overall aesthetic consistent with the current design, just improve visibility and usability.
+
+10. After changes – quick summary
+
+When you’re done, briefly summarize in the chat:
+
+Which files you changed.
+
+How:
+
+Animations are now wired into gallery/sections/subpages.
+
+Journey and “Learn more” navigation now work.
+
+Day/Night behavior + time-based theme switching is implemented.
+
+Check-in Chaos Simulator readability was improved for all themes.
+
+Cursor visibility was improved on dark pages.
+
+Any known limitations or TODOs you left.
+
+Do NOT remove any of the main structures (Home world hub, Journey, Salzburg, Info, Playground, Hospitality Lab, etc.).
+Just refine and fix according to the points above.

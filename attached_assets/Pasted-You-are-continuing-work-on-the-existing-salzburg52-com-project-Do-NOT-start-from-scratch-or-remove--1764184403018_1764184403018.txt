@@ -1,0 +1,146 @@
+You are continuing work on the existing salzburg52.com project.
+Do NOT start from scratch or remove the new “digital world” structure you already implemented.
+Only refine and extend what’s there.
+
+Apply the following changes and fixes to the current codebase:
+
+1. Remove all “Coming Soon” UI
+
+Find every section, card, or text that says something like “Coming soon” or is clearly a placeholder section with that label.
+
+Remove those “Coming soon” blocks from the visible UI:
+
+Either delete those sections or replace them with real content/empty but clean layout.
+
+Do NOT break routing or the page structure; just remove the unfinished “Coming soon” messaging from the interface.
+
+2. Fix Instagram link
+
+Anywhere you link to Instagram, update the URL to:
+
+https://instagram.com/am.rsbgg
+
+Keep the visible label as “Instagram” (or its translated variants), but ensure the href points to am.rsbgg.
+
+3. Keep the “System” appearance setting
+
+In the Settings / Appearance area, ensure that:
+
+The System theme option (appearance based on OS/system preference) is still available and works.
+
+Do NOT remove or downgrade this option when you modify themes.
+
+If you changed theme logic in previous steps, verify:
+
+Light / Dark / other themes still work.
+
+System theme still respects the user’s OS theme where applicable.
+
+4. Add animations to gallery and all main sections/subpages
+
+Right now, Home and the digital world hub have strong animations. Extend this to other sections:
+
+Gallery / image sections (e.g. “My Journey at HYPERION Hotel Salzburg” gallery or similar):
+
+Add scroll-based animations (fade/slide-in) and subtle hover motion.
+
+Animations should feel similar to Home/Journey (same general timing/easing) but not identical copy-paste; vary direction, delay, or scale slightly.
+
+All main subpages/zones (Journey, Salzburg, Info, etc.):
+
+Ensure each page has consistent section reveal animations:
+
+On scroll into view: fade/translate, stagger where it makes sense.
+
+On hover: cards lift slightly and feel alive.
+
+Reuse the same animation system/helpers you already created, so it stays consistent and easy to maintain.
+
+The overall goal: the whole site should feel animated and cohesive, not just the Home world hub.
+
+5. Fix “Journey” navigation from the digital world
+
+On the digital world / floating cards hub (Home):
+
+When the user clicks the Journey card, they should be navigated to the dedicated Journey page/route that you already created.
+
+If that route exists but isn’t wired, fix the link.
+
+If the card currently does nothing (or just scrolls nowhere), hook it up to the correct page.
+
+6. Apply the same design & animation improvements to Info
+
+Make sure the Info page benefits from the same design quality and animation system as Home / Journey:
+
+Use the updated card styles, spacing, and animations.
+
+No “old-looking” sections next to new ones.
+
+The “Learn more” button / link in “My Journey at HYPERION Hotel Salzburg”:
+
+Right now it leads to nothing.
+
+Make it navigate to the Journey page (or to a clearly defined section of that page).
+
+Overall, Info should feel like part of the same digital world, not an older leftover page.
+
+7. Day/Night behavior and time-based theme
+
+The current Salzburg Day/Night implementation is a manual toggle. I want BOTH:
+
+Time-based theme switching
+
+Implement a feature that changes the global theme based on the user’s current local time:
+
+Example logic (you can adjust, but keep it simple and documented):
+
+Day theme between ~06:00 and ~18:00
+
+Night theme outside that range
+
+This should integrate with the existing theme system:
+
+If the user selects “System” or a manual theme override in Settings, that should still be respected.
+
+If you need an option (e.g. “Auto by time”), add it in Appearance settings and default to that behavior if appropriate.
+
+Separate day/night activities on the Salzburg page
+
+Keep the manual Day/Night toggle on the Salzburg Experience page, but make it meaningful:
+
+Under Day, show daytime activities / places.
+
+Under Night, show night activities / places.
+
+So even if the global theme is set automatically, the user can still manually explore:
+
+“What to do in Salzburg during the day”
+
+“What to do in Salzburg at night”
+
+Ensure the visual style (background, accents) changes between Day and Night on that page in a way that aligns with the global theme, but does not depend solely on it.
+
+In short:
+
+Global theme: can change automatically by time of day (with user control).
+
+Salzburg page: Day/Night toggle controls the content (activities) and local styling, independent of the global theme.
+
+8. After changes – quick summary
+
+When you’re done, briefly summarize in the chat:
+
+Which files you changed.
+
+How:
+
+Animations are wired into gallery/sections.
+
+Journey and “Learn more” navigation now work.
+
+Day/Night behavior + time-based theme switching is implemented.
+
+Any known limitations or TODOs you left.
+
+Do NOT remove any of the main structures (Home world hub, Journey, Salzburg, Info, etc.).
+Just refine and fix according to the points above.
