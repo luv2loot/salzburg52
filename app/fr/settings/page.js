@@ -19,6 +19,39 @@ const LANG_OPTIONS = [
 ];
 
 const THEME_META = {
+  system: {
+    label: "Système",
+    description: "Suivre les préférences du système",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+        <line x1="8" y1="21" x2="16" y2="21"/>
+        <line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+    ),
+    preview: {
+      bg: "#e5e5e7",
+      card: "#f5f5f7",
+      text: "#0b0b0f",
+      accent: "#6366F1"
+    }
+  },
+  auto: {
+    label: "Auto (Heure)",
+    description: "Clair 6h-18h, sombre la nuit",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <polyline points="12 6 12 12 16 14"/>
+      </svg>
+    ),
+    preview: {
+      bg: "#fef3c7",
+      card: "#fffbeb",
+      text: "#0b0b0f",
+      accent: "#F59E0B"
+    }
+  },
   light: {
     label: "Clair",
     description: "Apparence propre et lumineuse",

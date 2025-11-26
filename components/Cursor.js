@@ -29,16 +29,16 @@ export default function Cursor() {
     position: "fixed",
     top: 0,
     left: 0,
-    width: 14,
-    height: 14,
+    width: 16,
+    height: 16,
     borderRadius: "999px",
-    border: "1px solid rgba(148, 163, 184, 0.9)",
+    border: "2px solid rgba(255, 255, 255, 0.9)",
     background:
-      "radial-gradient(circle at 30% 30%, rgba(248, 250, 252, 0.9), rgba(148, 163, 184, 0.15))",
+      "radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(200, 200, 200, 0.3))",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.3)",
     pointerEvents: "none",
     transform: `translate3d(${pos.x}px, ${pos.y}px, 0) translate(-50%, -50%)`,
-    mixBlendMode: "screen",
-    zIndex: 50,
+    zIndex: 9999,
     opacity: visible ? 1 : 0
   };
 

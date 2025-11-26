@@ -60,7 +60,7 @@ export default function MediaStrip() {
         viewport={{ once: true, margin: "-80px" }}
       >
         <div className="mediastrip-header">
-          <span className="text-muted">Coming soon</span>
+          <span className="text-muted">Insights & Notes</span>
           <span className="text-muted" style={{ fontSize: "0.78rem" }}>
             Notes, photos & more
           </span>

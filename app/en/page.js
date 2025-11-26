@@ -341,7 +341,7 @@ export default function EnHomePage() {
 
         <SectionDivider />
 
-        <Showcase />
+        <Showcase lang="en" />
 
         <SectionDivider />
 

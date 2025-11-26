@@ -3,35 +3,36 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
+import { t } from "@/lib/translations";
 
-const showcaseItems = [
+const getShowcaseItems = (lang) => [
   {
     image: "/images/luxury_hotel_lobby_elegance.png",
-    title: "Luxury Spaces",
-    description: "Learning the art of elegant hospitality at HYPERION Hotel",
-    extraInfo: "Creating memorable guest experiences in sophisticated environments",
+    title: t("showcase.items.luxurySpaces.title", lang),
+    description: t("showcase.items.luxurySpaces.description", lang),
+    extraInfo: t("showcase.items.luxurySpaces.extraInfo", lang),
   },
   {
     image: "/images/salzburg_cityscape_sunset_view.png",
-    title: "Salzburg Beauty",
-    description: "Sharing the enchanting charm of historic Salzburg with guests",
-    extraInfo: "A city of music, culture, and timeless Alpine elegance",
+    title: t("showcase.items.salzburgBeauty.title", lang),
+    description: t("showcase.items.salzburgBeauty.description", lang),
+    extraInfo: t("showcase.items.salzburgBeauty.extraInfo", lang),
   },
   {
     image: "/images/professional_hospitality_service.png",
-    title: "Professional Expertise",
-    description: "Developing excellence in hospitality service and care",
-    extraInfo: "Attention to detail in every guest interaction",
+    title: t("showcase.items.professionalExpertise.title", lang),
+    description: t("showcase.items.professionalExpertise.description", lang),
+    extraInfo: t("showcase.items.professionalExpertise.extraInfo", lang),
   },
   {
     image: "/images/fine_dining_experience.png",
-    title: "Refined Standards",
-    description: "Understanding premium hospitality through daily practice",
-    extraInfo: "Elevating service quality through continuous improvement",
+    title: t("showcase.items.refinedStandards.title", lang),
+    description: t("showcase.items.refinedStandards.description", lang),
+    extraInfo: t("showcase.items.refinedStandards.extraInfo", lang),
   },
 ];
 
-function ShowcaseCard({ item, idx }) {
+function ShowcaseCard({ item, idx, lang }) {
   const [isHovered, setIsHovered] = useState(false);
   
   const x = useMotionValue(0);
@@ -164,7 +165,7 @@ function ShowcaseCard({ item, idx }) {
             }}
             transition={{ duration: 0.25, delay: isHovered ? 0.15 : 0 }}
           >
-            <span className="learn-more-text">Learn More</span>
+            <span className="learn-more-text">{t("showcase.learnMore", lang)}</span>
             <motion.span 
               className="learn-more-arrow"
               animate={{ x: isHovered ? 4 : 0 }}
@@ -179,7 +180,9 @@ function ShowcaseCard({ item, idx }) {
   );
 }
 
-export default function Showcase() {
+export default function Showcase({ lang = "en" }) {
+  const showcaseItems = getShowcaseItems(lang);
+  
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -208,11 +211,11 @@ export default function Showcase() {
             transition={{ duration: 0.4, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            Experience Excellence
+            {t("showcase.label", lang)}
           </motion.span>
-          <h2 className="showcase-title-premium">My Journey at HYPERION Hotel Salzburg</h2>
+          <h2 className="showcase-title-premium">{t("showcase.title", lang)}</h2>
           <p className="showcase-subtitle-premium">
-            Developing professional expertise in hospitality excellence
+            {t("showcase.subtitle", lang)}
           </p>
         </motion.div>
 
@@ -224,7 +227,7 @@ export default function Showcase() {
           viewport={{ once: true, margin: "-100px" }}
         >
           {showcaseItems.map((item, idx) => (
-            <ShowcaseCard key={idx} item={item} idx={idx} />
+            <ShowcaseCard key={idx} item={item} idx={idx} lang={lang} />
           ))}
         </motion.div>
       </div>

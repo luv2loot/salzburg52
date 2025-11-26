@@ -336,7 +336,7 @@ export default function FrHomePage() {
 
         <SectionDivider />
 
-        <Showcase />
+        <Showcase lang="fr" />
 
         <SectionDivider />
 

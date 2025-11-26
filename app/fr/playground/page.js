@@ -305,20 +305,16 @@ function ChaosSimulator() {
             >
               <motion.div
                 style={{
-                  background: "rgba(255, 255, 255, 0.5)",
+                  background: "var(--color-bg-elevated)",
                   backdropFilter: "blur(10px)",
                   borderRadius: "16px",
                   padding: "1.5rem",
                   marginBottom: "1.5rem",
                   border: "1px solid rgba(236, 72, 153, 0.2)"
                 }}
-                className="theme-dark"
-                data-theme-style={{
-                  background: "rgba(15, 23, 42, 0.5)"
-                }}
               >
                 <div style={{ fontSize: "1.5rem", marginBottom: "0.75rem" }}>📞</div>
-                <p style={{ fontSize: "1.1rem", lineHeight: 1.6, fontWeight: 500 }}>
+                <p style={{ fontSize: "1.1rem", lineHeight: 1.6, fontWeight: 500, color: "var(--color-text)" }}>
                   {currentScenario.situation}
                 </p>
               </motion.div>
@@ -336,6 +332,7 @@ function ChaosSimulator() {
                     style={{
                       padding: "1rem 1.25rem",
                       background: "var(--color-bg-elevated)",
+                      color: "var(--color-text)",
                       border: "1px solid var(--color-border-subtle)",
                       borderRadius: "12px",
                       textAlign: "left",
@@ -351,7 +348,7 @@ function ChaosSimulator() {
                       width: "28px",
                       height: "28px",
                       borderRadius: "50%",
-                      background: "linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(139, 92, 246, 0.15))",
+                      background: "linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(139, 92, 246, 0.25))",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -362,7 +359,7 @@ function ChaosSimulator() {
                     }}>
                       {String.fromCharCode(65 + index)}
                     </span>
-                    {option.text}
+                    <span style={{ color: "var(--color-text)" }}>{option.text}</span>
                   </motion.button>
                 ))}
               </div>

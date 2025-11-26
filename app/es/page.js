@@ -336,7 +336,7 @@ export default function EsHomePage() {
 
         <SectionDivider />
 
-        <Showcase />
+        <Showcase lang="es" />
 
         <SectionDivider />
 

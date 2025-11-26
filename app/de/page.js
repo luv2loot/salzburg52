@@ -336,7 +336,7 @@ export default function DeHomePage() {
 
         <SectionDivider />
 
-        <Showcase />
+        <Showcase lang="de" />
 
         <SectionDivider />
 

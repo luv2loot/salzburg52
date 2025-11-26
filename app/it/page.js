@@ -336,7 +336,7 @@ export default function ItHomePage() {
 
         <SectionDivider />
 
-        <Showcase />
+        <Showcase lang="it" />
 
         <SectionDivider />
 

@@ -110,7 +110,7 @@ export default function Footer({ lang = "en" }) {
               </motion.a>
               <span className="footer-divider">·</span>
               <motion.a
-                href="https://instagram.com/salzburg52"
+                href="https://instagram.com/am.rsbgg"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer-contact-link"
@@ -119,7 +119,7 @@ export default function Footer({ lang = "en" }) {
                 title={translations.followUs}
               >
                 <InstagramIcon />
-                <span>@salzburg52</span>
+                <span>@am.rsbgg</span>
               </motion.a>
             </div>
           </div>

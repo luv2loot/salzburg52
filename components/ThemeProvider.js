@@ -1,19 +1,22 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useCallback } from "react";
 
 const THEME_KEY = "salzburg52-theme";
 const FONT_SIZE_KEY = "salzburg52-font-size";
 const REDUCED_MOTION_KEY = "salzburg52-reduced-motion";
 
 export const THEMES = [
+  { key: "system", label: "System" },
+  { key: "auto", label: "Auto (Time)" },
   { key: "light", label: "Light" },
   { key: "dark", label: "Dark" },
   { key: "salzburg-night", label: "Salzburg Night" }
 ];
 
 const ThemeContext = createContext({
-  theme: "light",
+  theme: "system",
+  appliedTheme: "light",
   setTheme: () => {},
   fontSize: "normal",
   setFontSize: () => {},
@@ -26,11 +29,31 @@ function getSystemPreference() {
   return window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
+function getTimeBasedTheme() {
+  const hour = new Date().getHours();
+  return (hour >= 6 && hour < 18) ? "light" : "dark";
+}
+
+function computeAppliedTheme(preference) {
+  if (preference === "system") {
+    return getSystemPreference();
+  }
+  if (preference === "auto") {
+    return getTimeBasedTheme();
+  }
+  return preference;
+}
+
 export function ThemeProvider({ children }) {
-  const [theme, setThemeState] = useState("light");
+  const [theme, setThemeState] = useState("system");
+  const [appliedTheme, setAppliedTheme] = useState("light");
   const [fontSize, setFontSizeState] = useState("normal");
   const [reducedMotion, setReducedMotionState] = useState(false);
   const [mounted, setMounted] = useState(false);
+
+  const updateAppliedTheme = useCallback((preference) => {
+    setAppliedTheme(computeAppliedTheme(preference));
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -39,11 +62,13 @@ export function ThemeProvider({ children }) {
     const storedFontSize = window.localStorage.getItem(FONT_SIZE_KEY);
     const storedReducedMotion = window.localStorage.getItem(REDUCED_MOTION_KEY);
 
+    let initialTheme = "system";
     if (storedTheme && THEMES.some(t => t.key === storedTheme)) {
-      setThemeState(storedTheme);
-    } else {
-      setThemeState(getSystemPreference());
+      initialTheme = storedTheme;
     }
+
+    setThemeState(initialTheme);
+    setAppliedTheme(computeAppliedTheme(initialTheme));
 
     if (storedFontSize === "large") {
       setFontSizeState("large");
@@ -58,19 +83,56 @@ export function ThemeProvider({ children }) {
 
   useEffect(() => {
     if (!mounted) return;
+    if (typeof window === "undefined") return;
+
+    if (theme === "system") {
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      const handleChange = () => {
+        updateAppliedTheme("system");
+      };
+      mediaQuery.addEventListener("change", handleChange);
+      return () => mediaQuery.removeEventListener("change", handleChange);
+    }
+  }, [theme, mounted, updateAppliedTheme]);
+
+  useEffect(() => {
+    if (!mounted) return;
+    if (typeof window === "undefined") return;
+
+    if (theme === "auto") {
+      const checkTime = () => {
+        updateAppliedTheme("auto");
+      };
+      const intervalId = setInterval(checkTime, 60000);
+      return () => clearInterval(intervalId);
+    }
+  }, [theme, mounted, updateAppliedTheme]);
+
+  useEffect(() => {
+    if (!mounted) return;
+    updateAppliedTheme(theme);
+  }, [theme, mounted, updateAppliedTheme]);
+
+  useEffect(() => {
+    if (!mounted) return;
     if (typeof document === "undefined" || typeof window === "undefined") return;
 
     const root = document.documentElement;
 
     root.classList.remove("theme-light", "theme-dark", "theme-salzburg-night");
 
-    if (theme === "dark") {
+    if (appliedTheme === "dark") {
       root.classList.add("theme-dark");
-    } else if (theme === "salzburg-night") {
+    } else if (appliedTheme === "salzburg-night") {
       root.classList.add("theme-salzburg-night");
     } else {
       root.classList.add("theme-light");
     }
+  }, [appliedTheme, mounted]);
+
+  useEffect(() => {
+    if (!mounted) return;
+    if (typeof window === "undefined") return;
 
     window.localStorage.setItem(THEME_KEY, theme);
   }, [theme, mounted]);
@@ -123,7 +185,8 @@ export function ThemeProvider({ children }) {
 
   return (
     <ThemeContext.Provider value={{ 
-      theme, 
+      theme,
+      appliedTheme,
       setTheme, 
       fontSize, 
       setFontSize, 

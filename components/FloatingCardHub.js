@@ -3,91 +3,72 @@
 import { useRef } from "react";
 import Link from "next/link";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { t } from "@/lib/translations";
 
-const zones = [
-  {
-    id: "journey",
-    title: "Journey",
-    description: "Begin your immersive experience",
-    href: "#journey",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10"/>
-        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
-      </svg>
-    ),
-    isPrimary: true,
-    position: { x: 0, y: 0, z: 60, rotateX: 0, rotateY: 0 },
-  },
-  {
-    id: "salzburg",
-    title: "Salzburg",
-    description: "Discover the city",
-    href: "/en/salzburg",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 21h18"/>
-        <path d="M9 8h1"/>
-        <path d="M9 12h1"/>
-        <path d="M9 16h1"/>
-        <path d="M14 8h1"/>
-        <path d="M14 12h1"/>
-        <path d="M14 16h1"/>
-        <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/>
-      </svg>
-    ),
-    isPrimary: false,
-    position: { x: -180, y: -80, z: 20, rotateX: 8, rotateY: -12 },
-  },
-  {
-    id: "playground",
-    title: "Playground",
-    description: "Interactive experiences",
-    href: "#playground",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-      </svg>
-    ),
-    isPrimary: false,
-    position: { x: 190, y: -60, z: 30, rotateX: 5, rotateY: 15 },
-  },
-  {
-    id: "hospitality",
-    title: "Hospitality Lab",
-    description: "Professional insights",
-    href: "/en/support",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2v4"/>
-        <path d="M12 18v4"/>
-        <path d="m4.93 4.93 2.83 2.83"/>
-        <path d="m16.24 16.24 2.83 2.83"/>
-        <path d="M2 12h4"/>
-        <path d="M18 12h4"/>
-        <path d="m4.93 19.07 2.83-2.83"/>
-        <path d="m16.24 7.76 2.83-2.83"/>
-      </svg>
-    ),
-    isPrimary: false,
-    position: { x: -160, y: 100, z: 10, rotateX: -10, rotateY: -8 },
-  },
-  {
-    id: "info",
-    title: "Info",
-    description: "Learn more about us",
-    href: "/en/info",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M12 16v-4"/>
-        <path d="M12 8h.01"/>
-      </svg>
-    ),
-    isPrimary: false,
-    position: { x: 170, y: 90, z: 15, rotateX: -8, rotateY: 10 },
-  },
+const zoneIcons = {
+  journey: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+    </svg>
+  ),
+  salzburg: (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 21h18"/>
+      <path d="M9 8h1"/>
+      <path d="M9 12h1"/>
+      <path d="M9 16h1"/>
+      <path d="M14 8h1"/>
+      <path d="M14 12h1"/>
+      <path d="M14 16h1"/>
+      <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/>
+    </svg>
+  ),
+  playground: (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+    </svg>
+  ),
+  hospitality: (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2v4"/>
+      <path d="M12 18v4"/>
+      <path d="m4.93 4.93 2.83 2.83"/>
+      <path d="m16.24 16.24 2.83 2.83"/>
+      <path d="M2 12h4"/>
+      <path d="M18 12h4"/>
+      <path d="m4.93 19.07 2.83-2.83"/>
+      <path d="m16.24 7.76 2.83-2.83"/>
+    </svg>
+  ),
+  info: (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M12 16v-4"/>
+      <path d="M12 8h.01"/>
+    </svg>
+  )
+};
+
+const zoneConfigs = [
+  { id: "journey", hrefPath: "journey", isPrimary: true, position: { x: 0, y: 0, z: 60, rotateX: 0, rotateY: 0 } },
+  { id: "salzburg", hrefPath: "salzburg", isPrimary: false, position: { x: -180, y: -80, z: 20, rotateX: 8, rotateY: -12 } },
+  { id: "playground", hrefPath: "playground", isPrimary: false, position: { x: 190, y: -60, z: 30, rotateX: 5, rotateY: 15 } },
+  { id: "hospitality", hrefPath: "hospitality-lab", isPrimary: false, position: { x: -160, y: 100, z: 10, rotateX: -10, rotateY: -8 } },
+  { id: "info", hrefPath: "info", isPrimary: false, position: { x: 170, y: 90, z: 15, rotateX: -8, rotateY: 10 } }
 ];
+
+function getZones(lang) {
+  return zoneConfigs.map(config => ({
+    id: config.id,
+    title: t(`floatingCardHub.zones.${config.id}.title`, lang),
+    description: t(`floatingCardHub.zones.${config.id}.description`, lang),
+    href: `/${lang}/${config.hrefPath}`,
+    icon: zoneIcons[config.id],
+    isPrimary: config.isPrimary,
+    position: config.position
+  }));
+}
 
 const floatingVariants = {
   animate: (custom) => ({
@@ -100,7 +81,7 @@ const floatingVariants = {
   }),
 };
 
-function Card({ zone, mouseX, mouseY, containerRef }) {
+function Card({ zone, mouseX, mouseY, containerRef, lang }) {
   const cardRef = useRef(null);
   
   const parallaxStrength = zone.isPrimary ? 0.02 : 0.035;
@@ -269,7 +250,7 @@ function Card({ zone, mouseX, mouseY, containerRef }) {
               initial={{ opacity: 0.7 }}
               whileHover={{ opacity: 1, x: 4 }}
             >
-              Enter
+              {t("floatingCardHub.enter", lang)}
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14"/>
                 <path d="m12 5 7 7-7 7"/>
@@ -284,6 +265,7 @@ function Card({ zone, mouseX, mouseY, containerRef }) {
 
 export default function FloatingCardHub({ lang = "en" }) {
   const containerRef = useRef(null);
+  const zones = getZones(lang);
   
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -342,7 +324,7 @@ export default function FloatingCardHub({ lang = "en" }) {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            Explore
+            {t("floatingCardHub.exploreBadge", lang)}
           </motion.span>
           <motion.h2 
             style={{ 
@@ -356,7 +338,7 @@ export default function FloatingCardHub({ lang = "en" }) {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            Your Digital World
+            {t("floatingCardHub.yourDigitalWorld", lang)}
           </motion.h2>
           <motion.p 
             style={{ 
@@ -372,7 +354,7 @@ export default function FloatingCardHub({ lang = "en" }) {
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
           >
-            Navigate through immersive experiences
+            {t("floatingCardHub.navigateExperiences", lang)}
           </motion.p>
         </div>
 
@@ -410,6 +392,7 @@ export default function FloatingCardHub({ lang = "en" }) {
                 mouseX={mouseX}
                 mouseY={mouseY}
                 containerRef={containerRef}
+                lang={lang}
               />
             ))}
           </motion.div>
