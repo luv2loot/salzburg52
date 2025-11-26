@@ -275,7 +275,7 @@ export default function EnHomePage() {
 
         <SectionDivider />
 
-        <MediaStrip />
+        <MediaStrip lang={LANG} />
 
         <TextMarquee 
           text="Welcome to my Digital World"

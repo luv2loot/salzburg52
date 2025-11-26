@@ -263,7 +263,7 @@ export default function FrHomePage() {
 
         <SectionDivider />
 
-        <MediaStrip />
+        <MediaStrip lang={LANG} />
       </main>
       <Footer lang={LANG} />
     </>

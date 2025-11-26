@@ -263,7 +263,7 @@ export default function EsHomePage() {
 
         <SectionDivider />
 
-        <MediaStrip />
+        <MediaStrip lang={LANG} />
       </main>
       <Footer lang={LANG} />
     </>
