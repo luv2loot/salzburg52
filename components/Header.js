@@ -7,13 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import SettingsPanel from "@/components/SettingsPanel";
 import { useTheme } from "@/components/ThemeProvider";
-import { SUPPORTED_LANGS } from "@/lib/copy";
-
-function buildHref(lang, segment) {
-  if (!SUPPORTED_LANGS.includes(lang)) lang = "en";
-  if (!segment || segment === "home") return `/${lang}`;
-  return `/${lang}/${segment}`;
-}
+import { getNavItems, t, SUPPORTED_LANGS } from "@/lib/translations";
 
 function NavLink({ href, isActive, children }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -67,7 +61,7 @@ function NavLink({ href, isActive, children }) {
 export default function Header({ lang = "en" }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, fontSize, setFontSize, reducedMotion, setReducedMotion } = useTheme();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isSettingsHovered, setIsSettingsHovered] = useState(false);
 
@@ -79,12 +73,8 @@ export default function Header({ lang = "en" }) {
     return lang;
   }, [pathname, lang]);
 
-  const navItems = [
-    { key: "home", label: "Home" },
-    { key: "info", label: "Info" },
-    { key: "salzburg", label: "Salzburg" },
-    { key: "support", label: "Support" }
-  ];
+  const navItems = useMemo(() => getNavItems(activeLang), [activeLang]);
+  const settingsLabel = useMemo(() => t("nav.settings", activeLang), [activeLang]);
 
   const handleLangChange = (nextLang) => {
     if (!pathname) {
@@ -138,15 +128,11 @@ export default function Header({ lang = "en" }) {
 
           <nav className="header-nav-premium" aria-label="Main">
             {navItems.map((item) => {
-              const href = buildHref(
-                activeLang,
-                item.key === "home" ? "" : item.key
-              );
-              const isActive = pathname === href;
+              const isActive = pathname === item.href;
               return (
                 <NavLink
                   key={item.key}
-                  href={href}
+                  href={item.href}
                   isActive={isActive}
                 >
                   {item.label}
@@ -172,7 +158,7 @@ export default function Header({ lang = "en" }) {
                   : "0 4px 12px rgba(37, 99, 235, 0.1)"
               }}
             >
-              <span className="settings-btn-text">Settings</span>
+              <span className="settings-btn-text">{settingsLabel}</span>
               <motion.span 
                 className="settings-btn-icon"
                 animate={{ rotate: isSettingsHovered ? 90 : 0 }}
@@ -192,6 +178,10 @@ export default function Header({ lang = "en" }) {
         onLangChange={handleLangChange}
         theme={theme}
         onThemeChange={setTheme}
+        fontSize={fontSize}
+        onFontSizeChange={setFontSize}
+        reducedMotion={reducedMotion}
+        onReducedMotionChange={setReducedMotion}
       />
     </>
   );
