@@ -9,6 +9,13 @@ export default function UnderConstruction() {
 
   useEffect(() => {
     setMounted(true);
+    
+    // Skip Under Construction for admin pages
+    if (window.location.pathname.startsWith("/admin")) {
+      setIsVisible(false);
+      return;
+    }
+    
     // Check localStorage for under construction mode
     const stored = localStorage.getItem("underConstructionMode");
     const isUnderConstruction = stored === "true" || process.env.NEXT_PUBLIC_UNDER_CONSTRUCTION === "true";
