@@ -37,7 +37,13 @@ export default function AdminLogin() {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.message || "Invalid credentials");
+        if (data.error === "INVALID_USERNAME") {
+          setError("❌ Username not found");
+        } else if (data.error === "INVALID_PASSWORD") {
+          setError("🔐 Password is incorrect");
+        } else {
+          setError(data.message || "Invalid credentials");
+        }
         setLoading(false);
         return;
       }

@@ -2,13 +2,27 @@ export async function POST(request) {
   try {
     const { username, password } = await request.json();
 
-    const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "adms52";
-    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "salzburg52adminpanel";
+    const ADMIN_USERNAME = "adms52";
+    const ADMIN_PASSWORD = "salzburg52adminpanel";
 
-    // Validate credentials
-    if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
+    // Check username first
+    if (username !== ADMIN_USERNAME) {
       return Response.json(
-        { message: "Invalid username or password" },
+        { 
+          message: "Invalid username",
+          error: "INVALID_USERNAME"
+        },
+        { status: 401 }
+      );
+    }
+
+    // Then check password
+    if (password !== ADMIN_PASSWORD) {
+      return Response.json(
+        { 
+          message: "Invalid password",
+          error: "INVALID_PASSWORD"
+        },
         { status: 401 }
       );
     }
