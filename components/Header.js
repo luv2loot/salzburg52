@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 
 import SettingsPanel from "@/components/SettingsPanel";
@@ -66,11 +66,46 @@ export default function Header({ lang = "en" }) {
   const { theme, setTheme, fontSize, setFontSize, reducedMotion, setReducedMotion } = useTheme();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isSettingsHovered, setIsSettingsHovered] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const lastScrollY = useRef(0);
+  const scrollThreshold = 50;
 
   const { scrollY } = useScroll();
   const headerBlur = useTransform(scrollY, [0, 100], [0, 20]);
   const headerBg = useTransform(scrollY, [0, 100], ['rgba(255,255,255,0)', 'rgba(255,255,255,0.8)']);
   const headerBlurStyle = useTransform(headerBlur, (v) => `blur(${v}px)`);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setIsVisible(true);
+      return;
+    }
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY < 10) {
+        setIsVisible(true);
+        lastScrollY.current = currentScrollY;
+        return;
+      }
+      
+      const scrollDiff = currentScrollY - lastScrollY.current;
+      
+      if (scrollDiff > scrollThreshold) {
+        setIsVisible(false);
+        lastScrollY.current = currentScrollY;
+      }
+      else if (scrollDiff < -5) {
+        setIsVisible(true);
+        lastScrollY.current = currentScrollY;
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [reducedMotion]);
 
   const activeLang = useMemo(() => {
     if (!pathname) return lang;
@@ -99,6 +134,15 @@ export default function Header({ lang = "en" }) {
       <motion.header 
         className="app-shell header-root-premium" 
         role="banner"
+        initial={{ y: 0 }}
+        animate={{ 
+          y: reducedMotion ? 0 : (isVisible ? 0 : -100),
+          opacity: reducedMotion ? 1 : (isVisible ? 1 : 0)
+        }}
+        transition={{ 
+          duration: reducedMotion ? 0 : 0.3, 
+          ease: [0.25, 0.1, 0.25, 1]
+        }}
         style={{
           backdropFilter: headerBlurStyle,
           WebkitBackdropFilter: headerBlurStyle,
@@ -125,6 +169,15 @@ export default function Header({ lang = "en" }) {
               <Logo size={36} showText={true} />
             </Link>
           </div>
+
+          <button 
+            className="mobile-menu-btn"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMobileMenuOpen}
+          >
+            <span className={`hamburger-icon${isMobileMenuOpen ? ' is-open' : ''}`} />
+          </button>
 
           <nav className="header-nav-premium" aria-label="Main">
             {navItems.map((item) => {
@@ -183,6 +236,78 @@ export default function Header({ lang = "en" }) {
         reducedMotion={reducedMotion}
         onReducedMotionChange={setReducedMotion}
       />
+
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            className="mobile-menu-overlay"
+            initial={reducedMotion ? false : { opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -20 }}
+            transition={{ duration: reducedMotion ? 0 : 0.3 }}
+          >
+            <button
+              className="mobile-menu-close"
+              onClick={() => setIsMobileMenuOpen(false)}
+              aria-label="Close menu"
+              style={{
+                position: 'absolute',
+                top: '16px',
+                right: '16px',
+                background: 'rgba(0,0,0,0.05)',
+                border: 'none',
+                width: '44px',
+                height: '44px',
+                minWidth: '44px',
+                minHeight: '44px',
+                borderRadius: '12px',
+                fontSize: '24px',
+                cursor: 'pointer',
+                color: 'var(--color-text)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              ×
+            </button>
+            
+            {navItems.map((item, index) => {
+              const isActive = pathname === item.href;
+              return (
+                <motion.div
+                  key={item.key}
+                  initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: reducedMotion ? 0 : index * 0.05, duration: reducedMotion ? 0 : 0.3 }}
+                >
+                  <Link
+                    href={item.href}
+                    className={`mobile-menu-link${isActive ? ' is-active' : ''}`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                </motion.div>
+              );
+            })}
+            
+            <motion.button
+              initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: reducedMotion ? 0 : navItems.length * 0.05, duration: reducedMotion ? 0 : 0.3 }}
+              className="mobile-menu-link"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                setIsSettingsOpen(true);
+              }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+            >
+              {settingsLabel} ⚙
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
