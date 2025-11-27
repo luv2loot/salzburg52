@@ -56,7 +56,6 @@ export function ThemeProvider({ children }) {
   const [appliedTheme, setAppliedTheme] = useState("light");
   const [fontSize, setFontSizeState] = useState(100);
   const [reducedMotion, setReducedMotionState] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
   const updateAppliedTheme = useCallback((preference) => {
     setAppliedTheme(computeAppliedTheme(preference));
@@ -89,8 +88,6 @@ export function ThemeProvider({ children }) {
     if (storedReducedMotion === "true") {
       setReducedMotionState(true);
     }
-
-    setMounted(true);
   }, []);
 
   useEffect(() => {

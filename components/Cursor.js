@@ -5,8 +5,18 @@ import { useEffect, useState } from "react";
 export default function Cursor() {
   const [pos, setPos] = useState({ x: -100, y: -100 });
   const [visible, setVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    
+    const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (isTouch || prefersReducedMotion) {
+      return;
+    }
+
     const handleMove = (event) => {
       setPos({ x: event.clientX, y: event.clientY });
       setVisible(true);
@@ -25,6 +35,8 @@ export default function Cursor() {
     };
   }, []);
 
+  if (!mounted) return null;
+
   const baseStyle = {
     position: "fixed",
     top: 0,
@@ -41,17 +53,6 @@ export default function Cursor() {
     zIndex: 9999,
     opacity: visible ? 1 : 0
   };
-
-  const isTouch =
-    typeof window !== "undefined" &&
-    ("ontouchstart" in window || navigator.maxTouchPoints > 0);
-
-  const prefersReducedMotion =
-    typeof window !== "undefined" &&
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (isTouch || prefersReducedMotion) return null;
 
   return <div style={baseStyle} aria-hidden="true" />;
 }
