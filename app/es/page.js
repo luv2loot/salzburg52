@@ -10,6 +10,8 @@ import Cursor from "@/components/Cursor";
 import MediaStrip from "@/components/MediaStrip";
 import SnippetRefreshButton from "@/components/SnippetRefreshButton";
 import FloatingCardHub from "@/components/FloatingCardHub";
+import Showcase from "@/components/Showcase";
+import ScrollReveal from "@/components/animations/ScrollReveal";
 
 import { getGreetingForTime, getHeroCopy } from "@/lib/copy";
 import { getRandomSnippet } from "@/lib/quotes";
@@ -162,7 +164,9 @@ export default function EsHomePage() {
           lang={LANG}
         />
 
-        <FloatingCardHub lang={LANG} />
+        <ScrollReveal direction="up" delay={0.2}>
+          <FloatingCardHub lang={LANG} />
+        </ScrollReveal>
 
         {snippet && (
           <motion.section 
@@ -263,7 +267,15 @@ export default function EsHomePage() {
 
         <SectionDivider />
 
-        <MediaStrip lang={LANG} />
+        <ScrollReveal direction="left" delay={0.1}>
+          <Showcase lang={LANG} />
+        </ScrollReveal>
+
+        <SectionDivider />
+
+        <ScrollReveal direction="right" delay={0.1}>
+          <MediaStrip lang={LANG} />
+        </ScrollReveal>
       </main>
       <Footer lang={LANG} />
     </>

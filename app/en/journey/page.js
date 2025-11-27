@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ScrollReveal from "@/components/animations/ScrollReveal";
 
 const LANG = "en";
 
@@ -134,49 +135,51 @@ function JourneyHero() {
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
         />
 
-        <motion.div
-          className="hero-content"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.span
-            className="journey-hero-badge"
-            variants={itemVariants}
-          >
-            My Story
-          </motion.span>
-
-          <motion.h1
-            className="hero-title"
-            variants={itemVariants}
-          >
-            My Professional Journey
-          </motion.h1>
-
-          <motion.p
-            className="hero-subtitle"
-            variants={itemVariants}
-          >
-            From early aspirations to becoming part of the HYPERION Hotel Salzburg family — 
-            this is my path in luxury hospitality, shaped by dedication, learning, and a passion 
-            for creating exceptional guest experiences.
-          </motion.p>
-
+        <ScrollReveal direction="up" delay={0}>
           <motion.div
-            className="hero-accent-row"
-            variants={itemVariants}
+            className="hero-content"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
           >
             <motion.span
-              className="hero-pill"
-              whileHover={{ y: -3, scale: 1.02 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              className="journey-hero-badge"
+              variants={itemVariants}
             >
-              HYPERION Hotel Salzburg
+              My Story
             </motion.span>
+
+            <motion.h1
+              className="hero-title"
+              variants={itemVariants}
+            >
+              My Professional Journey
+            </motion.h1>
+
+            <motion.p
+              className="hero-subtitle"
+              variants={itemVariants}
+            >
+              From early aspirations to becoming part of the HYPERION Hotel Salzburg family — 
+              this is my path in luxury hospitality, shaped by dedication, learning, and a passion 
+              for creating exceptional guest experiences.
+            </motion.p>
+
+            <motion.div
+              className="hero-accent-row"
+              variants={itemVariants}
+            >
+              <motion.span
+                className="hero-pill"
+                whileHover={{ y: -3, scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              >
+                HYPERION Hotel Salzburg
+              </motion.span>
+            </motion.div>
           </motion.div>
-        </motion.div>
+        </ScrollReveal>
       </motion.div>
     </section>
   );
@@ -230,44 +233,48 @@ function TimelineDot({ index, isInView }) {
 function MilestoneCard({ milestone, index, isLeft }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, margin: "-100px 0px" });
+  const delays = [0, 0.1, 0.15, 0.2, 0.1, 0.15];
+  const delay = delays[index % delays.length];
 
   return (
-    <motion.div
-      ref={ref}
-      className={`timeline-item ${isLeft ? "timeline-item-left" : "timeline-item-right"}`}
-      initial={{ opacity: 0, x: isLeft ? -60 : 60, y: 20 }}
-      animate={isInView ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, x: isLeft ? -60 : 60, y: 20 }}
-      transition={{
-        duration: 0.6,
-        delay: 0.1,
-        ease: [0.16, 1, 0.3, 1],
-      }}
-    >
-      <TimelineDot index={index} isInView={isInView} />
-
+    <ScrollReveal direction={isLeft ? "left" : "right"} delay={delay}>
       <motion.div
-        className="timeline-card glass-card"
-        whileHover={{
-          y: -8,
-          boxShadow: "0 20px 50px rgba(37, 99, 235, 0.15)",
+        ref={ref}
+        className={`timeline-item ${isLeft ? "timeline-item-left" : "timeline-item-right"}`}
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+        transition={{
+          duration: 0.6,
+          delay: 0.1,
+          ease: [0.16, 1, 0.3, 1],
         }}
-        transition={{ duration: 0.3 }}
       >
-        <div className="timeline-card-header">
-          <div className="timeline-card-icon">
-            {milestone.icon}
-          </div>
-          <div className="timeline-card-meta">
-            <span className="timeline-card-period">{milestone.period}</span>
-          </div>
-        </div>
+        <TimelineDot index={index} isInView={isInView} />
 
-        <h3 className="timeline-card-title">{milestone.title}</h3>
-        <p className="timeline-card-description">{milestone.description}</p>
+        <motion.div
+          className="timeline-card glass-card"
+          whileHover={{
+            y: -8,
+            boxShadow: "0 20px 50px rgba(37, 99, 235, 0.15)",
+          }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="timeline-card-header">
+            <div className="timeline-card-icon">
+              {milestone.icon}
+            </div>
+            <div className="timeline-card-meta">
+              <span className="timeline-card-period">{milestone.period}</span>
+            </div>
+          </div>
 
-        <div className="timeline-card-connector" />
+          <h3 className="timeline-card-title">{milestone.title}</h3>
+          <p className="timeline-card-description">{milestone.description}</p>
+
+          <div className="timeline-card-connector" />
+        </motion.div>
       </motion.div>
-    </motion.div>
+    </ScrollReveal>
   );
 }
 
@@ -280,19 +287,21 @@ function Timeline() {
 
   return (
     <section className="app-shell timeline-section" ref={containerRef}>
-      <motion.div
-        className="timeline-intro"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-      >
-        <span className="timeline-intro-badge">Timeline</span>
-        <h2 className="timeline-intro-title">The Path So Far</h2>
-        <p className="timeline-intro-text">
-          Every step has been a learning experience, shaping who I am as a hospitality professional.
-        </p>
-      </motion.div>
+      <ScrollReveal direction="up" delay={0.1}>
+        <motion.div
+          className="timeline-intro"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <span className="timeline-intro-badge">Timeline</span>
+          <h2 className="timeline-intro-title">The Path So Far</h2>
+          <p className="timeline-intro-text">
+            Every step has been a learning experience, shaping who I am as a hospitality professional.
+          </p>
+        </motion.div>
+      </ScrollReveal>
 
       <div className="timeline-container">
         <TimelineSpine scrollYProgress={scrollYProgress} />
@@ -314,40 +323,42 @@ function Timeline() {
 
 function ClosingSection() {
   return (
-    <motion.section
-      className="app-shell journey-closing"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-    >
-      <div className="surface journey-closing-inner">
-        <div className="journey-closing-gradient" />
-        <motion.div
-          className="journey-closing-content"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-        >
-          <h3 className="journey-closing-title">The Journey Continues</h3>
-          <p className="journey-closing-text">
-            This is just the beginning. Every guest interaction, every challenge overcome, 
-            and every moment of growth adds to this ongoing story of professional development 
-            and dedication to hospitality excellence.
-          </p>
-          <motion.a
-            href={`/${LANG}`}
-            className="glass-button-primary journey-closing-cta"
-            whileHover={{ scale: 1.03, y: -4 }}
-            whileTap={{ scale: 0.98 }}
+    <ScrollReveal direction="up" delay={0.15}>
+      <motion.section
+        className="app-shell journey-closing"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="surface journey-closing-inner">
+          <div className="journey-closing-gradient" />
+          <motion.div
+            className="journey-closing-content"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.6 }}
           >
-            Back to Home
-            <span className="journey-cta-arrow">→</span>
-          </motion.a>
-        </motion.div>
-      </div>
-    </motion.section>
+            <h3 className="journey-closing-title">The Journey Continues</h3>
+            <p className="journey-closing-text">
+              This is just the beginning. Every guest interaction, every challenge overcome, 
+              and every moment of growth adds to this ongoing story of professional development 
+              and dedication to hospitality excellence.
+            </p>
+            <motion.a
+              href={`/${LANG}`}
+              className="glass-button-primary journey-closing-cta"
+              whileHover={{ scale: 1.03, y: -4 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Back to Home
+              <span className="journey-cta-arrow">→</span>
+            </motion.a>
+          </motion.div>
+        </div>
+      </motion.section>
+    </ScrollReveal>
   );
 }
 

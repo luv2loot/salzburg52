@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useTheme, THEMES } from "@/components/ThemeProvider";
+import ScrollReveal from "@/components/animations/ScrollReveal";
 
 const LANG = "en";
 
@@ -266,13 +267,9 @@ export default function SettingsPage() {
           </div>
         </motion.section>
 
-        <motion.section 
-          className="app-shell"
-          initial="hidden"
-          animate="visible"
-          variants={staggerContainer}
-        >
-          <motion.div className="surface settings-page-card" variants={fadeInUp}>
+        <section className="app-shell">
+          <ScrollReveal direction="up" delay={0}>
+            <div className="surface settings-page-card">
             <div className="settings-page-card-header">
               <span className="settings-page-card-icon"><GlobeIcon /></span>
               <h2 className="settings-page-card-title">Language</h2>
@@ -305,9 +302,11 @@ export default function SettingsPage() {
                 </motion.button>
               ))}
             </div>
-          </motion.div>
+            </div>
+          </ScrollReveal>
 
-          <motion.div className="surface settings-page-card" variants={fadeInUp}>
+          <ScrollReveal direction="up" delay={0.1}>
+            <div className="surface settings-page-card">
             <div className="settings-page-card-header">
               <span className="settings-page-card-icon"><PaletteIcon /></span>
               <h2 className="settings-page-card-title">Appearance</h2>
@@ -325,9 +324,11 @@ export default function SettingsPage() {
                 />
               ))}
             </div>
-          </motion.div>
+            </div>
+          </ScrollReveal>
 
-          <motion.div className="surface settings-page-card" variants={fadeInUp}>
+          <ScrollReveal direction="up" delay={0.2}>
+            <div className="surface settings-page-card">
             <div className="settings-page-card-header">
               <span className="settings-page-card-icon"><AccessibilityIcon /></span>
               <h2 className="settings-page-card-title">Accessibility</h2>
@@ -384,14 +385,15 @@ export default function SettingsPage() {
                 <span className="settings-page-switch-track">
                   <motion.span 
                     className="settings-page-switch-thumb"
-                    animate={{ x: reducedMotion ? 22 : 2 }}
+                    animate={{ x: reducedMotion ? 18 : 0 }}
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   />
                 </span>
               </motion.button>
             </div>
-          </motion.div>
-        </motion.section>
+            </div>
+          </ScrollReveal>
+        </section>
       </main>
       <Footer lang={LANG} />
     </>

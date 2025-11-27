@@ -1,45 +1,114 @@
 "use client";
 
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 
-function SplitText({ children, className = "", delay = 0 }) {
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const badgeVariants = {
+  hidden: { opacity: 0, y: 20, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
+const titleVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.03,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const letterVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
+const subtitleVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
+const buttonVariants = {
+  hidden: { opacity: 0, y: 20, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
+function AnimatedTitle({ children }) {
   if (!children || typeof children !== "string") {
-    return <span className={className}>{children}</span>;
+    return <span>{children}</span>;
   }
-  
+
   const words = children.split(" ");
-  
+
   return (
-    <span className={className} style={{ display: "inline" }}>
-      {words.map((word, i) => (
-        <span 
-          key={i} 
-          style={{ 
-            display: "inline-block", 
-            overflow: "hidden", 
+    <motion.span variants={titleVariants} style={{ display: "inline" }}>
+      {words.map((word, wordIndex) => (
+        <span
+          key={wordIndex}
+          style={{
+            display: "inline-block",
             marginRight: "0.25em",
-            verticalAlign: "top"
+            overflow: "hidden",
+            verticalAlign: "top",
           }}
         >
-          <motion.span
-            style={{ 
-              display: "inline-block",
-              willChange: "transform"
-            }}
-            initial={{ y: "100%", opacity: 0 }}
-            animate={{ y: "0%", opacity: 1 }}
-            transition={{
-              duration: 0.7,
-              delay: delay + i * 0.06,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-          >
-            {word}
-          </motion.span>
+          {word.split("").map((letter, letterIndex) => (
+            <motion.span
+              key={letterIndex}
+              variants={letterVariants}
+              style={{
+                display: "inline-block",
+                willChange: "transform",
+              }}
+            >
+              {letter}
+            </motion.span>
+          ))}
         </span>
       ))}
-    </span>
+    </motion.span>
   );
 }
 
@@ -55,7 +124,7 @@ function GradientCanvas() {
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     setPrefersReducedMotion(mediaQuery.matches);
-    
+
     const handleChange = (e) => setPrefersReducedMotion(e.matches);
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);
@@ -63,13 +132,13 @@ function GradientCanvas() {
 
   useEffect(() => {
     if (prefersReducedMotion) return;
-    
+
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
+
     const ctx = canvas.getContext("2d");
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    
+
     const resize = () => {
       canvas.width = window.innerWidth * dpr;
       canvas.height = window.innerHeight * dpr;
@@ -77,15 +146,15 @@ function GradientCanvas() {
       canvas.style.height = `${window.innerHeight}px`;
       ctx.scale(dpr, dpr);
     };
-    
+
     resize();
     window.addEventListener("resize", resize);
-    
+
     const handleMouseMove = (e) => {
       mouseX.set(e.clientX / window.innerWidth);
       mouseY.set(e.clientY / window.innerHeight);
     };
-    
+
     window.addEventListener("mousemove", handleMouseMove);
 
     const handleVisibilityChange = () => {
@@ -94,42 +163,48 @@ function GradientCanvas() {
         animate();
       }
     };
-    
+
     document.addEventListener("visibilitychange", handleVisibilityChange);
-    
+
     const colors = [
       { r: 37, g: 99, b: 235 },
       { r: 124, g: 58, b: 237 },
       { r: 236, g: 72, b: 153 },
       { r: 6, g: 182, b: 212 },
     ];
-    
+
     const blobs = colors.map((color, i) => ({
-      x: 0.2 + (i * 0.2),
+      x: 0.2 + i * 0.2,
       y: 0.3 + (i % 2) * 0.4,
       radius: 0.3 + Math.random() * 0.15,
       color,
       speed: 0.0005 + Math.random() * 0.001,
       phase: Math.random() * Math.PI * 2,
     }));
-    
+
     const animate = () => {
       if (isPausedRef.current) {
         animationRef.current = null;
         return;
       }
-      
+
       timeRef.current += 0.016;
       const t = timeRef.current;
       const mx = mouseX.get();
       const my = mouseY.get();
-      
+
       ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
-      
+
       blobs.forEach((blob) => {
-        const bx = blob.x + Math.sin(t * blob.speed * 100 + blob.phase) * 0.1 + (mx - 0.5) * 0.1;
-        const by = blob.y + Math.cos(t * blob.speed * 80 + blob.phase) * 0.1 + (my - 0.5) * 0.1;
-        
+        const bx =
+          blob.x +
+          Math.sin(t * blob.speed * 100 + blob.phase) * 0.1 +
+          (mx - 0.5) * 0.1;
+        const by =
+          blob.y +
+          Math.cos(t * blob.speed * 80 + blob.phase) * 0.1 +
+          (my - 0.5) * 0.1;
+
         const gradient = ctx.createRadialGradient(
           bx * window.innerWidth,
           by * window.innerHeight,
@@ -138,20 +213,29 @@ function GradientCanvas() {
           by * window.innerHeight,
           blob.radius * Math.min(window.innerWidth, window.innerHeight)
         );
-        
-        gradient.addColorStop(0, `rgba(${blob.color.r}, ${blob.color.g}, ${blob.color.b}, 0.35)`);
-        gradient.addColorStop(0.5, `rgba(${blob.color.r}, ${blob.color.g}, ${blob.color.b}, 0.08)`);
-        gradient.addColorStop(1, `rgba(${blob.color.r}, ${blob.color.g}, ${blob.color.b}, 0)`);
-        
+
+        gradient.addColorStop(
+          0,
+          `rgba(${blob.color.r}, ${blob.color.g}, ${blob.color.b}, 0.35)`
+        );
+        gradient.addColorStop(
+          0.5,
+          `rgba(${blob.color.r}, ${blob.color.g}, ${blob.color.b}, 0.08)`
+        );
+        gradient.addColorStop(
+          1,
+          `rgba(${blob.color.r}, ${blob.color.g}, ${blob.color.b}, 0)`
+        );
+
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
       });
-      
+
       animationRef.current = requestAnimationFrame(animate);
     };
-    
+
     animate();
-    
+
     return () => {
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", handleMouseMove);
@@ -171,7 +255,8 @@ function GradientCanvas() {
           inset: 0,
           zIndex: 0,
           opacity: 0.7,
-          background: "radial-gradient(ellipse at 30% 30%, rgba(37, 99, 235, 0.3) 0%, transparent 50%), radial-gradient(ellipse at 70% 60%, rgba(124, 58, 237, 0.25) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(236, 72, 153, 0.2) 0%, transparent 50%)",
+          background:
+            "radial-gradient(ellipse at 30% 30%, rgba(37, 99, 235, 0.3) 0%, transparent 50%), radial-gradient(ellipse at 70% 60%, rgba(124, 58, 237, 0.25) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(236, 72, 153, 0.2) 0%, transparent 50%)",
         }}
       />
     );
@@ -190,7 +275,17 @@ function GradientCanvas() {
   );
 }
 
-function FloatingOrb({ size, color, top, left, right, bottom, delay = 0, blur = 60 }) {
+function FloatingGradientOrb({
+  size,
+  color,
+  top,
+  left,
+  right,
+  bottom,
+  delay = 0,
+  blur = 60,
+  duration = 20,
+}) {
   return (
     <motion.div
       style={{
@@ -198,7 +293,7 @@ function FloatingOrb({ size, color, top, left, right, bottom, delay = 0, blur = 
         width: size,
         height: size,
         borderRadius: "50%",
-        background: color,
+        background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
         filter: `blur(${blur}px)`,
         top,
         left,
@@ -208,17 +303,17 @@ function FloatingOrb({ size, color, top, left, right, bottom, delay = 0, blur = 
         pointerEvents: "none",
       }}
       initial={{ opacity: 0, scale: 0.5 }}
-      animate={{ 
-        opacity: 1, 
-        scale: 1,
-        y: [0, -30, 0],
-        x: [0, 20, 0],
+      animate={{
+        opacity: [0.4, 0.7, 0.4],
+        scale: [1, 1.15, 1],
+        x: [0, 40, -30, 0],
+        y: [0, -50, 30, 0],
       }}
       transition={{
-        opacity: { duration: 1, delay },
-        scale: { duration: 1, delay },
-        y: { duration: 15 + delay * 2, repeat: Infinity, ease: "easeInOut" },
-        x: { duration: 12 + delay * 2, repeat: Infinity, ease: "easeInOut" },
+        opacity: { duration: duration * 0.8, delay, repeat: Infinity, ease: "easeInOut" },
+        scale: { duration: duration, delay, repeat: Infinity, ease: "easeInOut" },
+        x: { duration: duration * 1.2, delay, repeat: Infinity, ease: "easeInOut" },
+        y: { duration: duration, delay, repeat: Infinity, ease: "easeInOut" },
       }}
     />
   );
@@ -237,8 +332,10 @@ function GridOverlay() {
         backgroundSize: "60px 60px",
         zIndex: 1,
         pointerEvents: "none",
-        maskImage: "radial-gradient(ellipse at center, black 20%, transparent 80%)",
-        WebkitMaskImage: "radial-gradient(ellipse at center, black 20%, transparent 80%)",
+        maskImage:
+          "radial-gradient(ellipse at center, black 20%, transparent 80%)",
+        WebkitMaskImage:
+          "radial-gradient(ellipse at center, black 20%, transparent 80%)",
       }}
     />
   );
@@ -260,24 +357,27 @@ function GrainOverlay() {
   );
 }
 
-export default function Hero({ greeting, title = "", subtitle = "", accent = "", ctaText, ctaHref }) {
+export default function Hero({
+  greeting,
+  title = "",
+  subtitle = "",
+  accent = "",
+  ctaText,
+  ctaHref,
+}) {
   const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-    layoutEffect: false
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
-  const contentScale = useTransform(scrollYProgress, [0, 0.4], [1, 0.95]);
+  
+  const { scrollY } = useScroll();
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const heroScale = useTransform(scrollY, [0, 400], [1, 0.95]);
+  const heroY = useTransform(scrollY, [0, 400], [0, 100]);
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
   return (
-    <section 
-      className="hero-section-cinematic" 
+    <motion.section
+      className="hero-section-cinematic"
       ref={containerRef}
       style={{
         position: "relative",
@@ -287,13 +387,16 @@ export default function Hero({ greeting, title = "", subtitle = "", accent = "",
         justifyContent: "center",
         overflow: "hidden",
         background: "var(--color-bg)",
+        opacity: heroOpacity,
+        scale: heroScale,
       }}
     >
-      <div 
+      <div
         style={{
           position: "absolute",
           inset: 0,
-          background: "linear-gradient(180deg, var(--color-bg) 0%, rgba(37, 99, 235, 0.03) 50%, var(--color-bg) 100%)",
+          background:
+            "linear-gradient(180deg, var(--color-bg) 0%, rgba(37, 99, 235, 0.03) 50%, var(--color-bg) 100%)",
           zIndex: 0,
         }}
       />
@@ -301,32 +404,69 @@ export default function Hero({ greeting, title = "", subtitle = "", accent = "",
       {mounted && <GradientCanvas />}
       <GridOverlay />
       <GrainOverlay />
-      
-      <FloatingOrb size={400} color="rgba(37, 99, 235, 0.15)" top="-10%" left="-5%" delay={0} blur={80} />
-      <FloatingOrb size={300} color="rgba(124, 58, 237, 0.12)" top="20%" right="-10%" delay={0.5} blur={70} />
-      <FloatingOrb size={250} color="rgba(236, 72, 153, 0.1)" bottom="10%" left="20%" delay={1} blur={60} />
-      <FloatingOrb size={200} color="rgba(6, 182, 212, 0.1)" bottom="30%" right="15%" delay={1.5} blur={50} />
+
+      <FloatingGradientOrb
+        size={450}
+        color="rgba(37, 99, 235, 0.2)"
+        top="-15%"
+        left="-8%"
+        delay={0}
+        blur={90}
+        duration={25}
+      />
+      <FloatingGradientOrb
+        size={350}
+        color="rgba(124, 58, 237, 0.18)"
+        top="15%"
+        right="-12%"
+        delay={0.8}
+        blur={80}
+        duration={22}
+      />
+      <FloatingGradientOrb
+        size={300}
+        color="rgba(236, 72, 153, 0.15)"
+        bottom="5%"
+        left="15%"
+        delay={1.5}
+        blur={70}
+        duration={28}
+      />
+      <FloatingGradientOrb
+        size={250}
+        color="rgba(6, 182, 212, 0.15)"
+        bottom="25%"
+        right="10%"
+        delay={2}
+        blur={60}
+        duration={20}
+      />
+      <FloatingGradientOrb
+        size={200}
+        color="rgba(139, 92, 246, 0.12)"
+        top="50%"
+        left="5%"
+        delay={2.5}
+        blur={50}
+        duration={18}
+      />
 
       <motion.div
         className="hero-content-wrapper"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
         style={{
           position: "relative",
           zIndex: 10,
           textAlign: "center",
           maxWidth: "900px",
           padding: "0 2rem",
-          y,
-          opacity: contentOpacity,
-          scale: contentScale,
+          y: heroY,
         }}
       >
         {greeting && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            style={{ marginBottom: "1.5rem" }}
-          >
+          <motion.div variants={badgeVariants} style={{ marginBottom: "1.5rem" }}>
             <motion.span
               style={{
                 display: "inline-flex",
@@ -355,29 +495,25 @@ export default function Hero({ greeting, title = "", subtitle = "", accent = "",
         )}
 
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          variants={titleVariants}
           style={{
             fontSize: "clamp(2.8rem, 8vw, 4.5rem)",
             fontWeight: 800,
             lineHeight: 1.1,
             letterSpacing: "-0.03em",
             marginBottom: "1.5rem",
-            color: "#0f172a",
+            color: "var(--color-text)",
           }}
         >
-          {title}
+          <AnimatedTitle>{title}</AnimatedTitle>
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          variants={subtitleVariants}
           style={{
             fontSize: "clamp(1rem, 2.5vw, 1.2rem)",
             lineHeight: 1.7,
-            color: "#64748b",
+            color: "var(--color-muted)",
             maxWidth: "580px",
             margin: "0 auto 2.5rem",
             fontWeight: 400,
@@ -387,9 +523,7 @@ export default function Hero({ greeting, title = "", subtitle = "", accent = "",
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1 }}
+          variants={buttonVariants}
           style={{
             display: "flex",
             gap: "1rem",
@@ -416,10 +550,10 @@ export default function Hero({ greeting, title = "", subtitle = "", accent = "",
                 overflow: "hidden",
                 boxShadow: "0 4px 20px rgba(37, 99, 235, 0.3)",
               }}
-              whileHover={{ 
-                scale: 1.03, 
+              whileHover={{
+                scale: 1.03,
                 y: -3,
-                boxShadow: "0 8px 30px rgba(37, 99, 235, 0.4)"
+                boxShadow: "0 8px 30px rgba(37, 99, 235, 0.4)",
               }}
               whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
@@ -428,7 +562,8 @@ export default function Hero({ greeting, title = "", subtitle = "", accent = "",
                 style={{
                   position: "absolute",
                   inset: 0,
-                  background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+                  background:
+                    "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
                 }}
                 animate={{ x: ["-100%", "100%"] }}
                 transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
@@ -456,7 +591,10 @@ export default function Hero({ greeting, title = "", subtitle = "", accent = "",
                 fontWeight: 500,
                 color: "var(--primary)",
               }}
-              whileHover={{ scale: 1.02, borderColor: "rgba(37, 99, 235, 0.3)" }}
+              whileHover={{
+                scale: 1.02,
+                borderColor: "rgba(37, 99, 235, 0.3)",
+              }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
             >
               {accent}
@@ -486,19 +624,26 @@ export default function Hero({ greeting, title = "", subtitle = "", accent = "",
               opacity: 0.5,
             }}
           >
-            <span style={{ fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase" }}>
+            <span
+              style={{
+                fontSize: "0.7rem",
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+              }}
+            >
               Scroll
             </span>
             <motion.div
               style={{
                 width: "1px",
                 height: "40px",
-                background: "linear-gradient(to bottom, var(--color-muted), transparent)",
+                background:
+                  "linear-gradient(to bottom, var(--color-muted), transparent)",
               }}
             />
           </motion.div>
         </motion.div>
       </motion.div>
-    </section>
+    </motion.section>
   );
 }

@@ -5,6 +5,7 @@ import { motion, useInView, useMotionValue, useSpring, useTransform } from "fram
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ScrollReveal from "@/components/animations/ScrollReveal";
 
 const LANG = "es";
 
@@ -661,10 +662,18 @@ export default function HospitalityLabPage() {
     <>
       <Header lang={LANG} />
       <main>
-        <LabHero />
-        <PrinciplesSection />
-        <QuoteSection />
-        <ClosingSection />
+        <ScrollReveal direction="up">
+          <LabHero />
+        </ScrollReveal>
+        <ScrollReveal direction="left" delay={0.15}>
+          <PrinciplesSection />
+        </ScrollReveal>
+        <ScrollReveal direction="right" delay={0.15}>
+          <QuoteSection />
+        </ScrollReveal>
+        <ScrollReveal direction="up" delay={0.15}>
+          <ClosingSection />
+        </ScrollReveal>
       </main>
       <Footer lang={LANG} />
     </>

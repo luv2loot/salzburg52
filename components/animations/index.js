@@ -5,3 +5,5 @@ export * from "./Marquee";
 export * from "./MagneticButton";
 export * from "./FloatingElements";
 export * from "./TiltCard";
+export * from "./ScrollReveal";
+export * from "./ParallaxImage";

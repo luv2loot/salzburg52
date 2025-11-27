@@ -10,7 +10,9 @@ import Cursor from "@/components/Cursor";
 import MediaStrip from "@/components/MediaStrip";
 import SnippetRefreshButton from "@/components/SnippetRefreshButton";
 import FloatingCardHub from "@/components/FloatingCardHub";
+import Showcase from "@/components/Showcase";
 import { ServiceMarquee, TextMarquee } from "@/components/animations/Marquee";
+import ScrollReveal from "@/components/animations/ScrollReveal";
 
 import { getGreetingForTime, getHeroCopy } from "@/lib/copy";
 import { getRandomSnippet } from "@/lib/quotes";
@@ -174,7 +176,9 @@ export default function EnHomePage() {
           speed={40}
         />
 
-        <FloatingCardHub lang={LANG} />
+        <ScrollReveal direction="up" delay={0.2}>
+          <FloatingCardHub lang={LANG} />
+        </ScrollReveal>
 
         {snippet && (
           <motion.section 
@@ -275,7 +279,15 @@ export default function EnHomePage() {
 
         <SectionDivider />
 
-        <MediaStrip lang={LANG} />
+        <ScrollReveal direction="left" delay={0.1}>
+          <Showcase lang={LANG} />
+        </ScrollReveal>
+
+        <SectionDivider />
+
+        <ScrollReveal direction="right" delay={0.1}>
+          <MediaStrip lang={LANG} />
+        </ScrollReveal>
 
         <TextMarquee 
           text="Welcome to my Digital World"

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ScrollReveal from "@/components/animations/ScrollReveal";
 
 const LANG = "en";
 
@@ -580,10 +581,18 @@ export default function PlaygroundPage() {
       <InteractiveBackground />
       <Header lang={LANG} />
       <main>
-        <PlaygroundHero />
-        <ChaosSimulator />
-        <QuoteCarousel />
-        <FunStats />
+        <ScrollReveal direction="up">
+          <PlaygroundHero />
+        </ScrollReveal>
+        <ScrollReveal direction="left" delay={0.1}>
+          <ChaosSimulator />
+        </ScrollReveal>
+        <ScrollReveal direction="right" delay={0.15}>
+          <QuoteCarousel />
+        </ScrollReveal>
+        <ScrollReveal direction="up" delay={0.2}>
+          <FunStats />
+        </ScrollReveal>
       </main>
       <Footer lang={LANG} />
     </>

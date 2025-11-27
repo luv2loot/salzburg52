@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useCallback } from "react";
 import Link from "next/link";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, useInView } from "framer-motion";
 import { t } from "@/lib/translations";
 
 const zoneIcons = {
@@ -81,8 +81,45 @@ const floatingVariants = {
   }),
 };
 
-function Card({ zone, mouseX, mouseY, containerRef, lang }) {
+const cardEntranceVariants = {
+  hidden: { 
+    opacity: 0, 
+    scale: 0.6,
+    y: 40,
+    rotateX: 15
+  },
+  visible: (custom) => ({
+    opacity: 1, 
+    scale: 1,
+    y: 0,
+    rotateX: 0,
+    transition: { 
+      duration: 0.7, 
+      delay: custom.delay,
+      ease: [0.16, 1, 0.3, 1]
+    }
+  })
+};
+
+function Card({ zone, mouseX, mouseY, containerRef, lang, index, isInView }) {
   const cardRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+  
+  const localMouseX = useMotionValue(0);
+  const localMouseY = useMotionValue(0);
+  const glowX = useMotionValue(50);
+  const glowY = useMotionValue(50);
+  
+  const magneticStrength = zone.isPrimary ? 0.15 : 0.2;
+  const magneticRadius = zone.isPrimary ? 180 : 140;
+  
+  const magneticSpringConfig = { stiffness: 150, damping: 20, mass: 0.5 };
+  const magneticX = useSpring(localMouseX, magneticSpringConfig);
+  const magneticY = useSpring(localMouseY, magneticSpringConfig);
+  
+  const tiltSpringConfig = { stiffness: 200, damping: 25 };
+  const tiltX = useSpring(useTransform(localMouseY, [-1, 1], [7, -7]), tiltSpringConfig);
+  const tiltY = useSpring(useTransform(localMouseX, [-1, 1], [-7, 7]), tiltSpringConfig);
   
   const parallaxStrength = zone.isPrimary ? 0.02 : 0.035;
   const floatDuration = zone.isPrimary ? 6 : 4 + Math.random() * 2;
@@ -108,9 +145,58 @@ function Card({ zone, mouseX, mouseY, containerRef, lang }) {
     springConfig
   );
 
+  const combinedRotateX = useTransform([cardRotateX, tiltX], ([parallax, tilt]) => 
+    isHovered ? parallax + tilt : parallax
+  );
+  const combinedRotateY = useTransform([cardRotateY, tiltY], ([parallax, tilt]) => 
+    isHovered ? parallax + tilt : parallax
+  );
+
+  const handleCardMouseMove = useCallback((e) => {
+    if (!cardRef.current) return;
+    
+    const rect = cardRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    const distanceX = e.clientX - centerX;
+    const distanceY = e.clientY - centerY;
+    const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2);
+    
+    if (distance < magneticRadius) {
+      const factor = 1 - (distance / magneticRadius);
+      localMouseX.set(distanceX * magneticStrength * factor);
+      localMouseY.set(distanceY * magneticStrength * factor);
+    }
+    
+    const normalizedX = (e.clientX - rect.left) / rect.width;
+    const normalizedY = (e.clientY - rect.top) / rect.height;
+    glowX.set(normalizedX * 100);
+    glowY.set(normalizedY * 100);
+    
+    const tiltNormX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+    const tiltNormY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    localMouseX.set(tiltNormX);
+    localMouseY.set(tiltNormY);
+  }, [magneticRadius, magneticStrength, localMouseX, localMouseY, glowX, glowY]);
+
+  const handleCardMouseLeave = useCallback(() => {
+    localMouseX.set(0);
+    localMouseY.set(0);
+    glowX.set(50);
+    glowY.set(50);
+    setIsHovered(false);
+  }, [localMouseX, localMouseY, glowX, glowY]);
+
+  const handleCardMouseEnter = useCallback(() => {
+    setIsHovered(true);
+  }, []);
+
   const cardSize = zone.isPrimary 
     ? { width: "220px", height: "260px" }
     : { width: "160px", height: "180px" };
+
+  const staggerDelay = zone.isPrimary ? 0.1 : 0.2 + index * 0.1;
 
   return (
     <motion.div
@@ -120,20 +206,23 @@ function Card({ zone, mouseX, mouseY, containerRef, lang }) {
         position: "absolute",
         left: "50%",
         top: "50%",
-        x: cardX,
-        y: cardY,
-        rotateX: cardRotateX,
-        rotateY: cardRotateY,
+        x: useTransform([cardX, magneticX], ([cx, mx]) => cx + (isHovered ? mx * 8 : 0)),
+        y: useTransform([cardY, magneticY], ([cy, my]) => cy + (isHovered ? my * 8 : 0)),
+        rotateX: combinedRotateX,
+        rotateY: combinedRotateY,
         translateX: "-50%",
         translateY: "-50%",
         marginLeft: zone.position.x,
         marginTop: zone.position.y,
-        zIndex: zone.isPrimary ? 10 : 5,
+        zIndex: isHovered ? 20 : (zone.isPrimary ? 10 : 5),
         transformStyle: "preserve-3d",
       }}
       custom={{ yOffset: floatOffset, duration: floatDuration }}
       variants={floatingVariants}
       animate="animate"
+      onMouseMove={handleCardMouseMove}
+      onMouseEnter={handleCardMouseEnter}
+      onMouseLeave={handleCardMouseLeave}
     >
       <Link href={zone.href} style={{ textDecoration: "none" }}>
         <motion.div
@@ -152,13 +241,10 @@ function Card({ zone, mouseX, mouseY, containerRef, lang }) {
             position: "relative",
             overflow: "hidden",
           }}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ 
-            duration: 0.6, 
-            delay: zone.isPrimary ? 0.1 : 0.2 + Math.random() * 0.3,
-            ease: [0.16, 1, 0.3, 1]
-          }}
+          variants={cardEntranceVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          custom={{ delay: staggerDelay }}
           whileHover={{
             scale: 1.08,
             z: zone.position.z + 40,
@@ -169,8 +255,8 @@ function Card({ zone, mouseX, mouseY, containerRef, lang }) {
           }}
           whileTap={{ scale: 0.98 }}
         >
-          <div 
-            className="card-glow"
+          <motion.div 
+            className="card-glow-static"
             style={{
               position: "absolute",
               inset: 0,
@@ -178,6 +264,36 @@ function Card({ zone, mouseX, mouseY, containerRef, lang }) {
                 ? "radial-gradient(circle at 30% 20%, rgba(37, 99, 235, 0.15) 0%, transparent 50%), radial-gradient(circle at 70% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%)"
                 : "radial-gradient(circle at 50% 30%, rgba(37, 99, 235, 0.1) 0%, transparent 60%)",
               zIndex: 0,
+              pointerEvents: "none",
+            }}
+          />
+          
+          <motion.div
+            className="card-glow-dynamic"
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: useTransform([glowX, glowY], ([x, y]) => 
+                `radial-gradient(circle at ${x}% ${y}%, rgba(37, 99, 235, 0.25) 0%, rgba(139, 92, 246, 0.15) 30%, transparent 70%)`
+              ),
+              opacity: isHovered ? 1 : 0,
+              transition: "opacity 0.3s ease",
+              zIndex: 0,
+              pointerEvents: "none",
+            }}
+          />
+          
+          <motion.div
+            className="card-shine"
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: useTransform([glowX, glowY], ([x, y]) => 
+                `linear-gradient(${135 + (x - 50) * 0.5}deg, transparent 40%, rgba(255,255,255,0.08) 50%, transparent 60%)`
+              ),
+              opacity: isHovered ? 1 : 0,
+              transition: "opacity 0.3s ease",
+              zIndex: 1,
               pointerEvents: "none",
             }}
           />
@@ -196,10 +312,11 @@ function Card({ zone, mouseX, mouseY, containerRef, lang }) {
               color: "var(--primary)",
               marginBottom: zone.isPrimary ? "1.25rem" : "0.75rem",
               position: "relative",
-              zIndex: 1,
+              zIndex: 2,
             }}
             whileHover={{ 
               rotate: [0, -5, 5, 0],
+              scale: 1.1,
               transition: { duration: 0.5 }
             }}
           >
@@ -215,7 +332,7 @@ function Card({ zone, mouseX, mouseY, containerRef, lang }) {
               letterSpacing: "-0.02em",
               marginBottom: "0.5rem",
               position: "relative",
-              zIndex: 1,
+              zIndex: 2,
             }}
           >
             {zone.title}
@@ -228,7 +345,7 @@ function Card({ zone, mouseX, mouseY, containerRef, lang }) {
               color: "var(--color-muted)",
               lineHeight: 1.4,
               position: "relative",
-              zIndex: 1,
+              zIndex: 2,
             }}
           >
             {zone.description}
@@ -245,7 +362,7 @@ function Card({ zone, mouseX, mouseY, containerRef, lang }) {
                 fontWeight: 600,
                 color: "var(--primary)",
                 position: "relative",
-                zIndex: 1,
+                zIndex: 2,
               }}
               initial={{ opacity: 0.7 }}
               whileHover={{ opacity: 1, x: 4 }}
@@ -265,6 +382,8 @@ function Card({ zone, mouseX, mouseY, containerRef, lang }) {
 
 export default function FloatingCardHub({ lang = "en" }) {
   const containerRef = useRef(null);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
   const zones = getZones(lang);
   
   const mouseX = useMotionValue(0);
@@ -295,9 +414,18 @@ export default function FloatingCardHub({ lang = "en" }) {
     useTransform(mouseX, [-400, 400], [-8, 8]),
     springConfig
   );
+  
+  const ambientGlowX = useSpring(
+    useTransform(mouseX, [-400, 400], [-30, 30]),
+    { stiffness: 50, damping: 30 }
+  );
+  const ambientGlowY = useSpring(
+    useTransform(mouseY, [-300, 300], [-20, 20]),
+    { stiffness: 50, damping: 30 }
+  );
 
   return (
-    <section className="floating-card-hub-section">
+    <section className="floating-card-hub-section" ref={sectionRef}>
       <motion.div
         className="app-shell"
         initial={{ opacity: 0, y: 40 }}
@@ -385,7 +513,7 @@ export default function FloatingCardHub({ lang = "en" }) {
               rotateY: containerRotateY,
             }}
           >
-            {zones.map((zone) => (
+            {zones.map((zone, index) => (
               <Card
                 key={zone.id}
                 zone={zone}
@@ -393,11 +521,13 @@ export default function FloatingCardHub({ lang = "en" }) {
                 mouseY={mouseY}
                 containerRef={containerRef}
                 lang={lang}
+                index={index}
+                isInView={isInView}
               />
             ))}
           </motion.div>
           
-          <div 
+          <motion.div 
             className="hub-ambient-glow"
             style={{
               position: "absolute",
@@ -408,6 +538,24 @@ export default function FloatingCardHub({ lang = "en" }) {
               filter: "blur(60px)",
               zIndex: 0,
               pointerEvents: "none",
+              x: ambientGlowX,
+              y: ambientGlowY,
+            }}
+          />
+          
+          <motion.div 
+            className="hub-ambient-glow-secondary"
+            style={{
+              position: "absolute",
+              width: "300px",
+              height: "300px",
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(139, 92, 246, 0.06) 0%, transparent 60%)",
+              filter: "blur(40px)",
+              zIndex: 0,
+              pointerEvents: "none",
+              x: useTransform(ambientGlowX, v => -v * 0.5),
+              y: useTransform(ambientGlowY, v => -v * 0.5),
             }}
           />
         </motion.div>

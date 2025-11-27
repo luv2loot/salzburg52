@@ -4,6 +4,7 @@ import { motion, useMotionValue, useSpring, useTransform, useInView } from "fram
 import Image from "next/image";
 import { useState, useRef } from "react";
 import { t } from "@/lib/translations";
+import ParallaxImage from "@/components/animations/ParallaxImage";
 
 const getShowcaseItems = (lang) => [
   {
@@ -99,20 +100,22 @@ function ShowcaseCard({ item, idx, lang }) {
         <div className="showcase-shimmer-border" />
         
         <div className="showcase-image-container-premium">
-          <motion.div
-            style={{ width: "100%", height: "100%", position: "relative" }}
-            animate={{ scale: isHovered ? 1.08 : 1 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <Image
-              src={item.image}
-              alt={item.title}
-              className="showcase-image-premium"
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-              style={{ objectFit: "cover" }}
-            />
-          </motion.div>
+          <ParallaxImage speed={0.3} mouseIntensity={8} className="showcase-parallax-wrapper">
+            <motion.div
+              style={{ width: "100%", height: "100%", position: "relative" }}
+              animate={{ scale: isHovered ? 1.08 : 1 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <Image
+                src={item.image}
+                alt={item.title}
+                className="showcase-image-premium"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                style={{ objectFit: "cover" }}
+              />
+            </motion.div>
+          </ParallaxImage>
           
           <motion.div
             className="showcase-overlay-premium"

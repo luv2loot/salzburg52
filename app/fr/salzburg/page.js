@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Cursor from "@/components/Cursor";
+import ScrollReveal from "@/components/animations/ScrollReveal";
 
 const LANG = "fr";
 
@@ -617,6 +618,7 @@ export default function FrSalzburgPage() {
               />
 
               <div style={{ position: "relative", zIndex: 1 }}>
+                <ScrollReveal direction="up" delay={0.1}>
                 <motion.div 
                   variants={toggleVariants}
                   style={{
@@ -706,6 +708,7 @@ export default function FrSalzburgPage() {
                     </motion.button>
                   </motion.div>
                 </motion.div>
+                </ScrollReveal>
 
                 <motion.p
                   variants={headerVariants}
@@ -721,6 +724,7 @@ export default function FrSalzburgPage() {
                   Ce bouton contrôle les activités affichées, indépendamment du thème global du site.
                 </motion.p>
 
+                <ScrollReveal direction="up" delay={0.2}>
                 <motion.div
                   variants={headerVariants}
                   style={{ textAlign: "center", marginBottom: "1rem" }}
@@ -787,6 +791,7 @@ export default function FrSalzburgPage() {
                     ? "Découvrez l'atmosphère magique de Salzbourg après la tombée de la nuit—rues illuminées, lieux chaleureux et beauté intemporelle sous les étoiles."
                     : "Découvrez le charme de la ville natale de Mozart—architecture baroque, vues sur les montagnes et des siècles de culture à chaque coin."}
                 </motion.p>
+                </ScrollReveal>
               </div>
             </motion.section>
 
@@ -844,12 +849,17 @@ export default function FrSalzburgPage() {
                     }}
                   >
                     {currentActivities.map((place, index) => (
-                      <PlaceCard 
-                        key={place.id} 
-                        place={place} 
-                        isNightMode={isNightMode}
-                        index={index}
-                      />
+                      <ScrollReveal 
+                        key={place.id}
+                        direction={index % 2 === 0 ? "left" : "right"} 
+                        delay={index * 0.1}
+                      >
+                        <PlaceCard 
+                          place={place} 
+                          isNightMode={isNightMode}
+                          index={index}
+                        />
+                      </ScrollReveal>
                     ))}
                   </motion.div>
                 </AnimatePresence>

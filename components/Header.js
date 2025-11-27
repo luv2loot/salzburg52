@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 
 import SettingsPanel from "@/components/SettingsPanel";
 import { useTheme } from "@/components/ThemeProvider";
@@ -42,6 +42,7 @@ function NavLink({ href, isActive, children }) {
           duration: 0.25, 
           ease: [0.32, 0.72, 0, 1]
         }}
+        style={{ transformOrigin: 'left' }}
       />
       
       <AnimatePresence>
@@ -65,6 +66,11 @@ export default function Header({ lang = "en" }) {
   const { theme, setTheme, fontSize, setFontSize, reducedMotion, setReducedMotion } = useTheme();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isSettingsHovered, setIsSettingsHovered] = useState(false);
+
+  const { scrollY } = useScroll();
+  const headerBlur = useTransform(scrollY, [0, 100], [0, 20]);
+  const headerBg = useTransform(scrollY, [0, 100], ['rgba(255,255,255,0)', 'rgba(255,255,255,0.8)']);
+  const headerBlurStyle = useTransform(headerBlur, (v) => `blur(${v}px)`);
 
   const activeLang = useMemo(() => {
     if (!pathname) return lang;
@@ -90,7 +96,15 @@ export default function Header({ lang = "en" }) {
 
   return (
     <>
-      <header className="app-shell header-root-premium" role="banner">
+      <motion.header 
+        className="app-shell header-root-premium" 
+        role="banner"
+        style={{
+          backdropFilter: headerBlurStyle,
+          WebkitBackdropFilter: headerBlurStyle,
+          backgroundColor: headerBg,
+        }}
+      >
         <motion.div 
           className="surface header-inner-premium"
           initial={{ opacity: 0, y: -10 }}
@@ -155,7 +169,7 @@ export default function Header({ lang = "en" }) {
             </motion.button>
           </div>
         </motion.div>
-      </header>
+      </motion.header>
 
       <SettingsPanel
         isOpen={isSettingsOpen}

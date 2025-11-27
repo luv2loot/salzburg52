@@ -5,6 +5,7 @@ import { motion, useInView, useMotionValue, useSpring, useTransform } from "fram
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Cursor from "@/components/Cursor";
+import ScrollReveal from "@/components/animations/ScrollReveal";
 
 const LANG = "it";
 
