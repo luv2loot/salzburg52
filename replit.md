@@ -28,18 +28,22 @@ components/            # React components
 │   ├── FloatingElements.js  # Floating orbs, shapes, gradients
 │   ├── MagneticButton.js    # Magnetic hover effects
 │   ├── Marquee.js           # Scrolling text strips
+│   ├── ParallaxImage.js     # Scroll + mouse parallax effects (NEW)
+│   ├── ScrollReveal.js      # Reversible scroll animations (NEW)
 │   ├── TextReveal.js        # Text reveal animations
 │   └── TiltCard.js          # 3D tilt cards
 ├── Cursor.js          # Custom cursor
 ├── CursorSpotlight.js # Cursor spotlight effect
-├── FloatingCardHub.js # 3D navigation hub with parallax
+├── DynamicMusicPlayer.js  # Lazy-loaded music player wrapper (NEW)
+├── FloatingCardHub.js # 3D navigation hub with parallax + magnetic effects
 ├── Footer.js          # Site footer with contact info
-├── Header.js          # Navigation with S·52 logo
-├── Hero.js            # Cinematic hero with gradient canvas
+├── Header.js          # Navigation with scroll-based blur
+├── Hero.js            # Cinematic hero with staggered reveals
 ├── Logo.js            # S·52 gradient logo with sheen
 ├── MediaStrip.js      # Media display with stats
 ├── MusicPlayer.js     # Ambient music player
-├── Showcase.js        # Gallery with hover animations
+├── PageTransition.js  # Route transition animations (NEW)
+├── Showcase.js        # Gallery with parallax hover
 ├── SettingsPanel.js   # Theme/accessibility settings
 └── ThemeProvider.js   # Light/Dark/Salzburg Night themes
 
@@ -165,7 +169,21 @@ Centralized in `lib/translations.js`:
 - Personal journey as HYPERION Hotel apprentice
 
 ## Recent Changes
-- **2024-11-26 (Latest):** Next.js 16 Upgrade & Navigation Fixes
+- **2024-11-27 (Latest):** Premium Animation System & Performance Overhaul
+  - **Inter Font:** Added Inter variable font via next/font for premium typography
+  - **ScrollReveal Component:** Reversible scroll animations (slide from left/right/up) - elements reverse on scroll back
+  - **ParallaxImage Component:** Scroll-based Y parallax + mouse-based X/Y parallax with spring physics
+  - **PageTransition System:** Smooth fade/slide route transitions via app/template.js
+  - **Performance Optimizations:** Lazy-loaded MusicPlayer, GPU acceleration CSS, content-visibility for below-fold
+  - **Hero Enhancements:** Scroll-based opacity/scale fade, staggered letter-by-letter text reveals, floating gradient orbs
+  - **FloatingCardHub Enhancements:** Magnetic button effects, 3D tilt on hover, cursor-following glow, staggered entrance
+  - **Header Enhancements:** Scroll-based blur effect, underline slide animation
+  - **Settings UI Fixes:** Slider thumb alignment, theme checkmark positioning, switch toggle, 8px grid
+  - **Animations Applied:** ScrollReveal on 35+ page files across all 5 languages (home, journey, salzburg, playground, hospitality-lab, info, settings)
+  - **Accessibility:** Reduced-motion support in all animation components and PageTransition
+  - **Dynamic Lang:** HTML lang attribute now updates based on current locale
+
+- **2024-11-26:** Next.js 16 Upgrade & Navigation Fixes
   - **Next.js 16.0.5:** Upgraded from 15.1.3 to latest stable with Turbopack
   - **React 19.2.0:** Updated React and React DOM to latest versions
   - **Navigation Alignment:** Fixed underline alignment for longer language translations
@@ -220,12 +238,16 @@ Centralized in `lib/translations.js`:
 
 ## Performance Notes
 - Images optimized with Next.js Image component
-- CSS animations use GPU-accelerated transforms
+- CSS animations use GPU-accelerated transforms (will-change, translateZ, backface-visibility)
 - Backdrop filters for frosted glass effects
 - Smooth scroll with easing functions
-- Lazy loading for images
+- Lazy loading for images and MusicPlayer (dynamic import with ssr:false)
 - Next.js 16 Turbopack for faster development builds
 - Smaller production bundles with React 19
+- PageTransition for instant-feel route changes (~120ms)
+- content-visibility: auto for below-fold sections
+- Spring physics for natural animation feel (stiffness 100-150, damping 20-30)
+- Performance targets: LCP ≤ 2.0s, INP ≤ 150ms, CLS ≤ 0.02
 
 ## Accessibility
 - Semantic HTML with proper ARIA labels
