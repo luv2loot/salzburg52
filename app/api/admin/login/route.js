@@ -41,7 +41,6 @@ export async function POST(request) {
       message: "Login successful",
     });
   } catch (error) {
-    console.error("Login error:", error);
     return Response.json(
       { message: "Authentication failed" },
       { status: 500 }

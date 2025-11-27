@@ -9,12 +9,11 @@ export default function AdminDashboard() {
   const [adminUsername, setAdminUsername] = useState("");
   const [underConstruction, setUnderConstruction] = useState(false);
   const [demoMode, setDemoMode] = useState(false);
-  const [analyticsEnabled, setAnalyticsEnabled] = useState(true);
   const [maintenanceMode, setMaintenanceMode] = useState(false);
+  const [analyticsEnabled, setAnalyticsEnabled] = useState(true);
 
   useEffect(() => {
     setMounted(true);
-
     const token = localStorage.getItem("adminToken");
     const username = localStorage.getItem("adminUsername");
 
@@ -39,57 +38,24 @@ export default function AdminDashboard() {
 
   const toggleFeature = (key, value) => {
     localStorage.setItem(key, value ? "true" : "false");
-    switch(key) {
-      case "underConstructionMode":
-        setUnderConstruction(value);
-        break;
-      case "demoMode":
-        setDemoMode(value);
-        break;
-      case "maintenanceMode":
-        setMaintenanceMode(value);
-        break;
-      case "analyticsEnabled":
-        setAnalyticsEnabled(value);
-        break;
-    }
+    if (key === "underConstructionMode") setUnderConstruction(value);
+    if (key === "demoMode") setDemoMode(value);
+    if (key === "maintenanceMode") setMaintenanceMode(value);
+    if (key === "analyticsEnabled") setAnalyticsEnabled(value);
   };
 
   if (!mounted) return null;
 
-  const stats = [
-    { label: "Site Status", value: underConstruction ? "🚧 Under Construction" : "✅ Live", color: "rgb(37, 99, 235)" },
-    { label: "Visitors Today", value: "2,847", color: "rgb(139, 92, 246)" },
-    { label: "Page Views", value: "9,432", color: "rgb(236, 72, 153)" },
-    { label: "Avg. Session", value: "4m 23s", color: "rgb(6, 182, 212)" },
-  ];
-
-  const features = [
-    { key: "underConstructionMode", label: "Under Construction", icon: "🚧", value: underConstruction, desc: "Show maintenance page to all visitors" },
-    { key: "demoMode", label: "Demo Mode", icon: "🎬", value: demoMode, desc: "Enable demo content and features" },
-    { key: "maintenanceMode", label: "Maintenance", icon: "🔧", value: maintenanceMode, desc: "Limited access for admins only" },
-    { key: "analyticsEnabled", label: "Analytics", icon: "📊", value: analyticsEnabled, desc: "Track visitor behavior and metrics" },
-  ];
-
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
+    <div
       style={{
         minHeight: "100vh",
         background: "linear-gradient(135deg, #050509 0%, #0b0b12 50%, #1a1a2e 100%)",
         padding: "2rem 1rem",
       }}
     >
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        style={{ maxWidth: "1200px", margin: "0 auto" }}
-      >
-        {/* Header */}
-        <motion.div
+      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+        <div
           style={{
             display: "flex",
             justifyContent: "space-between",
@@ -123,13 +89,9 @@ export default function AdminDashboard() {
           >
             Sign Out
           </motion.button>
-        </motion.div>
+        </div>
 
-        {/* Statistics Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+        <div
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
@@ -137,16 +99,20 @@ export default function AdminDashboard() {
             marginBottom: "2rem",
           }}
         >
-          {stats.map((stat, i) => (
+          {[
+            { label: "Site Status", value: underConstruction ? "🚧 Under Construction" : "✅ Live" },
+            { label: "Visitors Today", value: "2,847" },
+            { label: "Page Views", value: "9,432" },
+            { label: "Avg. Session", value: "4m 23s" },
+          ].map((stat, i) => (
             <motion.div
               key={i}
               whileHover={{ y: -5 }}
               style={{
                 padding: "1.5rem",
                 background: "rgba(15, 15, 25, 0.6)",
-                border: `1px solid rgba(37, 99, 235, 0.2)`,
+                border: "1px solid rgba(37, 99, 235, 0.2)",
                 borderRadius: "12px",
-                backdropFilter: "blur(10px)",
               }}
             >
               <p style={{ fontSize: "0.85rem", color: "#9ca3af", margin: "0 0 0.75rem 0" }}>
@@ -157,13 +123,9 @@ export default function AdminDashboard() {
               </p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
-        {/* Feature Toggles */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+        <div
           style={{
             padding: "2rem",
             background: "rgba(15, 15, 25, 0.6)",
@@ -176,7 +138,12 @@ export default function AdminDashboard() {
             Feature Controls
           </h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "1rem" }}>
-            {features.map((feature) => (
+            {[
+              { key: "underConstructionMode", label: "🚧 Under Construction", desc: "Show maintenance page", value: underConstruction },
+              { key: "demoMode", label: "🎬 Demo Mode", desc: "Enable demo content", value: demoMode },
+              { key: "maintenanceMode", label: "🔧 Maintenance", desc: "Limited access for admins", value: maintenanceMode },
+              { key: "analyticsEnabled", label: "📊 Analytics", desc: "Track visitor behavior", value: analyticsEnabled },
+            ].map((feature) => (
               <motion.div
                 key={feature.key}
                 whileHover={{ scale: 1.02 }}
@@ -192,13 +159,13 @@ export default function AdminDashboard() {
               >
                 <div>
                   <p style={{ fontSize: "0.9rem", fontWeight: 600, color: "#f8f9fa", margin: "0 0 0.3rem 0" }}>
-                    {feature.icon} {feature.label}
+                    {feature.label}
                   </p>
                   <p style={{ fontSize: "0.8rem", color: "#9ca3af", margin: 0 }}>
                     {feature.desc}
                   </p>
                 </div>
-                <motion.button
+                <button
                   onClick={() => toggleFeature(feature.key, !feature.value)}
                   style={{
                     position: "relative",
@@ -211,101 +178,25 @@ export default function AdminDashboard() {
                     padding: 0,
                   }}
                 >
-                  <motion.div
-                    animate={{ x: feature.value ? 24 : 2 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  <div
                     style={{
                       position: "absolute",
                       top: "2px",
-                      left: "2px",
+                      left: feature.value ? "24px" : "2px",
                       width: "24px",
                       height: "24px",
                       background: feature.value ? "#2563EB" : "#6b7280",
                       borderRadius: "12px",
+                      transition: "all 0.3s ease",
                     }}
                   />
-                </motion.button>
+                </button>
               </motion.div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
-        {/* Quick Actions */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-            gap: "1rem",
-            marginBottom: "2rem",
-          }}
-        >
-          <Link href="/admin/settings" style={{ textDecoration: "none" }}>
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              style={{
-                padding: "1.5rem",
-                background: "linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(139, 92, 246, 0.1))",
-                border: "1px solid rgba(37, 99, 235, 0.3)",
-                borderRadius: "12px",
-                cursor: "pointer",
-                textAlign: "center",
-              }}
-            >
-              <p style={{ fontSize: "2rem", margin: "0 0 0.5rem 0" }}>⚙️</p>
-              <p style={{ fontSize: "0.9rem", fontWeight: 600, color: "#f8f9fa", margin: 0 }}>
-                Settings
-              </p>
-            </motion.div>
-          </Link>
-
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => {
-              localStorage.clear();
-              window.location.reload();
-            }}
-            style={{
-              padding: "1.5rem",
-              background: "linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(236, 72, 153, 0.1))",
-              border: "1px solid rgba(139, 92, 246, 0.3)",
-              borderRadius: "12px",
-              cursor: "pointer",
-              textAlign: "center",
-            }}
-          >
-            <p style={{ fontSize: "2rem", margin: "0 0 0.5rem 0" }}>🗑️</p>
-            <p style={{ fontSize: "0.9rem", fontWeight: 600, color: "#f8f9fa", margin: 0 }}>
-              Clear Cache
-            </p>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            style={{
-              padding: "1.5rem",
-              background: "linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(6, 182, 212, 0.1))",
-              border: "1px solid rgba(236, 72, 153, 0.3)",
-              borderRadius: "12px",
-              textAlign: "center",
-            }}
-          >
-            <p style={{ fontSize: "2rem", margin: "0 0 0.5rem 0" }}>📊</p>
-            <p style={{ fontSize: "0.9rem", fontWeight: 600, color: "#f8f9fa", margin: 0 }}>
-              View Analytics
-            </p>
-          </motion.div>
-        </motion.div>
-
-        {/* System Status */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+        <div
           style={{
             padding: "1.5rem",
             background: "rgba(34, 197, 94, 0.1)",
@@ -316,8 +207,8 @@ export default function AdminDashboard() {
           <p style={{ fontSize: "0.9rem", color: "#86efac", margin: 0 }}>
             ✅ All systems operational • Last backup: 2 hours ago • API Status: Healthy
           </p>
-        </motion.div>
-      </motion.div>
-    </motion.div>
+        </div>
+      </div>
+    </div>
   );
 }

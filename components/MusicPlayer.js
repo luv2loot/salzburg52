@@ -31,7 +31,7 @@ export default function MusicPlayer() {
           playedRef.current = false;
         } else if (!playedRef.current && audioRef.current) {
           audioRef.current.volume = 0.4;
-          audioRef.current.play().catch(() => console.log("Play failed"));
+          audioRef.current.play().catch(() => {});
           setIsPlaying(true);
           playedRef.current = true;
         }
