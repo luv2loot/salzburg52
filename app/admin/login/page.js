@@ -307,7 +307,7 @@ export default function AdminLogin() {
                     onChange={(e) => setUsername(e.target.value)}
                     onFocus={() => setFocusedField("username")}
                     onBlur={() => setFocusedField(null)}
-                    placeholder="adms52"
+                    placeholder=""
                     whileFocus={{ scale: 1.01 }}
                     style={{
                       width: "100%",
@@ -353,12 +353,12 @@ export default function AdminLogin() {
                   </motion.label>
                   <div style={{ position: "relative" }}>
                     <motion.input
-                      type={showPassword ? "text" : "password"}
+                      type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       onFocus={() => setFocusedField("password")}
                       onBlur={() => setFocusedField(null)}
-                      placeholder="••••••••••••••"
+                      placeholder=""
                       whileFocus={{ scale: 1.01 }}
                       style={{
                         width: "100%",
@@ -376,26 +376,6 @@ export default function AdminLogin() {
                         fontFamily: "inherit",
                       }}
                     />
-                    <motion.button
-                      type="button"
-                      whileHover={{ scale: 1.15 }}
-                      whileTap={{ scale: 0.9 }}
-                      onClick={() => setShowPassword(!showPassword)}
-                      style={{
-                        position: "absolute",
-                        right: "1rem",
-                        top: focusedField === "password" || password ? "1.3rem" : "0.9rem",
-                        background: "none",
-                        border: "none",
-                        color: "#6b7280",
-                        cursor: "pointer",
-                        fontSize: "1.1rem",
-                        padding: "0.25rem",
-                        transition: "all 0.2s ease",
-                      }}
-                    >
-                      {showPassword ? "👁️" : "👁️‍🗨️"}
-                    </motion.button>
                   </div>
                 </motion.div>
 
