@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function UnderConstruction() {
@@ -158,33 +157,6 @@ export default function UnderConstruction() {
         }}
       />
 
-      {/* Admin Dashboard Link */}
-      <Link href="/admin/dashboard">
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          style={{
-            position: "fixed",
-            top: "2rem",
-            right: "2rem",
-            width: "44px",
-            height: "44px",
-            borderRadius: "50%",
-            background: "rgba(37, 99, 235, 0.15)",
-            border: "1px solid rgba(37, 99, 235, 0.3)",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 10000,
-          }}
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#2563EB" }}>
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"/>
-          </svg>
-        </motion.button>
-      </Link>
     </motion.div>
   );
 }
