@@ -68,6 +68,7 @@ export default function Header({ lang = "en" }) {
   const [isSettingsHovered, setIsSettingsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const lastScrollY = useRef(0);
   const scrollThreshold = 50;
 
@@ -75,6 +76,10 @@ export default function Header({ lang = "en" }) {
   const headerBlur = useTransform(scrollY, [0, 100], [0, 20]);
   const headerBg = useTransform(scrollY, [0, 100], ['rgba(255,255,255,0)', 'rgba(255,255,255,0.8)']);
   const headerBlurStyle = useTransform(headerBlur, (v) => `blur(${v}px)`);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (reducedMotion) {
@@ -129,12 +134,42 @@ export default function Header({ lang = "en" }) {
     router.push(newPath || `/${nextLang}`);
   };
 
+  if (!mounted) {
+    return (
+      <header className="app-shell header-root-premium" role="banner">
+        <div className="surface header-inner-premium">
+          <div className="header-left-premium">
+            <Link 
+              href={`/${activeLang}`} 
+              className="header-logo-link"
+              aria-label="Salzburg52 Home"
+            >
+              <Logo size={36} showText={true} />
+            </Link>
+          </div>
+          <button 
+            className="mobile-menu-btn"
+            aria-label="Open menu"
+          >
+            <span className="hamburger-icon" />
+          </button>
+          <nav className="header-nav-premium" aria-label="Main" />
+          <div className="header-right-premium">
+            <button className="header-settings-btn-premium" aria-haspopup="dialog">
+              <span className="settings-btn-text">{settingsLabel}</span>
+              <span className="settings-btn-icon">⚙</span>
+            </button>
+          </div>
+        </div>
+      </header>
+    );
+  }
+
   return (
     <>
       <motion.header 
         className="app-shell header-root-premium" 
         role="banner"
-        initial={{ y: 0 }}
         animate={{ 
           y: reducedMotion ? 0 : (isVisible ? 0 : -100),
           opacity: reducedMotion ? 1 : (isVisible ? 1 : 0)
@@ -237,75 +272,104 @@ export default function Header({ lang = "en" }) {
         onReducedMotionChange={setReducedMotion}
       />
 
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {isMobileMenuOpen && (
-          <motion.div
-            className="mobile-menu-overlay"
-            initial={reducedMotion ? false : { opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -20 }}
-            transition={{ duration: reducedMotion ? 0 : 0.3 }}
-          >
-            <button
-              className="mobile-menu-close"
+          <>
+            <motion.div
+              className="mobile-menu-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
               onClick={() => setIsMobileMenuOpen(false)}
-              aria-label="Close menu"
-              style={{
-                position: 'absolute',
-                top: '16px',
-                right: '16px',
-                background: 'rgba(0,0,0,0.05)',
-                border: 'none',
-                width: '44px',
-                height: '44px',
-                minWidth: '44px',
-                minHeight: '44px',
-                borderRadius: '12px',
-                fontSize: '24px',
-                cursor: 'pointer',
-                color: 'var(--color-text)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+            />
+            
+            <motion.div
+              className="mobile-menu-overlay"
+              initial={{ opacity: 0, y: -40, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -40, scale: 0.95 }}
+              transition={{
+                type: "spring",
+                stiffness: 120,
+                damping: 25,
+                mass: 0.8,
+                duration: 0.5
               }}
             >
-              ×
-            </button>
-            
-            {navItems.map((item, index) => {
-              const isActive = pathname === item.href;
-              return (
-                <motion.div
-                  key={item.key}
-                  initial={reducedMotion ? false : { opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: reducedMotion ? 0 : index * 0.05, duration: reducedMotion ? 0 : 0.3 }}
+              <motion.div
+                className="mobile-menu-content"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.15, duration: 0.4 }}
+              >
+                <button
+                  className="mobile-menu-close"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  aria-label="Close menu"
                 >
-                  <Link
-                    href={item.href}
-                    className={`mobile-menu-link${isActive ? ' is-active' : ''}`}
-                    onClick={() => setIsMobileMenuOpen(false)}
+                  ×
+                </button>
+                
+                <motion.div
+                  className="mobile-menu-items"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2, duration: 0.4 }}
+                >
+                  {navItems.map((item, index) => {
+                    const isActive = pathname === item.href;
+                    return (
+                      <motion.div
+                        key={item.key}
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 100,
+                          damping: 20,
+                          delay: 0.25 + index * 0.08,
+                          duration: 0.5
+                        }}
+                        className="mobile-menu-item"
+                      >
+                        <Link
+                          href={item.href}
+                          className={`mobile-menu-link${isActive ? ' is-active' : ''}`}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {item.label}
+                        </Link>
+                      </motion.div>
+                    );
+                  })}
+                  
+                  <motion.div
+                    initial={{ opacity: 0, x: -30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 100,
+                      damping: 20,
+                      delay: 0.25 + navItems.length * 0.08,
+                      duration: 0.5
+                    }}
+                    className="mobile-menu-item"
                   >
-                    {item.label}
-                  </Link>
-                </motion.div>
-              );
-            })}
-            
-            <motion.button
-              initial={reducedMotion ? false : { opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: reducedMotion ? 0 : navItems.length * 0.05, duration: reducedMotion ? 0 : 0.3 }}
-              className="mobile-menu-link"
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                setIsSettingsOpen(true);
-              }}
-              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-            >
-              {settingsLabel} ⚙
-            </motion.button>
-          </motion.div>
+                    <button
+                      className="mobile-menu-link"
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        setIsSettingsOpen(true);
+                      }}
+                    >
+                      {settingsLabel} ⚙
+                    </button>
+                  </motion.div>
+                </motion.motion.div>
+              </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>
