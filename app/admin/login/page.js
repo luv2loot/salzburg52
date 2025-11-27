@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { LogoAnimated } from "@/components/Logo";
 
 export default function AdminLogin() {
   const router = useRouter();
@@ -159,17 +160,10 @@ export default function AdminLogin() {
           >
             <motion.div
               style={{
-                fontSize: "5rem",
-                fontWeight: 900,
-                background: "linear-gradient(135deg, #2563EB 0%, #8B5CF6 50%, #EC4899 100%)",
-                backgroundClip: "text",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
                 marginBottom: "2rem",
-                letterSpacing: "-3px",
               }}
             >
-              S·52
+              <LogoAnimated size={120} />
             </motion.div>
 
             <motion.h1
@@ -181,7 +175,7 @@ export default function AdminLogin() {
                 lineHeight: 1.2,
               }}
             >
-              Admin Control Center
+              Welcome back Amir
             </motion.h1>
 
             <motion.p
