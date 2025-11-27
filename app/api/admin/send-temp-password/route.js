@@ -10,9 +10,7 @@ function generatePassword() {
 // List of recipient emails (domain verified - all emails can receive)
 const RECIPIENT_EMAILS = [
   "amir2007ismaili@gmail.com",
-  "info@salzburg52.com",
-  "amir.ismaili@salzburg52.com",
-  "ivydark3@icloud.com"
+  "amir.ismaili@salzburg52.onmicrosoft.com"
 ];
 
 const resend = new Resend(process.env.RESEND_API_KEY);
