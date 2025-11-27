@@ -4,84 +4,167 @@
   <!-- Root -->
   <url>
     <loc>https://salzburg52.com</loc>
+    <priority>1.0</priority>
   </url>
 
   <!-- English -->
   <url>
     <loc>https://salzburg52.com/en</loc>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://salzburg52.com/en/info</loc>
+    <loc>https://salzburg52.com/en/journey</loc>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://salzburg52.com/en/salzburg</loc>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://salzburg52.com/en/support</loc>
+    <loc>https://salzburg52.com/en/playground</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/en/hospitality-lab</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/en/info</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/en/settings</loc>
+    <priority>0.7</priority>
   </url>
 
   <!-- German -->
   <url>
     <loc>https://salzburg52.com/de</loc>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://salzburg52.com/de/info</loc>
+    <loc>https://salzburg52.com/de/journey</loc>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://salzburg52.com/de/salzburg</loc>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://salzburg52.com/de/support</loc>
+    <loc>https://salzburg52.com/de/playground</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/de/hospitality-lab</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/de/info</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/de/settings</loc>
+    <priority>0.7</priority>
   </url>
 
   <!-- Italian -->
   <url>
     <loc>https://salzburg52.com/it</loc>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://salzburg52.com/it/info</loc>
+    <loc>https://salzburg52.com/it/journey</loc>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://salzburg52.com/it/salzburg</loc>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://salzburg52.com/it/support</loc>
+    <loc>https://salzburg52.com/it/playground</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/it/hospitality-lab</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/it/info</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/it/settings</loc>
+    <priority>0.7</priority>
   </url>
 
   <!-- French -->
   <url>
     <loc>https://salzburg52.com/fr</loc>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://salzburg52.com/fr/info</loc>
+    <loc>https://salzburg52.com/fr/journey</loc>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://salzburg52.com/fr/salzburg</loc>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://salzburg52.com/fr/support</loc>
+    <loc>https://salzburg52.com/fr/playground</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/fr/hospitality-lab</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/fr/info</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/fr/settings</loc>
+    <priority>0.7</priority>
   </url>
 
   <!-- Spanish -->
   <url>
     <loc>https://salzburg52.com/es</loc>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://salzburg52.com/es/info</loc>
+    <loc>https://salzburg52.com/es/journey</loc>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://salzburg52.com/es/salzburg</loc>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://salzburg52.com/es/support</loc>
+    <loc>https://salzburg52.com/es/playground</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/es/hospitality-lab</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/es/info</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://salzburg52.com/es/settings</loc>
+    <priority>0.7</priority>
   </url>
 
   <!-- Legal pages -->
   <url>
     <loc>https://salzburg52.com/legal/impressum</loc>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://salzburg52.com/legal/privacy</loc>
+    <priority>0.5</priority>
   </url>
 
 </urlset>

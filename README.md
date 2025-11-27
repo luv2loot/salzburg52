@@ -173,9 +173,9 @@ MIT © 2024 Amir Ismaili
 
 ## Contact
 
-- **Email:** [your-email@example.com](mailto:your-email@example.com)
+- **Email:** [info@salzburg52.com](mailto:info@salzburg52.com)
 - **Instagram:** [@am.rsbgg](https://instagram.com/am.rsbgg)
-- **Location:** Salzburg, Austria
+- **Location:** Austria
 
 ---
 
