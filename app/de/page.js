@@ -8,7 +8,6 @@ import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Cursor from "@/components/Cursor";
 import MediaStrip from "@/components/MediaStrip";
-import SnippetRefreshButton from "@/components/SnippetRefreshButton";
 import FloatingCardHub from "@/components/FloatingCardHub";
 import Showcase from "@/components/Showcase";
 import ScrollReveal from "@/components/animations/ScrollReveal";
@@ -134,7 +133,6 @@ export default function DeHomePage() {
     }
   }, []);
 
-  const handleRefreshSnippet = () => {
     if (!snippet) return;
     if (typeof window === "undefined") return;
 
@@ -185,7 +183,6 @@ export default function DeHomePage() {
                     ? "Wissenswertes"
                     : "Nur zum Spaß"}
                 </p>
-                <SnippetRefreshButton onClick={handleRefreshSnippet} />
               </div>
               <p className="snippet-text">{snippet.text}</p>
             </div>

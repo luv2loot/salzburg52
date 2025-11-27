@@ -8,7 +8,6 @@ import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Cursor from "@/components/Cursor";
 import MediaStrip from "@/components/MediaStrip";
-import SnippetRefreshButton from "@/components/SnippetRefreshButton";
 import FloatingCardHub from "@/components/FloatingCardHub";
 import Showcase from "@/components/Showcase";
 import { ServiceMarquee, TextMarquee } from "@/components/animations/Marquee";
@@ -141,7 +140,6 @@ export default function EnHomePage() {
     }
   }, []);
 
-  const handleRefreshSnippet = () => {
     if (!snippet) return;
     if (typeof window === "undefined") return;
 
@@ -197,7 +195,6 @@ export default function EnHomePage() {
                     ? "Fun fact"
                     : "Just for fun"}
                 </p>
-                <SnippetRefreshButton onClick={handleRefreshSnippet} />
               </div>
               <p className="snippet-text">{snippet.text}</p>
             </div>

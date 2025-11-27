@@ -3889,6 +3889,86 @@ a:active {
   }
 }
 
+/* Journey Section - Extra small phones (max 480px) */
+@media (max-width: 480px) {
+  .journey-hero {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .journey-hero-badge {
+    padding: 0.35rem 0.85rem;
+    font-size: 0.65rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .timeline-section {
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+  }
+
+  .timeline-intro {
+    margin-bottom: 1.5rem;
+  }
+
+  .timeline-intro-title {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-intro-text {
+    font-size: 0.9rem;
+    max-width: 100%;
+    line-height: 1.5;
+  }
+
+  .timeline-intro-badge {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.6rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .timeline-items {
+    gap: 1.25rem;
+  }
+
+  .timeline-card {
+    padding: 1rem;
+  }
+
+  .timeline-card-title {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-card-description {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .journey-closing {
+    padding-top: 1rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .journey-closing-inner {
+    padding: 1.5rem 1rem;
+  }
+
+  .journey-closing-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .journey-closing-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    max-width: 100%;
+    margin: 0 auto 1.5rem;
+  }
+}
+
 /* === Performance Optimizations === */
 
 /* GPU Acceleration */
