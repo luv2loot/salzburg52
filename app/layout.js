@@ -2,6 +2,7 @@ import "./globals.css";
 import { Poppins } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import DynamicMusicPlayer from "@/components/DynamicMusicPlayer";
+import UnderConstruction from "@/components/UnderConstruction";
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -59,6 +60,7 @@ export default function RootLayout({ children }) {
       </head>
 
       <body className="app-body">
+        <UnderConstruction />
         <DynamicMusicPlayer />
         <ThemeProvider>{children}</ThemeProvider>
       </body>
