@@ -10,10 +10,10 @@ function generatePassword() {
 }
 
 // List of recipient emails
+// Note: In Resend's free trial, you can only send to your verified email (amir2007ismaili@gmail.com)
+// Once you verify a domain at resend.com/domains, add other emails here
 const RECIPIENT_EMAILS = [
-  "info@salzburg52.com",
-  "amir.ismaili@salzburg52.com",
-  "ivydark3@icloud.com"
+  "amir2007ismaili@gmail.com" // Your verified email for testing
 ];
 
 export async function POST(request) {
