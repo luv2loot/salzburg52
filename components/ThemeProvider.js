@@ -56,11 +56,19 @@ export function ThemeProvider({ children }) {
   const [appliedTheme, setAppliedTheme] = useState("light");
   const [fontSize, setFontSizeState] = useState(100);
   const [reducedMotion, setReducedMotionState] = useState(false);
+  // ✅ NEW: actually define mounted
+  const [mounted, setMounted] = useState(false);
 
   const updateAppliedTheme = useCallback((preference) => {
     setAppliedTheme(computeAppliedTheme(preference));
   }, []);
 
+  // ✅ NEW: mark as mounted on client
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Load initial values from localStorage (runs once, even on first mount)
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -81,6 +89,7 @@ export function ThemeProvider({ children }) {
       if (FONT_SIZE_OPTIONS.some(opt => opt.value === parsedSize)) {
         setFontSizeState(parsedSize);
       } else if (storedFontSize === "large") {
+        // backwards compatibility with older stored values
         setFontSizeState(110);
       }
     }
@@ -90,6 +99,7 @@ export function ThemeProvider({ children }) {
     }
   }, []);
 
+  // React to OS theme when theme === "system"
   useEffect(() => {
     if (!mounted) return;
     if (typeof window === "undefined") return;
@@ -104,6 +114,7 @@ export function ThemeProvider({ children }) {
     }
   }, [theme, mounted, updateAppliedTheme]);
 
+  // React to time-of-day when theme === "auto"
   useEffect(() => {
     if (!mounted) return;
     if (typeof window === "undefined") return;
@@ -117,11 +128,13 @@ export function ThemeProvider({ children }) {
     }
   }, [theme, mounted, updateAppliedTheme]);
 
+  // Keep appliedTheme in sync whenever theme changes
   useEffect(() => {
     if (!mounted) return;
     updateAppliedTheme(theme);
   }, [theme, mounted, updateAppliedTheme]);
 
+  // Apply theme classes to <html>
   useEffect(() => {
     if (!mounted) return;
     if (typeof document === "undefined" || typeof window === "undefined") return;
@@ -139,6 +152,7 @@ export function ThemeProvider({ children }) {
     }
   }, [appliedTheme, mounted]);
 
+  // Persist theme to localStorage
   useEffect(() => {
     if (!mounted) return;
     if (typeof window === "undefined") return;
@@ -146,13 +160,19 @@ export function ThemeProvider({ children }) {
     window.localStorage.setItem(THEME_KEY, theme);
   }, [theme, mounted]);
 
+  // Apply font-size classes + CSS variable
   useEffect(() => {
     if (!mounted) return;
     if (typeof document === "undefined" || typeof window === "undefined") return;
 
     const root = document.documentElement;
 
-    root.classList.remove("font-size-small", "font-size-normal", "font-size-large", "font-size-xlarge");
+    root.classList.remove(
+      "font-size-small",
+      "font-size-normal",
+      "font-size-large",
+      "font-size-xlarge"
+    );
 
     if (fontSize === 90) {
       root.classList.add("font-size-small");
@@ -169,6 +189,7 @@ export function ThemeProvider({ children }) {
     window.localStorage.setItem(FONT_SIZE_KEY, String(fontSize));
   }, [fontSize, mounted]);
 
+  // Apply reduced-motion class
   useEffect(() => {
     if (!mounted) return;
     if (typeof document === "undefined" || typeof window === "undefined") return;
@@ -202,15 +223,17 @@ export function ThemeProvider({ children }) {
   };
 
   return (
-    <ThemeContext.Provider value={{ 
-      theme,
-      appliedTheme,
-      setTheme, 
-      fontSize, 
-      setFontSize, 
-      reducedMotion, 
-      setReducedMotion 
-    }}>
+    <ThemeContext.Provider
+      value={{
+        theme,
+        appliedTheme,
+        setTheme,
+        fontSize,
+        setFontSize,
+        reducedMotion,
+        setReducedMotion
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );
