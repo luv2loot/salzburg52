@@ -12,6 +12,7 @@ export default function AdminLogin() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [focusedField, setFocusedField] = useState(null);
 
   useEffect(() => {
     setMounted(true);
@@ -57,242 +58,446 @@ export default function AdminLogin() {
   if (!mounted) return null;
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
+    <div
       style={{
         minHeight: "100vh",
         background: "linear-gradient(135deg, #050509 0%, #0b0b12 50%, #1a1a2e 100%)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "1rem",
+        position: "relative",
+        overflow: "hidden",
         fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
       }}
     >
+      {/* Animated Background Elements */}
       <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        animate={{
+          x: [0, 40, 0],
+          y: [0, 60, 0],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
         style={{
-          maxWidth: "420px",
-          width: "100%",
-          padding: "3rem 2rem",
-          background: "rgba(15, 15, 25, 0.8)",
-          border: "1px solid rgba(37, 99, 235, 0.2)",
-          borderRadius: "16px",
-          backdropFilter: "blur(10px)",
-          boxShadow: "0 20px 60px rgba(0, 0, 0, 0.5)",
+          position: "absolute",
+          width: "400px",
+          height: "400px",
+          background: "radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, transparent 70%)",
+          borderRadius: "50%",
+          top: "-10%",
+          right: "-5%",
+          filter: "blur(40px)",
+        }}
+      />
+      <motion.div
+        animate={{
+          x: [0, -30, 0],
+          y: [0, -50, 0],
+        }}
+        transition={{
+          duration: 25,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        style={{
+          position: "absolute",
+          width: "500px",
+          height: "500px",
+          background: "radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%)",
+          borderRadius: "50%",
+          bottom: "-15%",
+          left: "-10%",
+          filter: "blur(50px)",
+        }}
+      />
+
+      {/* Grid Pattern Overlay */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: `
+            linear-gradient(rgba(37, 99, 235, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(37, 99, 235, 0.03) 1px, transparent 1px)
+          `,
+          backgroundSize: "50px 50px",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Main Content */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        style={{
+          position: "relative",
+          zIndex: 10,
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "1rem",
         }}
       >
-        {/* Logo */}
-        <motion.div
-          animate={{ y: [0, -8, 0] }}
-          transition={{ duration: 3, repeat: Infinity }}
+        <div
           style={{
-            fontSize: "3rem",
-            fontWeight: 900,
-            background: "linear-gradient(135deg, #2563EB, #8B5CF6)",
-            backgroundClip: "text",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            marginBottom: "1.5rem",
-            textAlign: "center",
-            letterSpacing: "-2px",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "3rem",
+            maxWidth: "1100px",
+            width: "100%",
+            alignItems: "center",
           }}
         >
-          S·52
-        </motion.div>
-
-        {/* Title */}
-        <h1
-          style={{
-            fontSize: "1.5rem",
-            fontWeight: 700,
-            color: "#f8f9fa",
-            marginBottom: "0.5rem",
-            textAlign: "center",
-          }}
-        >
-          Admin Panel
-        </h1>
-
-        <p
-          style={{
-            fontSize: "0.9rem",
-            color: "#9ca3af",
-            textAlign: "center",
-            marginBottom: "2rem",
-          }}
-        >
-          Salzburg52 Administration
-        </p>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          {/* Username */}
-          <div>
-            <label
+          {/* Left Side - Branding */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            <motion.div
               style={{
-                display: "block",
-                fontSize: "0.85rem",
-                fontWeight: 600,
-                color: "#e0e7ff",
-                marginBottom: "0.5rem",
+                fontSize: "5rem",
+                fontWeight: 900,
+                background: "linear-gradient(135deg, #2563EB 0%, #8B5CF6 50%, #EC4899 100%)",
+                backgroundClip: "text",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                marginBottom: "2rem",
+                letterSpacing: "-3px",
               }}
             >
-              Username
-            </label>
-            <motion.input
-              whileFocus={{ scale: 1.01 }}
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="adms52"
+              S·52
+            </motion.div>
+
+            <motion.h1
               style={{
-                width: "100%",
-                padding: "0.875rem 1rem",
-                background: "rgba(255, 255, 255, 0.05)",
-                border: "1px solid rgba(37, 99, 235, 0.3)",
-                borderRadius: "8px",
+                fontSize: "2.5rem",
+                fontWeight: 800,
                 color: "#f8f9fa",
-                fontSize: "1rem",
-                outline: "none",
-                transition: "all 0.2s ease",
-                boxSizing: "border-box",
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = "rgba(37, 99, 235, 0.6)";
-                e.target.style.background = "rgba(255, 255, 255, 0.08)";
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = "rgba(37, 99, 235, 0.3)";
-                e.target.style.background = "rgba(255, 255, 255, 0.05)";
-              }}
-            />
-          </div>
-
-          {/* Password */}
-          <div>
-            <label
-              style={{
-                display: "block",
-                fontSize: "0.85rem",
-                fontWeight: 600,
-                color: "#e0e7ff",
-                marginBottom: "0.5rem",
+                marginBottom: "1rem",
+                lineHeight: 1.2,
               }}
             >
-              Password
-            </label>
-            <div style={{ position: "relative" }}>
-              <motion.input
-                whileFocus={{ scale: 1.01 }}
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••••••••"
+              Admin Control Center
+            </motion.h1>
+
+            <motion.p
+              style={{
+                fontSize: "1.1rem",
+                color: "#9ca3af",
+                marginBottom: "2rem",
+                lineHeight: 1.6,
+              }}
+            >
+              Manage your Salzburg52 portfolio and site settings with full control and elegance.
+            </motion.p>
+
+            {/* Features List */}
+            <motion.div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1rem",
+              }}
+            >
+              {["Real-time site management", "One-click settings control", "Secure access"].map((feature, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 + i * 0.1 }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.75rem",
+                    color: "#9ca3af",
+                    fontSize: "0.95rem",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "6px",
+                      height: "6px",
+                      borderRadius: "50%",
+                      background: "linear-gradient(135deg, #2563EB, #8B5CF6)",
+                    }}
+                  />
+                  {feature}
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Right Side - Login Form */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <motion.div
+              style={{
+                padding: "3rem",
+                background: "rgba(15, 15, 25, 0.6)",
+                border: "1px solid rgba(37, 99, 235, 0.2)",
+                borderRadius: "24px",
+                backdropFilter: "blur(20px)",
+                boxShadow: "0 20px 60px rgba(0, 0, 0, 0.4), inset 0 0 1px rgba(255, 255, 255, 0.1)",
+              }}
+            >
+              {/* Form Title */}
+              <motion.div
                 style={{
-                  width: "100%",
-                  padding: "0.875rem 1rem",
-                  paddingRight: "2.5rem",
-                  background: "rgba(255, 255, 255, 0.05)",
-                  border: "1px solid rgba(37, 99, 235, 0.3)",
-                  borderRadius: "8px",
-                  color: "#f8f9fa",
-                  fontSize: "1rem",
-                  outline: "none",
-                  transition: "all 0.2s ease",
-                  boxSizing: "border-box",
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = "rgba(37, 99, 235, 0.6)";
-                  e.target.style.background = "rgba(255, 255, 255, 0.08)";
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = "rgba(37, 99, 235, 0.3)";
-                  e.target.style.background = "rgba(255, 255, 255, 0.05)";
-                }}
-              />
-              <motion.button
-                type="button"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setShowPassword(!showPassword)}
-                style={{
-                  position: "absolute",
-                  right: "1rem",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  background: "none",
-                  border: "none",
-                  color: "#9ca3af",
-                  cursor: "pointer",
-                  fontSize: "1.1rem",
-                  padding: "0.5rem",
+                  marginBottom: "2.5rem",
                 }}
               >
-                {showPassword ? "👁️" : "👁️‍🗨️"}
-              </motion.button>
-            </div>
-          </div>
+                <h2
+                  style={{
+                    fontSize: "1.5rem",
+                    fontWeight: 700,
+                    color: "#f8f9fa",
+                    margin: "0 0 0.5rem 0",
+                  }}
+                >
+                  Welcome Back
+                </h2>
+                <p
+                  style={{
+                    fontSize: "0.9rem",
+                    color: "#6b7280",
+                    margin: 0,
+                  }}
+                >
+                  Enter your credentials to access the control panel
+                </p>
+              </motion.div>
 
-          {/* Error Message */}
-          {error && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              style={{
-                padding: "0.875rem 1rem",
-                background: "rgba(239, 68, 68, 0.15)",
-                border: "1px solid rgba(239, 68, 68, 0.4)",
-                borderRadius: "8px",
-                color: "#fca5a5",
-                fontSize: "0.9rem",
-                fontWeight: 500,
-              }}
-            >
-              ⚠️ {error}
+              {/* Form */}
+              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+                {/* Username Field */}
+                <motion.div
+                  layout
+                  style={{
+                    position: "relative",
+                  }}
+                >
+                  <motion.label
+                    animate={{
+                      y: focusedField === "username" || username ? -24 : 0,
+                      fontSize: focusedField === "username" || username ? "0.8rem" : "0.9rem",
+                    }}
+                    transition={{ duration: 0.2 }}
+                    style={{
+                      position: focusedField === "username" || username ? "absolute" : "static",
+                      left: "0",
+                      color: focusedField === "username" ? "#93c5fd" : "#9ca3af",
+                      fontWeight: 500,
+                      pointerEvents: "none",
+                      display: "block",
+                      marginBottom: focusedField === "username" || username ? "0" : "0.5rem",
+                    }}
+                  >
+                    Username
+                  </motion.label>
+                  <motion.input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    onFocus={() => setFocusedField("username")}
+                    onBlur={() => setFocusedField(null)}
+                    placeholder="adms52"
+                    whileFocus={{ scale: 1.01 }}
+                    style={{
+                      width: "100%",
+                      padding: "1rem",
+                      paddingTop: focusedField === "username" || username ? "1.2rem" : "1rem",
+                      background: focusedField === "username" ? "rgba(37, 99, 235, 0.1)" : "rgba(255, 255, 255, 0.04)",
+                      border: focusedField === "username" ? "1.5px solid rgba(37, 99, 235, 0.6)" : "1px solid rgba(37, 99, 235, 0.2)",
+                      borderRadius: "12px",
+                      color: "#f8f9fa",
+                      fontSize: "1rem",
+                      outline: "none",
+                      transition: "all 0.2s ease",
+                      boxSizing: "border-box",
+                      fontFamily: "inherit",
+                    }}
+                  />
+                </motion.div>
+
+                {/* Password Field */}
+                <motion.div
+                  layout
+                  style={{
+                    position: "relative",
+                  }}
+                >
+                  <motion.label
+                    animate={{
+                      y: focusedField === "password" || password ? -24 : 0,
+                      fontSize: focusedField === "password" || password ? "0.8rem" : "0.9rem",
+                    }}
+                    transition={{ duration: 0.2 }}
+                    style={{
+                      position: focusedField === "password" || password ? "absolute" : "static",
+                      left: "0",
+                      color: focusedField === "password" ? "#93c5fd" : "#9ca3af",
+                      fontWeight: 500,
+                      pointerEvents: "none",
+                      display: "block",
+                      marginBottom: focusedField === "password" || password ? "0" : "0.5rem",
+                    }}
+                  >
+                    Password
+                  </motion.label>
+                  <div style={{ position: "relative" }}>
+                    <motion.input
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      onFocus={() => setFocusedField("password")}
+                      onBlur={() => setFocusedField(null)}
+                      placeholder="••••••••••••••"
+                      whileFocus={{ scale: 1.01 }}
+                      style={{
+                        width: "100%",
+                        padding: "1rem",
+                        paddingRight: "3rem",
+                        paddingTop: focusedField === "password" || password ? "1.2rem" : "1rem",
+                        background: focusedField === "password" ? "rgba(37, 99, 235, 0.1)" : "rgba(255, 255, 255, 0.04)",
+                        border: focusedField === "password" ? "1.5px solid rgba(37, 99, 235, 0.6)" : "1px solid rgba(37, 99, 235, 0.2)",
+                        borderRadius: "12px",
+                        color: "#f8f9fa",
+                        fontSize: "1rem",
+                        outline: "none",
+                        transition: "all 0.2s ease",
+                        boxSizing: "border-box",
+                        fontFamily: "inherit",
+                      }}
+                    />
+                    <motion.button
+                      type="button"
+                      whileHover={{ scale: 1.15 }}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={() => setShowPassword(!showPassword)}
+                      style={{
+                        position: "absolute",
+                        right: "1rem",
+                        top: focusedField === "password" || password ? "1.3rem" : "0.9rem",
+                        background: "none",
+                        border: "none",
+                        color: "#6b7280",
+                        cursor: "pointer",
+                        fontSize: "1.1rem",
+                        padding: "0.25rem",
+                        transition: "all 0.2s ease",
+                      }}
+                    >
+                      {showPassword ? "👁️" : "👁️‍🗨️"}
+                    </motion.button>
+                  </div>
+                </motion.div>
+
+                {/* Error Message */}
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    style={{
+                      padding: "1rem",
+                      background: "rgba(239, 68, 68, 0.1)",
+                      border: "1px solid rgba(239, 68, 68, 0.4)",
+                      borderRadius: "12px",
+                      color: "#fca5a5",
+                      fontSize: "0.9rem",
+                      fontWeight: 500,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.75rem",
+                    }}
+                  >
+                    <span style={{ fontSize: "1rem" }}>⚠️</span>
+                    {error}
+                  </motion.div>
+                )}
+
+                {/* Submit Button */}
+                <motion.button
+                  type="submit"
+                  disabled={loading}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  style={{
+                    padding: "1rem 1.5rem",
+                    background: loading ? "rgba(37, 99, 235, 0.5)" : "linear-gradient(135deg, #2563EB 0%, #8B5CF6 100%)",
+                    border: "none",
+                    borderRadius: "12px",
+                    color: "#fff",
+                    fontSize: "1rem",
+                    fontWeight: 700,
+                    cursor: loading ? "not-allowed" : "pointer",
+                    opacity: loading ? 0.7 : 1,
+                    marginTop: "1rem",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 10px 30px rgba(37, 99, 235, 0.3)",
+                  }}
+                >
+                  {loading ? (
+                    <motion.div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}>
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        style={{
+                          width: "4px",
+                          height: "4px",
+                          background: "#fff",
+                          borderRadius: "50%",
+                        }}
+                      />
+                      Signing in...
+                    </motion.div>
+                  ) : (
+                    "Sign In"
+                  )}
+                </motion.button>
+              </form>
+
+              {/* Footer */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                style={{
+                  marginTop: "1.5rem",
+                  paddingTop: "1.5rem",
+                  borderTop: "1px solid rgba(37, 99, 235, 0.1)",
+                  textAlign: "center",
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: "0.8rem",
+                    color: "#6b7280",
+                    margin: 0,
+                  }}
+                >
+                  🔒 Enterprise-grade security
+                </p>
+              </motion.div>
             </motion.div>
-          )}
-
-          {/* Login Button */}
-          <motion.button
-            type="submit"
-            disabled={loading}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            style={{
-              padding: "1rem",
-              background: "linear-gradient(135deg, #2563EB, #8B5CF6)",
-              border: "none",
-              borderRadius: "8px",
-              color: "#fff",
-              fontSize: "1rem",
-              fontWeight: 700,
-              cursor: loading ? "not-allowed" : "pointer",
-              opacity: loading ? 0.7 : 1,
-              marginTop: "0.5rem",
-              transition: "all 0.3s ease",
-            }}
-          >
-            {loading ? "Signing in..." : "Sign In"}
-          </motion.button>
-        </form>
-
-        {/* Footer */}
-        <p
-          style={{
-            fontSize: "0.8rem",
-            color: "#6b7280",
-            textAlign: "center",
-            marginTop: "2rem",
-          }}
-        >
-          🔒 Secure Admin Access
-        </p>
+          </motion.div>
+        </div>
       </motion.div>
-    </motion.div>
+
+      {/* Mobile Responsive */}
+      <style>{`
+        @media (max-width: 768px) {
+          div[style*="grid-template-columns"] {
+            grid-template-columns: 1fr !important;
+            gap: 2rem !important;
+          }
+        }
+      `}</style>
+    </div>
   );
 }
