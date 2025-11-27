@@ -34,9 +34,9 @@ export default function AdminUnlock() {
         return;
       }
 
-      // Success - store token and redirect to dashboard
       localStorage.setItem("adminToken", data.token);
       localStorage.setItem("adminEmail", data.email);
+      localStorage.setItem("adminUsername", username);
       window.location.href = "/admin/dashboard";
     } catch (err) {
       setError("Connection error. Try again.");
@@ -68,64 +68,32 @@ export default function AdminUnlock() {
           background: "rgba(255, 255, 255, 0.02)",
           border: "1px solid rgba(37, 99, 235, 0.2)",
           borderRadius: "24px",
-          padding: "2.5rem",
+          padding: "3rem 2.5rem",
           backdropFilter: "blur(10px)",
           maxWidth: "420px",
           width: "100%",
           boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
         }}
       >
-        {/* Logo/Title */}
-        <motion.div
-          style={{
-            textAlign: "center",
-            marginBottom: "2rem",
-          }}
-        >
+        <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
           <motion.div
-            animate={{ y: [0, -5, 0] }}
-            transition={{ duration: 3, repeat: Infinity }}
-            style={{
-              fontSize: "2.5rem",
-              marginBottom: "1rem",
-            }}
+            animate={{ rotate: [0, -5, 5, 0] }}
+            transition={{ duration: 4, repeat: Infinity }}
+            style={{ fontSize: "3rem", marginBottom: "1rem" }}
           >
             🔐
           </motion.div>
-          <h1
-            style={{
-              fontSize: "1.75rem",
-              fontWeight: 700,
-              color: "#f9fafb",
-              marginBottom: "0.5rem",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            Admin Access
+          <h1 style={{ fontSize: "1.75rem", fontWeight: 700, color: "#f9fafb", marginBottom: "0.5rem", letterSpacing: "-0.02em" }}>
+            Salzburg52 Admin
           </h1>
-          <p
-            style={{
-              fontSize: "0.9rem",
-              color: "#9ca3af",
-            }}
-          >
+          <p style={{ fontSize: "0.9rem", color: "#9ca3af" }}>
             Secure authentication required
           </p>
-        </motion.div>
+        </div>
 
-        {/* Form */}
-        <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          {/* Username Input */}
+        <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
           <div>
-            <label
-              style={{
-                fontSize: "0.85rem",
-                fontWeight: 600,
-                color: "#d1d5db",
-                display: "block",
-                marginBottom: "0.5rem",
-              }}
-            >
+            <label style={{ fontSize: "0.85rem", fontWeight: 600, color: "#d1d5db", display: "block", marginBottom: "0.5rem" }}>
               Username
             </label>
             <input
@@ -134,6 +102,7 @@ export default function AdminUnlock() {
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter username"
               disabled={isLoading}
+              autoFocus
               style={{
                 width: "100%",
                 padding: "0.75rem 1rem",
@@ -142,24 +111,14 @@ export default function AdminUnlock() {
                 borderRadius: "12px",
                 color: "#f9fafb",
                 fontSize: "0.95rem",
-                transition: "all 0.2s",
                 opacity: isLoading ? 0.5 : 1,
                 cursor: isLoading ? "not-allowed" : "text",
               }}
             />
           </div>
 
-          {/* Password Input */}
           <div>
-            <label
-              style={{
-                fontSize: "0.85rem",
-                fontWeight: 600,
-                color: "#d1d5db",
-                display: "block",
-                marginBottom: "0.5rem",
-              }}
-            >
+            <label style={{ fontSize: "0.85rem", fontWeight: 600, color: "#d1d5db", display: "block", marginBottom: "0.5rem" }}>
               Password
             </label>
             <input
@@ -168,6 +127,9 @@ export default function AdminUnlock() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter password"
               disabled={isLoading}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") handleLogin(e);
+              }}
               style={{
                 width: "100%",
                 padding: "0.75rem 1rem",
@@ -176,14 +138,12 @@ export default function AdminUnlock() {
                 borderRadius: "12px",
                 color: "#f9fafb",
                 fontSize: "0.95rem",
-                transition: "all 0.2s",
                 opacity: isLoading ? 0.5 : 1,
                 cursor: isLoading ? "not-allowed" : "text",
               }}
             />
           </div>
 
-          {/* Error Message */}
           {error && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
@@ -202,7 +162,6 @@ export default function AdminUnlock() {
             </motion.div>
           )}
 
-          {/* Submit Button */}
           <motion.button
             type="submit"
             disabled={isLoading || !username || !password}
@@ -217,28 +176,18 @@ export default function AdminUnlock() {
               fontSize: "0.95rem",
               fontWeight: 600,
               cursor: isLoading ? "not-allowed" : "pointer",
-              transition: "all 0.2s",
               marginTop: "0.5rem",
             }}
           >
-            {isLoading ? "Authenticating..." : "Sign In"}
+            {isLoading ? "Signing in..." : "Sign In"}
           </motion.button>
         </form>
 
-        {/* Footer */}
-        <p
-          style={{
-            fontSize: "0.8rem",
-            color: "#6b7280",
-            textAlign: "center",
-            marginTop: "1.5rem",
-          }}
-        >
-          Secure authentication • Passwords expire on logout
+        <p style={{ fontSize: "0.8rem", color: "#6b7280", textAlign: "center", marginTop: "2rem" }}>
+          Session will expire on logout
         </p>
       </motion.div>
 
-      {/* Background Elements */}
       <motion.div
         animate={{ x: [-50, 50, -50] }}
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
@@ -250,21 +199,6 @@ export default function AdminUnlock() {
           background: "radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%)",
           top: "-10%",
           left: "-10%",
-          pointerEvents: "none",
-          zIndex: 0,
-        }}
-      />
-      <motion.div
-        animate={{ x: [50, -50, 50] }}
-        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        style={{
-          position: "fixed",
-          width: "300px",
-          height: "300px",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%)",
-          bottom: "-5%",
-          right: "-5%",
           pointerEvents: "none",
           zIndex: 0,
         }}
