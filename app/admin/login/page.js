@@ -11,7 +11,6 @@ export default function AdminLogin() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
 
@@ -66,7 +65,7 @@ export default function AdminLogin() {
         position: "relative",
         overflow: "hidden",
         fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-        cursor: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="8" fill="none" stroke="white" stroke-width="1.5" opacity="0.8"/><circle cx="16" cy="16" r="3" fill="white" opacity="0.6"/></svg>') 16 16, auto`,
+        cursor: "default",
       }}
     >
       {/* Animated Background Elements */}
@@ -186,7 +185,7 @@ export default function AdminLogin() {
                 lineHeight: 1.6,
               }}
             >
-              Manage your Salzburg52 portfolio and site settings with full control and elegance.
+              Access your Salzburg52 portfolio management system.
             </motion.p>
 
             {/* Features List */}
@@ -255,7 +254,7 @@ export default function AdminLogin() {
                     margin: "0 0 0.5rem 0",
                   }}
                 >
-                  Welcome Back
+                  Sign In
                 </h2>
                 <p
                   style={{
@@ -264,7 +263,7 @@ export default function AdminLogin() {
                     margin: 0,
                   }}
                 >
-                  Enter your credentials to access the control panel
+                  Enter your admin credentials
                 </p>
               </motion.div>
 
@@ -345,32 +344,29 @@ export default function AdminLogin() {
                   >
                     Password
                   </motion.label>
-                  <div style={{ position: "relative" }}>
-                    <motion.input
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      onFocus={() => setFocusedField("password")}
-                      onBlur={() => setFocusedField(null)}
-                      placeholder=""
-                      whileFocus={{ scale: 1.01 }}
-                      style={{
-                        width: "100%",
-                        padding: "1rem",
-                        paddingRight: "3rem",
-                        paddingTop: focusedField === "password" || password ? "1.2rem" : "1rem",
-                        background: focusedField === "password" ? "rgba(37, 99, 235, 0.1)" : "rgba(255, 255, 255, 0.04)",
-                        border: focusedField === "password" ? "1.5px solid rgba(37, 99, 235, 0.6)" : "1px solid rgba(37, 99, 235, 0.2)",
-                        borderRadius: "12px",
-                        color: "#f8f9fa",
-                        fontSize: "1rem",
-                        outline: "none",
-                        transition: "all 0.2s ease",
-                        boxSizing: "border-box",
-                        fontFamily: "inherit",
-                      }}
-                    />
-                  </div>
+                  <motion.input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    onFocus={() => setFocusedField("password")}
+                    onBlur={() => setFocusedField(null)}
+                    placeholder=""
+                    whileFocus={{ scale: 1.01 }}
+                    style={{
+                      width: "100%",
+                      padding: "1rem",
+                      paddingTop: focusedField === "password" || password ? "1.2rem" : "1rem",
+                      background: focusedField === "password" ? "rgba(37, 99, 235, 0.1)" : "rgba(255, 255, 255, 0.04)",
+                      border: focusedField === "password" ? "1.5px solid rgba(37, 99, 235, 0.6)" : "1px solid rgba(37, 99, 235, 0.2)",
+                      borderRadius: "12px",
+                      color: "#f8f9fa",
+                      fontSize: "1rem",
+                      outline: "none",
+                      transition: "all 0.2s ease",
+                      boxSizing: "border-box",
+                      fontFamily: "inherit",
+                    }}
+                  />
                 </motion.div>
 
                 {/* Error Message */}
