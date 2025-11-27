@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { THEMES, FONT_SIZE_OPTIONS } from "@/components/ThemeProvider";
 
@@ -73,6 +73,22 @@ export default function SettingsPanel({
   reducedMotion = false,
   onReducedMotionChange
 }) {
+  const [mounted, setMounted] = useState(false);
+  const [underConstruction, setUnderConstruction] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const stored = localStorage.getItem("underConstructionMode") === "true";
+    setUnderConstruction(stored);
+  }, []);
+
+  const toggleUnderConstruction = () => {
+    const newValue = !underConstruction;
+    setUnderConstruction(newValue);
+    localStorage.setItem("underConstructionMode", newValue ? "true" : "false");
+    // Force page reload to apply changes
+    window.location.reload();
+  };
   useEffect(() => {
     if (!isOpen) return;
     const handler = (event) => {
@@ -315,6 +331,54 @@ export default function SettingsPanel({
                 </motion.button>
               </div>
             </motion.div>
+
+            {mounted && (
+              <motion.div 
+                className="settings-section-premium"
+                custom={3}
+                variants={sectionVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                <div className="settings-section-label-premium">Admin</div>
+                
+                <div className="settings-toggle-row-premium">
+                  <div className="settings-toggle-info">
+                    <span className="settings-toggle-label-premium">Under Construction</span>
+                    <span className="settings-toggle-desc">Hide website from visitors</span>
+                  </div>
+                  <motion.button
+                    type="button"
+                    className={`settings-switch-premium${underConstruction ? " is-on" : ""}`}
+                    onClick={toggleUnderConstruction}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    role="switch"
+                    aria-checked={underConstruction}
+                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                  >
+                    <motion.span 
+                      className="settings-switch-track-premium"
+                      animate={{
+                        backgroundColor: underConstruction 
+                          ? "rgba(37, 99, 235, 1)" 
+                          : "rgba(120, 120, 128, 0.32)"
+                      }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <motion.span 
+                        className="settings-switch-thumb-premium"
+                        animate={{ 
+                          x: underConstruction ? 20 : 2,
+                          scale: underConstruction ? 1 : 0.95
+                        }}
+                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                      />
+                    </motion.span>
+                  </motion.button>
+                </div>
+              </motion.div>
+            )}
           </motion.div>
         </>
       )}

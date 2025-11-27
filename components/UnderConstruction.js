@@ -9,9 +9,18 @@ export default function UnderConstruction() {
 
   useEffect(() => {
     setMounted(true);
-    // Check environment variable on client side
-    const isUnderConstruction = process.env.NEXT_PUBLIC_UNDER_CONSTRUCTION === "true";
+    // Check localStorage for under construction mode
+    const stored = localStorage.getItem("underConstructionMode");
+    const isUnderConstruction = stored === "true" || process.env.NEXT_PUBLIC_UNDER_CONSTRUCTION === "true";
     setIsVisible(isUnderConstruction);
+    
+    // Listen for storage changes (when toggled from settings)
+    const handleStorageChange = () => {
+      const updated = localStorage.getItem("underConstructionMode") === "true";
+      setIsVisible(updated);
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
   if (!mounted || !isVisible) return null;
