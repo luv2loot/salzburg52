@@ -1,53 +1,8 @@
 import crypto from "crypto";
-import { Resend } from "resend";
 
 // Generate random password
 function generatePassword() {
   return crypto.randomBytes(12).toString("hex");
-}
-
-// Get Resend credentials from Replit connector
-async function getResendCredentials() {
-  try {
-    const hostname = process.env.REPLIT_CONNECTORS_HOSTNAME;
-    const xReplitToken = process.env.REPL_IDENTITY
-      ? "repl " + process.env.REPL_IDENTITY
-      : process.env.WEB_REPL_RENEWAL
-        ? "depl " + process.env.WEB_REPL_RENEWAL
-        : null;
-
-    if (!xReplitToken) {
-      console.warn("No Replit token found");
-      return null;
-    }
-
-    const response = await fetch(
-      "https://" + hostname + "/api/v2/connection?include_secrets=true&connector_names=resend",
-      {
-        headers: {
-          Accept: "application/json",
-          X_REPLIT_TOKEN: xReplitToken,
-        },
-      }
-    );
-
-    const data = await response.json();
-    const connectionSettings = data.items?.[0];
-
-    if (!connectionSettings || !connectionSettings.settings.api_key) {
-      console.warn("Resend connection not found or missing API key");
-      return null;
-    }
-
-    return {
-      apiKey: connectionSettings.settings.api_key,
-      fromEmail: connectionSettings.settings.from_email,
-      toEmail: connectionSettings.settings.to_email, // Get the recipient email from Resend config
-    };
-  } catch (error) {
-    console.error("Error getting Resend credentials:", error);
-    return null;
-  }
 }
 
 export async function POST(request) {
@@ -60,17 +15,53 @@ export async function POST(request) {
 
     const newPassword = generatePassword();
 
-    // Try to send email via Resend
-    const credentials = await getResendCredentials();
-    if (credentials) {
-      try {
-        const resend = new Resend(credentials.apiKey);
+    // Try to send email via Resend using dynamic import
+    try {
+      const { Resend } = await import("resend");
+      
+      // Get Resend API key from environment
+      const resendApiKey = process.env.RESEND_API_KEY;
+      if (!resendApiKey) {
+        console.warn("RESEND_API_KEY not found in environment");
+      } else {
+        const resend = new Resend(resendApiKey);
         
-        // Use to_email from Resend config if available, otherwise use ADMIN_EMAIL
-        const recipientEmail = credentials.toEmail || process.env.ADMIN_EMAIL || "info@salzburg52.com";
+        // Get recipient email - try to get from Replit connector first, then fallback
+        let recipientEmail = process.env.ADMIN_EMAIL || "info@salzburg52.com";
         
+        try {
+          const hostname = process.env.REPLIT_CONNECTORS_HOSTNAME;
+          const xReplitToken = process.env.REPL_IDENTITY
+            ? "repl " + process.env.REPL_IDENTITY
+            : process.env.WEB_REPL_RENEWAL
+              ? "depl " + process.env.WEB_REPL_RENEWAL
+              : null;
+
+          if (hostname && xReplitToken) {
+            const response = await fetch(
+              `https://${hostname}/api/v2/connection?include_secrets=true&connector_names=resend`,
+              {
+                headers: {
+                  Accept: "application/json",
+                  X_REPLIT_TOKEN: xReplitToken,
+                },
+              }
+            );
+
+            if (response.ok) {
+              const data = await response.json();
+              const connectionSettings = data.items?.[0];
+              if (connectionSettings?.settings?.to_email) {
+                recipientEmail = connectionSettings.settings.to_email;
+              }
+            }
+          }
+        } catch (credError) {
+          console.log("Using fallback email:", recipientEmail);
+        }
+
         await resend.emails.send({
-          from: credentials.fromEmail || "onboarding@resend.dev",
+          from: process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev",
           to: recipientEmail,
           subject: "🔐 New Salzburg52 Admin Password",
           html: `
@@ -101,18 +92,16 @@ export async function POST(request) {
           `,
         });
 
-        console.log(`Email sent successfully to ${recipientEmail}`);
-      } catch (emailError) {
-        console.error("Resend email sending failed:", emailError);
-        // Still return password even if email fails
+        console.log(`✅ Email sent successfully to ${recipientEmail}`);
       }
-    } else {
-      console.warn("Resend not configured - password generated but not emailed");
+    } catch (emailError) {
+      console.error("Email sending error:", emailError.message);
+      // Still return password even if email fails
     }
 
     return Response.json({
       password: newPassword,
-      message: "Password generated" + (credentials ? " and email sent" : " (email not configured)"),
+      message: "Password generated",
     });
   } catch (error) {
     console.error("Error:", error);
