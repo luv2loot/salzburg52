@@ -1,13 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function UnderConstruction() {
   const [mounted, setMounted] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [showAdminPanel, setShowAdminPanel] = useState(false);
-  const [adminPassword, setAdminPassword] = useState("");
 
   useEffect(() => {
     setMounted(true);
@@ -24,23 +23,6 @@ export default function UnderConstruction() {
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
-
-  const toggleUnderConstruction = () => {
-    localStorage.setItem("underConstructionMode", "false");
-    setShowAdminPanel(false);
-    setAdminPassword("");
-    window.location.reload();
-  };
-
-  const verifyAdminPassword = () => {
-    const correctPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "salzburg52";
-    if (adminPassword === correctPassword) {
-      toggleUnderConstruction();
-    } else {
-      alert("❌ Incorrect password. Try again.");
-      setAdminPassword("");
-    }
-  };
 
   if (!mounted || !isVisible) return null;
 
@@ -176,121 +158,33 @@ export default function UnderConstruction() {
         }}
       />
 
-      {/* Admin Toggle Button */}
-      <motion.button
-        onClick={() => setShowAdminPanel(!showAdminPanel)}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        style={{
-          position: "fixed",
-          top: "2rem",
-          right: "2rem",
-          width: "44px",
-          height: "44px",
-          borderRadius: "50%",
-          background: "rgba(37, 99, 235, 0.15)",
-          border: "1px solid rgba(37, 99, 235, 0.3)",
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          zIndex: 10000,
-        }}
-      >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#2563EB" }}>
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"/>
-        </svg>
-      </motion.button>
-
-      {/* Admin Password Panel */}
-      {showAdminPanel && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
+      {/* Admin Dashboard Link */}
+      <Link href="/admin/dashboard">
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
           style={{
             position: "fixed",
-            top: "5rem",
+            top: "2rem",
             right: "2rem",
-            background: "rgba(5, 5, 9, 0.95)",
+            width: "44px",
+            height: "44px",
+            borderRadius: "50%",
+            background: "rgba(37, 99, 235, 0.15)",
             border: "1px solid rgba(37, 99, 235, 0.3)",
-            borderRadius: "12px",
-            padding: "1rem",
-            backdropFilter: "blur(10px)",
-            zIndex: 10001,
-            minWidth: "280px",
-            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.3)",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 10000,
           }}
         >
-          <div style={{ fontSize: "0.9rem", color: "#9ca3af", marginBottom: "0.75rem", fontWeight: 500 }}>
-            Admin Control
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-            <input
-              type="password"
-              value={adminPassword}
-              onChange={(e) => setAdminPassword(e.target.value)}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") verifyAdminPassword();
-              }}
-              placeholder="Enter admin password"
-              autoFocus
-              style={{
-                padding: "0.6rem 0.75rem",
-                background: "rgba(255, 255, 255, 0.05)",
-                border: "1px solid rgba(37, 99, 235, 0.2)",
-                borderRadius: "8px",
-                color: "#f9fafb",
-                fontSize: "0.9rem",
-              }}
-            />
-            <div style={{ display: "flex", gap: "0.5rem" }}>
-              <motion.button
-                type="button"
-                onClick={verifyAdminPassword}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                style={{
-                  flex: 1,
-                  padding: "0.6rem",
-                  background: "rgba(37, 99, 235, 0.2)",
-                  border: "1px solid rgba(37, 99, 235, 0.3)",
-                  borderRadius: "8px",
-                  color: "#2563EB",
-                  fontSize: "0.85rem",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                }}
-              >
-                Turn Off
-              </motion.button>
-              <motion.button
-                type="button"
-                onClick={() => {
-                  setShowAdminPanel(false);
-                  setAdminPassword("");
-                }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                style={{
-                  flex: 1,
-                  padding: "0.6rem",
-                  background: "rgba(100, 100, 100, 0.2)",
-                  border: "1px solid rgba(100, 100, 100, 0.3)",
-                  borderRadius: "8px",
-                  color: "#6b7280",
-                  fontSize: "0.85rem",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                }}
-              >
-                Close
-              </motion.button>
-            </div>
-          </div>
-        </motion.div>
-      )}
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#2563EB" }}>
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"/>
+          </svg>
+        </motion.button>
+      </Link>
     </motion.div>
   );
 }
