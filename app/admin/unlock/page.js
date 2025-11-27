@@ -9,10 +9,68 @@ export default function AdminUnlock() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [mounted, setMounted] = useState(false);
+  const [stage, setStage] = useState("username"); // "username" or "password"
+  const [timeRemaining, setTimeRemaining] = useState(300); // 5 minutes in seconds
+  const [sendingPassword, setSendingPassword] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Countdown timer for password expiry
+  useEffect(() => {
+    if (stage !== "password" || timeRemaining <= 0) return;
+
+    const timer = setInterval(() => {
+      setTimeRemaining((prev) => {
+        if (prev <= 1) {
+          setStage("username");
+          setPassword("");
+          setError("Password expired. Please try again.");
+          return 300;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [stage, timeRemaining]);
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  const handleSendPassword = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSendingPassword(true);
+
+    try {
+      const response = await fetch("/api/admin/send-temp-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || "Failed to send password");
+        setSendingPassword(false);
+        return;
+      }
+
+      // Move to password stage
+      setStage("password");
+      setTimeRemaining(300);
+      setSendingPassword(false);
+    } catch (err) {
+      setError("Connection error. Try again.");
+      setSendingPassword(false);
+    }
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -42,6 +100,13 @@ export default function AdminUnlock() {
       setError("Connection error. Try again.");
       setIsLoading(false);
     }
+  };
+
+  const handleBackToUsername = () => {
+    setStage("username");
+    setPassword("");
+    setError("");
+    setTimeRemaining(300);
   };
 
   if (!mounted) return null;
@@ -87,104 +152,189 @@ export default function AdminUnlock() {
             Salzburg52 Admin
           </h1>
           <p style={{ fontSize: "0.9rem", color: "#9ca3af" }}>
-            Secure authentication required
+            {stage === "username" ? "Secure authentication" : "Enter temporary password"}
           </p>
         </div>
 
-        <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-          <div>
-            <label style={{ fontSize: "0.85rem", fontWeight: 600, color: "#d1d5db", display: "block", marginBottom: "0.5rem" }}>
-              Username
-            </label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter username"
-              disabled={isLoading}
-              autoFocus
-              style={{
-                width: "100%",
-                padding: "0.75rem 1rem",
-                background: "rgba(255, 255, 255, 0.05)",
-                border: "1px solid rgba(37, 99, 235, 0.2)",
-                borderRadius: "12px",
-                color: "#f9fafb",
-                fontSize: "0.95rem",
-                opacity: isLoading ? 0.5 : 1,
-                cursor: isLoading ? "not-allowed" : "text",
-              }}
-            />
-          </div>
+        {stage === "username" ? (
+          <form onSubmit={handleSendPassword} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            <div>
+              <label style={{ fontSize: "0.85rem", fontWeight: 600, color: "#d1d5db", display: "block", marginBottom: "0.5rem" }}>
+                Username
+              </label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter username (adms52)"
+                disabled={sendingPassword}
+                autoFocus
+                style={{
+                  width: "100%",
+                  padding: "0.75rem 1rem",
+                  background: "rgba(255, 255, 255, 0.05)",
+                  border: "1px solid rgba(37, 99, 235, 0.2)",
+                  borderRadius: "12px",
+                  color: "#f9fafb",
+                  fontSize: "0.95rem",
+                  opacity: sendingPassword ? 0.5 : 1,
+                  cursor: sendingPassword ? "not-allowed" : "text",
+                }}
+              />
+            </div>
 
-          <div>
-            <label style={{ fontSize: "0.85rem", fontWeight: 600, color: "#d1d5db", display: "block", marginBottom: "0.5rem" }}>
-              Password
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter password"
-              disabled={isLoading}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") handleLogin(e);
-              }}
-              style={{
-                width: "100%",
-                padding: "0.75rem 1rem",
-                background: "rgba(255, 255, 255, 0.05)",
-                border: "1px solid rgba(37, 99, 235, 0.2)",
-                borderRadius: "12px",
-                color: "#f9fafb",
-                fontSize: "0.95rem",
-                opacity: isLoading ? 0.5 : 1,
-                cursor: isLoading ? "not-allowed" : "text",
-              }}
-            />
-          </div>
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                style={{
+                  padding: "0.75rem",
+                  background: "rgba(239, 68, 68, 0.1)",
+                  border: "1px solid rgba(239, 68, 68, 0.3)",
+                  borderRadius: "8px",
+                  color: "#fca5a5",
+                  fontSize: "0.9rem",
+                  textAlign: "center",
+                }}
+              >
+                ❌ {error}
+              </motion.div>
+            )}
 
-          {error && (
+            <motion.button
+              type="submit"
+              disabled={sendingPassword || !username}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              style={{
+                padding: "0.875rem 1.5rem",
+                background: sendingPassword ? "rgba(37, 99, 235, 0.5)" : "rgba(37, 99, 235, 0.8)",
+                border: "1px solid rgba(37, 99, 235, 0.5)",
+                borderRadius: "12px",
+                color: "#fff",
+                fontSize: "0.95rem",
+                fontWeight: 600,
+                cursor: sendingPassword ? "not-allowed" : "pointer",
+                marginTop: "0.5rem",
+              }}
+            >
+              {sendingPassword ? "Sending..." : "Send Temporary Password"}
+            </motion.button>
+          </form>
+        ) : (
+          <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
               style={{
-                padding: "0.75rem",
-                background: "rgba(239, 68, 68, 0.1)",
-                border: "1px solid rgba(239, 68, 68, 0.3)",
-                borderRadius: "8px",
-                color: "#fca5a5",
-                fontSize: "0.9rem",
+                padding: "1rem",
+                background: "rgba(34, 197, 94, 0.1)",
+                border: "1px solid rgba(34, 197, 94, 0.3)",
+                borderRadius: "12px",
                 textAlign: "center",
               }}
             >
-              ❌ {error}
+              <p style={{ fontSize: "0.9rem", color: "#86efac", fontWeight: 600, margin: 0 }}>
+                ✅ Temporary password sent to your email
+              </p>
             </motion.div>
-          )}
 
-          <motion.button
-            type="submit"
-            disabled={isLoading || !username || !password}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            style={{
-              padding: "0.875rem 1.5rem",
-              background: isLoading ? "rgba(37, 99, 235, 0.5)" : "rgba(37, 99, 235, 0.8)",
-              border: "1px solid rgba(37, 99, 235, 0.5)",
-              borderRadius: "12px",
-              color: "#fff",
-              fontSize: "0.95rem",
-              fontWeight: 600,
-              cursor: isLoading ? "not-allowed" : "pointer",
-              marginTop: "0.5rem",
-            }}
-          >
-            {isLoading ? "Signing in..." : "Sign In"}
-          </motion.button>
-        </form>
+            <div>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+                <label style={{ fontSize: "0.85rem", fontWeight: 600, color: "#d1d5db" }}>
+                  Temporary Password
+                </label>
+                <span
+                  style={{
+                    fontSize: "0.85rem",
+                    fontWeight: 700,
+                    color: timeRemaining <= 60 ? "#fca5a5" : "#93c5fd",
+                  }}
+                >
+                  ⏰ {formatTime(timeRemaining)}
+                </span>
+              </div>
+              <input
+                type="text"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter password from email"
+                disabled={isLoading}
+                autoFocus
+                style={{
+                  width: "100%",
+                  padding: "0.75rem 1rem",
+                  background: "rgba(255, 255, 255, 0.05)",
+                  border: "1px solid rgba(37, 99, 235, 0.2)",
+                  borderRadius: "12px",
+                  color: "#f9fafb",
+                  fontSize: "0.95rem",
+                  opacity: isLoading ? 0.5 : 1,
+                  cursor: isLoading ? "not-allowed" : "text",
+                }}
+              />
+            </div>
+
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                style={{
+                  padding: "0.75rem",
+                  background: "rgba(239, 68, 68, 0.1)",
+                  border: "1px solid rgba(239, 68, 68, 0.3)",
+                  borderRadius: "8px",
+                  color: "#fca5a5",
+                  fontSize: "0.9rem",
+                  textAlign: "center",
+                }}
+              >
+                ❌ {error}
+              </motion.div>
+            )}
+
+            <motion.button
+              type="submit"
+              disabled={isLoading || !password}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              style={{
+                padding: "0.875rem 1.5rem",
+                background: isLoading ? "rgba(37, 99, 235, 0.5)" : "rgba(37, 99, 235, 0.8)",
+                border: "1px solid rgba(37, 99, 235, 0.5)",
+                borderRadius: "12px",
+                color: "#fff",
+                fontSize: "0.95rem",
+                fontWeight: 600,
+                cursor: isLoading ? "not-allowed" : "pointer",
+              }}
+            >
+              {isLoading ? "Verifying..." : "Sign In"}
+            </motion.button>
+
+            <motion.button
+              type="button"
+              onClick={handleBackToUsername}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              style={{
+                padding: "0.75rem",
+                background: "rgba(100, 100, 100, 0.15)",
+                border: "1px solid rgba(100, 100, 100, 0.3)",
+                borderRadius: "12px",
+                color: "#9ca3af",
+                fontSize: "0.9rem",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              Back
+            </motion.button>
+          </form>
+        )}
 
         <p style={{ fontSize: "0.8rem", color: "#6b7280", textAlign: "center", marginTop: "2rem" }}>
-          Session will expire on logout
+          {stage === "password" ? "Session expires in " + formatTime(timeRemaining) : "Session will expire on logout"}
         </p>
       </motion.div>
 
