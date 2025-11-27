@@ -145,6 +145,7 @@ export default function FrHomePage() {
       <Header lang={LANG} />
       <main>
         <Hero
+          suppressHydrationWarning
           greeting={greeting || getGreetingForTime(LANG, new Date())}
           title={heroCopy.title}
           subtitle={heroCopy.subtitle}

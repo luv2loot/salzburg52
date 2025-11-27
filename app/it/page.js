@@ -145,6 +145,7 @@ export default function ItHomePage() {
       <Header lang={LANG} />
       <main>
         <Hero
+          suppressHydrationWarning
           greeting={greeting || getGreetingForTime(LANG, new Date())}
           title={heroCopy.title}
           subtitle={heroCopy.subtitle}
