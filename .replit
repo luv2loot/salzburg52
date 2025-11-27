@@ -36,6 +36,10 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
+localPort = 42281
+externalPort = 3001
+
+[[ports]]
 localPort = 45937
 externalPort = 3000
 
@@ -48,4 +52,3 @@ run = ["npm", "start"]
 
 [userenv.shared]
 RESEND_API_KEY = "re_6T27LK5B_9YDBu8XjhBPa6yJGtKRziL8T"
-RESEND_FROM_EMAIL = "noreply@salzburg52.com"

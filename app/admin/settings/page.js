@@ -7,7 +7,6 @@ import Link from "next/link";
 export default function AdminSettings() {
   const [mounted, setMounted] = useState(false);
   const [underConstruction, setUnderConstruction] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [isToggling, setIsToggling] = useState(false);
 
   useEffect(() => {
@@ -15,13 +14,12 @@ export default function AdminSettings() {
 
     const token = localStorage.getItem("adminToken");
     if (!token) {
-      window.location.href = "/admin/unlock";
+      window.location.href = "/admin/login";
       return;
     }
 
     const stored = localStorage.getItem("underConstructionMode") === "true";
     setUnderConstruction(stored);
-    setIsLoading(false);
   }, []);
 
   const handleToggle = () => {
@@ -35,7 +33,7 @@ export default function AdminSettings() {
     }, 500);
   };
 
-  if (!mounted || isLoading) return null;
+  if (!mounted) return null;
 
   return (
     <motion.div
@@ -75,174 +73,137 @@ export default function AdminSettings() {
               ← Back to Dashboard
             </motion.button>
           </Link>
-          <h1 style={{ fontSize: "2.5rem", fontWeight: 800, color: "#f9fafb", marginBottom: "0.5rem" }}>
+
+          <h1
+            style={{
+              fontSize: "2rem",
+              fontWeight: 700,
+              color: "#f8f9fa",
+              margin: "0 0 0.5rem 0",
+            }}
+          >
             Site Settings
           </h1>
-          <p style={{ color: "#9ca3af", fontSize: "0.95rem" }}>
-            Control website visibility and maintenance mode
+          <p
+            style={{
+              fontSize: "0.95rem",
+              color: "#9ca3af",
+              margin: 0,
+            }}
+          >
+            Manage your Salzburg52 configuration
           </p>
         </motion.div>
 
-        {/* Main Setting Card */}
+        {/* Main Settings Card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
           style={{
-            background: "rgba(255, 255, 255, 0.02)",
+            padding: "2rem",
+            background: "rgba(15, 15, 25, 0.5)",
             border: "1px solid rgba(37, 99, 235, 0.2)",
-            borderRadius: "20px",
-            padding: "2.5rem",
-            backdropFilter: "blur(10px)",
-            marginBottom: "2rem",
+            borderRadius: "16px",
           }}
         >
-          {/* Status Badge */}
           <motion.div
             style={{
-              display: "inline-flex",
+              display: "flex",
+              justifyContent: "space-between",
               alignItems: "center",
-              gap: "0.75rem",
-              padding: "0.75rem 1.25rem",
-              background: underConstruction
-                ? "rgba(239, 68, 68, 0.1)"
-                : "rgba(34, 197, 94, 0.1)",
-              border: underConstruction
-                ? "1px solid rgba(239, 68, 68, 0.2)"
-                : "1px solid rgba(34, 197, 94, 0.2)",
-              borderRadius: "12px",
-              marginBottom: "2rem",
+              paddingBottom: "1.5rem",
+              borderBottom: "1px solid rgba(37, 99, 235, 0.2)",
             }}
           >
-            <span style={{ fontSize: "1.2rem" }}>
-              {underConstruction ? "🚧" : "✨"}
-            </span>
-            <span
-              style={{
-                fontWeight: 700,
-                color: underConstruction ? "#fca5a5" : "#86efac",
-                fontSize: "0.95rem",
-              }}
-            >
-              {underConstruction ? "UNDER CONSTRUCTION" : "LIVE"}
-            </span>
-          </motion.div>
+            <div>
+              <h2
+                style={{
+                  fontSize: "1.2rem",
+                  fontWeight: 600,
+                  color: "#f8f9fa",
+                  margin: 0,
+                }}
+              >
+                Under Construction Mode
+              </h2>
+              <p
+                style={{
+                  fontSize: "0.9rem",
+                  color: "#9ca3af",
+                  margin: "0.5rem 0 0 0",
+                }}
+              >
+                {underConstruction
+                  ? "🚧 Site is currently in maintenance mode"
+                  : "✅ Site is live"}
+              </p>
+            </div>
 
-          <div style={{ marginBottom: "2rem" }}>
-            <h2 style={{ fontSize: "1.3rem", fontWeight: 700, color: "#f9fafb", marginBottom: "1rem" }}>
-              🚧 Maintenance Mode
-            </h2>
-            <p style={{ color: "#9ca3af", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "1.5rem" }}>
-              {underConstruction
-                ? "Your website is currently hidden from public visitors. They will see a \"Coming Soon\" page instead of your portfolio."
-                : "Your website is live and publicly visible. All pages are accessible to visitors."}
-            </p>
-
+            {/* Toggle Switch */}
             <motion.button
               onClick={handleToggle}
               disabled={isToggling}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
               style={{
-                width: "100%",
-                padding: "1.25rem",
+                position: "relative",
+                width: "60px",
+                height: "32px",
                 background: underConstruction
-                  ? "linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.1))"
-                  : "linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.1))",
+                  ? "rgba(139, 92, 246, 0.3)"
+                  : "rgba(37, 99, 235, 0.3)",
                 border: underConstruction
-                  ? "2px solid rgba(34, 197, 94, 0.3)"
-                  : "2px solid rgba(239, 68, 68, 0.3)",
-                borderRadius: "14px",
-                color: underConstruction ? "#86efac" : "#fca5a5",
-                fontSize: "1.1rem",
-                fontWeight: 800,
+                  ? "1px solid rgba(139, 92, 246, 0.5)"
+                  : "1px solid rgba(37, 99, 235, 0.5)",
+                borderRadius: "16px",
                 cursor: isToggling ? "not-allowed" : "pointer",
-                opacity: isToggling ? 0.6 : 1,
-                transition: "all 0.2s",
+                padding: 0,
               }}
             >
-              {isToggling
-                ? "Updating..."
-                : underConstruction
-                  ? "✅ Turn Website Back ON"
-                  : "❌ Put Under Construction"}
+              <motion.div
+                animate={{ x: underConstruction ? 30 : 2 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                style={{
+                  position: "absolute",
+                  top: "2px",
+                  left: "2px",
+                  width: "28px",
+                  height: "28px",
+                  background: underConstruction ? "#8B5CF6" : "#2563EB",
+                  borderRadius: "14px",
+                }}
+              />
             </motion.button>
-          </div>
+          </motion.div>
 
-          {/* Info Box */}
+          {/* Status Info */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
             style={{
-              padding: "1.25rem",
-              background: "rgba(37, 99, 235, 0.1)",
-              border: "1px solid rgba(37, 99, 235, 0.2)",
-              borderRadius: "12px",
+              marginTop: "1.5rem",
+              padding: "1rem",
+              background: underConstruction
+                ? "rgba(139, 92, 246, 0.1)"
+                : "rgba(34, 197, 94, 0.1)",
+              border: underConstruction
+                ? "1px solid rgba(139, 92, 246, 0.3)"
+                : "1px solid rgba(34, 197, 94, 0.3)",
+              borderRadius: "8px",
             }}
           >
-            <p style={{ fontSize: "0.85rem", color: "#93c5fd", lineHeight: 1.6 }}>
-              <strong>💡 Info:</strong> When Under Construction is enabled:
-              <br />• Visitors see a professional "Coming Soon" page
-              <br />• Only you can access the admin panel
-              <br />• All visitor traffic is blocked
-              <br />• You can toggle it back on anytime
+            <p
+              style={{
+                fontSize: "0.9rem",
+                color: underConstruction ? "#d8b4fe" : "#86efac",
+                margin: 0,
+              }}
+            >
+              {underConstruction
+                ? "🚧 Visitors will see a maintenance page"
+                : "✅ Site is fully accessible to the public"}
             </p>
           </motion.div>
-        </motion.div>
-
-        {/* Additional Info */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          style={{
-            background: "rgba(255, 255, 255, 0.01)",
-            border: "1px solid rgba(139, 92, 246, 0.1)",
-            borderRadius: "16px",
-            padding: "1.5rem",
-            backdropFilter: "blur(10px)",
-          }}
-        >
-          <h3 style={{ fontSize: "1rem", fontWeight: 700, color: "#d8b4fe", marginBottom: "1rem" }}>
-            📊 Status Overview
-          </h3>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "1rem",
-            }}
-          >
-            <div>
-              <p style={{ fontSize: "0.85rem", color: "#6b7280", marginBottom: "0.5rem" }}>
-                Website Status
-              </p>
-              <p
-                style={{
-                  fontSize: "1rem",
-                  fontWeight: 700,
-                  color: underConstruction ? "#fca5a5" : "#86efac",
-                }}
-              >
-                {underConstruction ? "🔴 Hidden" : "🟢 Public"}
-              </p>
-            </div>
-            <div>
-              <p style={{ fontSize: "0.85rem", color: "#6b7280", marginBottom: "0.5rem" }}>
-                Visitor Access
-              </p>
-              <p
-                style={{
-                  fontSize: "1rem",
-                  fontWeight: 700,
-                  color: underConstruction ? "#fca5a5" : "#86efac",
-                }}
-              >
-                {underConstruction ? "❌ Blocked" : "✅ Allowed"}
-              </p>
-            </div>
-          </div>
         </motion.div>
       </motion.div>
     </motion.div>
