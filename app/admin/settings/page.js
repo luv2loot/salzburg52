@@ -66,7 +66,6 @@ export default function AdminSettings() {
                 color: "#93c5fd",
                 fontSize: "0.9rem",
                 fontWeight: 600,
-                cursor: "pointer",
                 marginBottom: "1rem",
               }}
             >

@@ -71,7 +71,6 @@ export default function AdminLogin() {
         position: "relative",
         overflow: "hidden",
         fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-        cursor: "default",
       }}
     >
       {/* Animated Background Elements */}
