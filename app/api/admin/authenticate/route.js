@@ -1,4 +1,4 @@
-import { tempPasswords } from "../send-temp-password/route.js";
+import { tempPasswords } from "@/lib/tempPasswordStore.js";
 
 export async function POST(request) {
   try {
@@ -59,6 +59,7 @@ export async function POST(request) {
       message: "Authentication successful",
     });
   } catch (error) {
+    console.error("Auth error:", error);
     return Response.json(
       { message: "Authentication failed" },
       { status: 500 }
