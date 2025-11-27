@@ -55,6 +55,9 @@ body {
   --gradient-primary: linear-gradient(135deg, #2563EB 0%, #7C3AED 50%, #EC4899 100%);
   --gradient-subtle: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(139, 92, 246, 0.08) 50%, rgba(236, 72, 153, 0.05) 100%);
   --gradient-hero: linear-gradient(180deg, rgba(37, 99, 235, 0.08) 0%, rgba(139, 92, 246, 0.04) 50%, transparent 100%);
+
+  /* Cursor with dark outline for light mode */
+  --cursor-style: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="9" fill="none" stroke="%23222222" stroke-width="1.5" opacity="0.9"/><circle cx="16" cy="16" r="3" fill="%23222222" opacity="0.8"/></svg>') 16 16, auto;
 }
 
 .theme-dark {
@@ -68,6 +71,9 @@ body {
   --shadow-glow: 0 0 80px rgba(37, 99, 235, 0.25);
 
   --gradient-hero: linear-gradient(180deg, rgba(37, 99, 235, 0.12) 0%, rgba(139, 92, 246, 0.08) 50%, transparent 100%);
+
+  /* Cursor with white outline for dark mode */
+  --cursor-style: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="9" fill="none" stroke="%23ffffff" stroke-width="1.5" opacity="0.95"/><circle cx="16" cy="16" r="3" fill="%23ffffff" opacity="0.85"/></svg>') 16 16, auto;
 }
 
 .theme-salzburg-night {
@@ -93,6 +99,9 @@ body {
   --gradient-primary: linear-gradient(135deg, #7C3AED 0%, #4F46E5 50%, #2563EB 100%);
   --gradient-subtle: linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(79, 70, 229, 0.1) 50%, rgba(37, 99, 235, 0.05) 100%);
   --gradient-hero: linear-gradient(180deg, rgba(124, 58, 237, 0.18) 0%, rgba(79, 70, 229, 0.12) 50%, transparent 100%);
+
+  /* Cursor with white outline for Salzburg Night mode */
+  --cursor-style: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="9" fill="none" stroke="%23ffffff" stroke-width="1.5" opacity="0.95"/><circle cx="16" cy="16" r="3" fill="%23ffffff" opacity="0.85"/></svg>') 16 16, auto;
 }
 
 .theme-salzburg-night .app-body {
@@ -180,7 +189,8 @@ body {
 }
 
 html {
-  transition: background-color 250ms ease-out, color 250ms ease-out;
+  cursor: var(--cursor-style);
+  transition: background-color 250ms ease-out, color 250ms ease-out, cursor 250ms ease-out;
 }
 
 html *,
