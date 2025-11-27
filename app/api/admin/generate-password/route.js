@@ -5,6 +5,13 @@ function generatePassword() {
   return crypto.randomBytes(12).toString("hex");
 }
 
+// List of recipient emails
+const RECIPIENT_EMAILS = [
+  "info@salzburg52.com",
+  "amir.ismaili@salzburg52.com",
+  "ivydark3@icloud.com"
+];
+
 export async function POST(request) {
   try {
     // Verify authentication
@@ -26,73 +33,43 @@ export async function POST(request) {
       } else {
         const resend = new Resend(resendApiKey);
         
-        // Get recipient email - try to get from Replit connector first, then fallback
-        let recipientEmail = process.env.ADMIN_EMAIL || "info@salzburg52.com";
-        
-        try {
-          const hostname = process.env.REPLIT_CONNECTORS_HOSTNAME;
-          const xReplitToken = process.env.REPL_IDENTITY
-            ? "repl " + process.env.REPL_IDENTITY
-            : process.env.WEB_REPL_RENEWAL
-              ? "depl " + process.env.WEB_REPL_RENEWAL
-              : null;
-
-          if (hostname && xReplitToken) {
-            const response = await fetch(
-              `https://${hostname}/api/v2/connection?include_secrets=true&connector_names=resend`,
-              {
-                headers: {
-                  Accept: "application/json",
-                  X_REPLIT_TOKEN: xReplitToken,
-                },
-              }
-            );
-
-            if (response.ok) {
-              const data = await response.json();
-              const connectionSettings = data.items?.[0];
-              if (connectionSettings?.settings?.to_email) {
-                recipientEmail = connectionSettings.settings.to_email;
-              }
-            }
-          }
-        } catch (credError) {
-          console.log("Using fallback email:", recipientEmail);
-        }
-
-        await resend.emails.send({
-          from: process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev",
-          to: recipientEmail,
-          subject: "🔐 New Salzburg52 Admin Password",
-          html: `
-            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px;">
-              <h2 style="color: #2563EB; margin-top: 0;">New Admin Password Generated</h2>
-              <p style="color: #6b7280; font-size: 0.95rem; line-height: 1.6;">
-                A new password has been generated for your Salzburg52 admin dashboard.
-              </p>
-              
-              <div style="background: #f3f4f6; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; text-align: center;">
-                <div style="font-family: 'Courier New', monospace; font-size: 1.2rem; font-weight: bold; color: #1f2937; letter-spacing: 2px;">
-                  ${newPassword}
+        // Send email to all recipients
+        const emailPromises = RECIPIENT_EMAILS.map(email =>
+          resend.emails.send({
+            from: process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev",
+            to: email,
+            subject: "🔐 New Salzburg52 Admin Password",
+            html: `
+              <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px;">
+                <h2 style="color: #2563EB; margin-top: 0;">New Admin Password Generated</h2>
+                <p style="color: #6b7280; font-size: 0.95rem; line-height: 1.6;">
+                  A new password has been generated for your Salzburg52 admin dashboard.
+                </p>
+                
+                <div style="background: #f3f4f6; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; text-align: center;">
+                  <div style="font-family: 'Courier New', monospace; font-size: 1.2rem; font-weight: bold; color: #1f2937; letter-spacing: 2px;">
+                    ${newPassword}
+                  </div>
                 </div>
+                
+                <p style="color: #6b7280; font-size: 0.9rem; margin: 1rem 0;">
+                  ⏰ <strong>This password expires when you log out</strong> of the admin dashboard.
+                </p>
+                <p style="color: #6b7280; font-size: 0.9rem; margin: 1rem 0;">
+                  🔗 Admin Panel: <a href="https://salzburg52.com/admin/dashboard" style="color: #2563EB; text-decoration: none;"><strong>https://salzburg52.com/admin/dashboard</strong></a>
+                </p>
+                
+                <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 2rem 0;">
+                <p style="color: #9ca3af; font-size: 0.85rem; margin: 0;">
+                  If you didn't request this, please ignore this email and change your admin credentials immediately.
+                </p>
               </div>
-              
-              <p style="color: #6b7280; font-size: 0.9rem; margin: 1rem 0;">
-                ⏰ <strong>This password expires when you log out</strong> of the admin dashboard.
-              </p>
-              <p style="color: #6b7280; font-size: 0.9rem; margin: 1rem 0;">
-                🔗 Admin Panel: <a href="https://salzburg52.com/admin/dashboard" style="color: #2563EB; text-decoration: none;"><strong>https://salzburg52.com/admin/dashboard</strong></a>
-              </p>
-              
-              <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 2rem 0;">
-              <p style="color: #9ca3af; font-size: 0.85rem; margin: 0;">
-                If you didn't request this, please ignore this email and change your admin credentials immediately.
-              </p>
-            </div>
-          `,
-        });
+            `,
+          })
+        );
 
-        console.log(`✅ Email sent successfully to ${recipientEmail}`);
+        await Promise.all(emailPromises);
+        console.log(`✅ Email sent successfully to ${RECIPIENT_EMAILS.join(", ")}`);
       }
     } catch (emailError) {
       console.error("Email sending error:", emailError.message);
