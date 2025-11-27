@@ -1,13 +1,13 @@
 # Salzburg52 - Interactive Digital World Portfolio
 
 ## Overview
-Salzburg52 is a professional portfolio showcasing your apprenticeship journey at HYPERION Hotel Salzburg. This is a multilingual Next.js 15 App Router project featuring a cinematic "digital world" concept with 3D navigation hub, multiple interactive zones, three theme modes, and premium Apple-inspired design.
+Salzburg52 is a professional portfolio showcasing an apprenticeship journey at HYPERION Hotel Salzburg. This is a multilingual Next.js 16 App Router project featuring a cinematic "digital world" concept with 3D navigation hub, multiple interactive zones, three theme modes, and premium Apple-inspired design.
 
 **Tech Stack:**
 - Next.js 16.0.5 (App Router with Turbopack) - Latest stable version
 - React 19.2.0
-- Framer Motion 12.x (premium animations with scroll triggers, parallax, 3D transforms)
-- Node.js 20
+- Framer Motion 12.23.24 (premium animations with scroll triggers, parallax, 3D transforms)
+- Node.js ≥18.17.0
 
 ## Project Structure
 ```
@@ -21,6 +21,7 @@ app/                    # Next.js App Router pages
 │   └── settings/      # Language, theme, accessibility
 ├── legal/             # Legal pages (impressum, privacy)
 ├── layout.js          # Root layout with metadata
+├── template.js        # Route transitions wrapper
 └── globals.css        # Global styles with theme tokens
 
 components/            # React components
@@ -28,13 +29,13 @@ components/            # React components
 │   ├── FloatingElements.js  # Floating orbs, shapes, gradients
 │   ├── MagneticButton.js    # Magnetic hover effects
 │   ├── Marquee.js           # Scrolling text strips
-│   ├── ParallaxImage.js     # Scroll + mouse parallax effects (NEW)
-│   ├── ScrollReveal.js      # Reversible scroll animations (NEW)
+│   ├── ParallaxImage.js     # Scroll + mouse parallax effects
+│   ├── ScrollReveal.js      # Reversible scroll animations
 │   ├── TextReveal.js        # Text reveal animations
 │   └── TiltCard.js          # 3D tilt cards
 ├── Cursor.js          # Custom cursor
 ├── CursorSpotlight.js # Cursor spotlight effect
-├── DynamicMusicPlayer.js  # Lazy-loaded music player wrapper (NEW)
+├── DynamicMusicPlayer.js  # Lazy-loaded music player wrapper
 ├── FloatingCardHub.js # 3D navigation hub with parallax + magnetic effects
 ├── Footer.js          # Site footer with contact info
 ├── Header.js          # Navigation with scroll-based blur
@@ -42,7 +43,7 @@ components/            # React components
 ├── Logo.js            # S·52 gradient logo with sheen
 ├── MediaStrip.js      # Media display with stats
 ├── MusicPlayer.js     # Ambient music player
-├── PageTransition.js  # Route transition animations (NEW)
+├── PageTransition.js  # Route transition animations
 ├── Showcase.js        # Gallery with parallax hover
 ├── SettingsPanel.js   # Theme/accessibility settings
 └── ThemeProvider.js   # Light/Dark/Salzburg Night themes
@@ -66,10 +67,11 @@ The project is configured to run on Replit:
 - **Workflow:** "Next.js Dev Server" (configured in Replit)
 
 ## Deployment
-Configured for Replit Autoscale deployment:
+Configured for Vercel Autoscale deployment:
 - **Build:** `npm run build`
 - **Start:** `npm run start` (production server on port 5000)
 - **Type:** Autoscale (stateless web application)
+- **GitHub Integration:** Push to main → Automatic deployment
 
 ## Languages Supported
 The website supports 5 languages with dedicated routes:
@@ -100,6 +102,7 @@ All zones accessible from the 3D floating card hub on the home page.
 - 6 milestones: Early Education, Decision, Apprenticeship Start, Key Learnings, Current Role, Future Ambitions
 - Scroll-triggered animations (fade in from left/right)
 - Progress dots that pulse when sections enter viewport
+- Mobile-optimized: Reduced padding, smaller fonts for small screens
 
 ### Salzburg Experience - Day/Night Toggle
 - Prominent toggle switch for Day/Night modes
@@ -169,7 +172,15 @@ Centralized in `lib/translations.js`:
 - Personal journey as HYPERION Hotel apprentice
 
 ## Recent Changes
-- **2024-11-27 (Latest):** Premium Animation System & Performance Overhaul
+- **2024-11-27 (Latest):** Mobile Optimization & Final Bug Fixes
+  - **Fixed Mobile Layout:** Journey section optimized for small phones (fonts 1.8rem→1.4rem, spacing 3rem→1.25rem)
+  - **Horizontal Overflow Fix:** Added `overflow-x: hidden` to prevent left/right scrolling on mobile
+  - **Import Cleanup:** Removed all broken SnippetRefreshButton imports across all language pages
+  - **CSS Mobile Fixes:** Added `max-width: 100%` to all elements on mobile, `box-sizing: border-box`
+  - **Page Imports Fixed:** All 5 language pages (en, de, es, fr, it) cleaned and working
+  - **Deployment Ready:** .env.example created, verified Next.js and package.json configs
+
+- **2024-11-27:** Premium Animation System & Performance Overhaul
   - **Inter Font:** Added Inter variable font via next/font for premium typography
   - **ScrollReveal Component:** Reversible scroll animations (slide from left/right/up) - elements reverse on scroll back
   - **ParallaxImage Component:** Scroll-based Y parallax + mouse-based X/Y parallax with spring physics
@@ -179,7 +190,7 @@ Centralized in `lib/translations.js`:
   - **FloatingCardHub Enhancements:** Magnetic button effects, 3D tilt on hover, cursor-following glow, staggered entrance
   - **Header Enhancements:** Scroll-based blur effect, underline slide animation
   - **Settings UI Fixes:** Slider thumb alignment, theme checkmark positioning, switch toggle, 8px grid
-  - **Animations Applied:** ScrollReveal on 35+ page files across all 5 languages (home, journey, salzburg, playground, hospitality-lab, info, settings)
+  - **Animations Applied:** ScrollReveal on 35+ page files across all 5 languages
   - **Accessibility:** Reduced-motion support in all animation components and PageTransition
   - **Dynamic Lang:** HTML lang attribute now updates based on current locale
 
@@ -198,34 +209,11 @@ Centralized in `lib/translations.js`:
   - **Grid Overlay:** Subtle radial grid pattern for premium aesthetic
   - **Grain Texture:** Film grain overlay for cinematic quality
   - **Service Marquee:** Horizontal scrolling text with service keywords
-  - **Improved Contrast:** Dark text on light backgrounds for readability
-  - **Animation Components:** Reusable TextReveal, Marquee, MagneticButton, FloatingElements
-  
-- **2024-11-26 (Earlier):** Refinements & Fixes
-  - **Theme System Enhanced:** Added System (OS preference) and Auto (time-based 6AM-6PM) options
-  - **FloatingCardHub Navigation:** Fixed links to Journey, Playground, Hospitality Lab pages
-  - **Salzburg Day/Night:** Separate day activities (8) and night activities (8) with content toggle
-  - **Translations Fixed:** "Your Digital World" and "My Journey at HYPERION" now translated in all languages
-  - **Animations Extended:** Scroll/hover animations added to Showcase, Info pages, and galleries
-  - **Cursor Visibility:** Improved visibility on dark backgrounds with glow effect
-  - **Check-in Chaos:** Fixed text contrast/readability for all themes
-  - **Instagram Link:** Updated to @am.rsbgg
-  - **Coming Soon Removed:** MediaStrip now shows "Insights & Notes"
-  
-- **2024-11-26 (Earlier):** Digital World Transformation
-  - **FloatingCardHub:** 3D navigation hub with mouse parallax, perspective transforms, spring animations
-  - **Journey Page:** Interactive timeline with 6 milestones, scroll-triggered reveals
-  - **Salzburg Experience:** Day/Night toggle with animated starfield and mode transitions
-  - **Playground:** Check-in Chaos Simulator, quote carousel, reactive backgrounds
-  - **Hospitality Lab:** Professional principles with calm scroll reveals
-  - **Settings Page:** Theme/language/accessibility hub with visual previews
-  - **i18n System:** Centralized translations with t() and getNavItems() helpers
-  - **Navigation Update:** Removed Support, added Journey/Playground/Hospitality Lab
-  - **All 5 Languages:** Complete pages for en, de, es, fr, it
 
 ## Known Minor Issues (Cosmetic)
-- Hydration mismatch warnings from time-based greetings (SSR vs client time)
-- CSS property conflicts: background vs backgroundClip (non-critical)
+- Hydration mismatch warnings from time-based greetings (SSR vs client time) - non-critical
+- CSS WebSocket warnings in development (HMR) - development only
+- Scroll position warnings from Framer Motion (non-critical)
 
 ## User Preferences
 - Premium, professional aesthetic with Apple-like design language
@@ -235,6 +223,7 @@ Centralized in `lib/translations.js`:
 - Multilingual content with consistent messaging
 - Real photography for authenticity
 - Subtle, elegant background music
+- Fast loading with no delays between pages
 
 ## Performance Notes
 - Images optimized with Next.js Image component
@@ -249,13 +238,48 @@ Centralized in `lib/translations.js`:
 - Spring physics for natural animation feel (stiffness 100-150, damping 20-30)
 - Performance targets: LCP ≤ 2.0s, INP ≤ 150ms, CLS ≤ 0.02
 
+## Mobile Optimization
+- No horizontal scrolling on any screen size
+- Journey section optimized for phones (fonts, spacing, padding)
+- Touch-friendly buttons (min 44px height)
+- Responsive typography with clamp()
+- Flexible layouts that work on 320px - 2560px screens
+- Optimized animations for mobile performance
+
 ## Accessibility
 - Semantic HTML with proper ARIA labels
 - Focus-visible styles for keyboard navigation
-- Sufficient color contrast in all themes
+- Sufficient color contrast in all themes (WCAG AA)
 - Reduced motion setting available
-- Font size toggle (Normal/Large)
+- Font size toggle (90/100/110/120%)
 - Proper heading hierarchy
+- Skip to main content option
+
+## Deployment Instructions
+
+### GitHub Setup
+```bash
+# Initialize git (if not already)
+git init
+git add .
+git commit -m "Initial commit: Salzburg52 portfolio"
+git branch -M main
+git remote add origin https://github.com/yourusername/salzburg52.git
+git push -u origin main
+```
+
+### Vercel Deployment
+1. Go to vercel.com and sign in with GitHub
+2. Click "New Project"
+3. Select your salzburg52 repository
+4. Vercel auto-detects Next.js - no config needed
+5. Deploy! 🚀
+
+### Custom Domain
+1. In Vercel project settings → Domains
+2. Add your domain (salzburg52.com)
+3. Follow DNS configuration instructions
+4. Deploy takes ~48hrs to fully propagate
 
 ## Notes
 - Professional apprentice portfolio at HYPERION Hotel Salzburg
@@ -263,4 +287,7 @@ Centralized in `lib/translations.js`:
 - Framer Motion for premium animations
 - SEO-optimized with sitemap and metadata
 - Background music 40% volume (double-click control)
-- Ready for production deployment
+- Ready for production deployment to Vercel
+- Mobile-optimized for all screen sizes
+- No horizontal overflow on any device
+
