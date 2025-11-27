@@ -42,6 +42,7 @@ async function getResendCredentials() {
     return {
       apiKey: connectionSettings.settings.api_key,
       fromEmail: connectionSettings.settings.from_email,
+      toEmail: connectionSettings.settings.to_email, // Get the recipient email from Resend config
     };
   } catch (error) {
     console.error("Error getting Resend credentials:", error);
@@ -58,7 +59,6 @@ export async function POST(request) {
     }
 
     const newPassword = generatePassword();
-    const adminEmail = process.env.ADMIN_EMAIL || "info@salzburg52.com";
 
     // Try to send email via Resend
     const credentials = await getResendCredentials();
@@ -66,9 +66,12 @@ export async function POST(request) {
       try {
         const resend = new Resend(credentials.apiKey);
         
+        // Use to_email from Resend config if available, otherwise use ADMIN_EMAIL
+        const recipientEmail = credentials.toEmail || process.env.ADMIN_EMAIL || "info@salzburg52.com";
+        
         await resend.emails.send({
           from: credentials.fromEmail || "onboarding@resend.dev",
-          to: adminEmail,
+          to: recipientEmail,
           subject: "🔐 New Salzburg52 Admin Password",
           html: `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px;">
@@ -98,7 +101,7 @@ export async function POST(request) {
           `,
         });
 
-        console.log("Email sent successfully via Resend");
+        console.log(`Email sent successfully to ${recipientEmail}`);
       } catch (emailError) {
         console.error("Resend email sending failed:", emailError);
         // Still return password even if email fails
