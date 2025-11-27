@@ -466,8 +466,9 @@ export default function Hero({
         }}
       >
         {greeting && (
-          <motion.div variants={badgeVariants} style={{ marginBottom: "1.5rem" }}>
+          <motion.div variants={badgeVariants} style={{ marginBottom: "1.5rem" }} suppressHydrationWarning>
             <motion.span
+              suppressHydrationWarning
               style={{
                 display: "inline-flex",
                 alignItems: "center",
