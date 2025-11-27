@@ -5,14 +5,12 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 
 export default function AdminSettings() {
-  const [mounted, setMounted] = useState(false);
   const [underConstruction, setUnderConstruction] = useState(false);
   const [demoMode, setDemoMode] = useState(false);
   const [maintenanceMode, setMaintenanceMode] = useState(false);
   const [analyticsEnabled, setAnalyticsEnabled] = useState(true);
 
   useEffect(() => {
-    setMounted(true);
     const token = localStorage.getItem("adminToken");
     if (!token) {
       window.location.href = "/admin/login";
@@ -32,8 +30,6 @@ export default function AdminSettings() {
     if (key === "maintenanceMode") setMaintenanceMode(newValue);
     if (key === "analyticsEnabled") setAnalyticsEnabled(newValue);
   };
-
-  if (!mounted) return null;
 
   return (
     <div

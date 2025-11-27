@@ -68,7 +68,6 @@ export default function Header({ lang = "en" }) {
   const [isSettingsHovered, setIsSettingsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const lastScrollY = useRef(0);
   const scrollThreshold = 50;
 
@@ -76,10 +75,6 @@ export default function Header({ lang = "en" }) {
   const headerBlur = useTransform(scrollY, [0, 100], [0, 20]);
   const headerBg = useTransform(scrollY, [0, 100], ['rgba(255,255,255,0)', 'rgba(255,255,255,0.8)']);
   const headerBlurStyle = useTransform(headerBlur, (v) => `blur(${v}px)`);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (reducedMotion) {
@@ -133,37 +128,6 @@ export default function Header({ lang = "en" }) {
     const newPath = "/" + parts.join("/");
     router.push(newPath || `/${nextLang}`);
   };
-
-  if (!mounted) {
-    return (
-      <header className="app-shell header-root-premium" role="banner">
-        <div className="surface header-inner-premium">
-          <div className="header-left-premium">
-            <Link 
-              href={`/${activeLang}`} 
-              className="header-logo-link"
-              aria-label="Salzburg52 Home"
-            >
-              <Logo size={36} showText={true} />
-            </Link>
-          </div>
-          <button 
-            className="mobile-menu-btn"
-            aria-label="Open menu"
-          >
-            <span className="hamburger-icon" />
-          </button>
-          <nav className="header-nav-premium" aria-label="Main" />
-          <div className="header-right-premium">
-            <button className="header-settings-btn-premium" aria-haspopup="dialog">
-              <span className="settings-btn-text">{settingsLabel}</span>
-              <span className="settings-btn-icon">⚙</span>
-            </button>
-          </div>
-        </div>
-      </header>
-    );
-  }
 
   return (
     <>
@@ -366,7 +330,7 @@ export default function Header({ lang = "en" }) {
                       {settingsLabel} ⚙
                     </button>
                   </motion.div>
-                </motion.motion.div>
+                </motion.div>
               </motion.div>
             </motion.div>
           </>

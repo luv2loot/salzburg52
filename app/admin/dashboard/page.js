@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 
 export default function AdminDashboard() {
-  const [mounted, setMounted] = useState(false);
   const [adminUsername, setAdminUsername] = useState("");
   const [underConstruction, setUnderConstruction] = useState(false);
   const [demoMode, setDemoMode] = useState(false);
@@ -13,7 +12,6 @@ export default function AdminDashboard() {
   const [analyticsEnabled, setAnalyticsEnabled] = useState(true);
 
   useEffect(() => {
-    setMounted(true);
     const token = localStorage.getItem("adminToken");
     const username = localStorage.getItem("adminUsername");
 
@@ -43,8 +41,6 @@ export default function AdminDashboard() {
     if (key === "maintenanceMode") setMaintenanceMode(value);
     if (key === "analyticsEnabled") setAnalyticsEnabled(value);
   };
-
-  if (!mounted) return null;
 
   return (
     <div
