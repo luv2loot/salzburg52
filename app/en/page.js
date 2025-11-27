@@ -140,16 +140,6 @@ export default function EnHomePage() {
     }
   }, []);
 
-    if (!snippet) return;
-    if (typeof window === "undefined") return;
-
-    const next = getRandomSnippet(LANG, { excludeId: snippet.id });
-    if (next) {
-      setSnippet(next);
-      window.localStorage.setItem(SNIPPET_KEY, next.id);
-    }
-  };
-
   const featureItems = [
     { icon: featureIcons.experience, text: "Learn from real experience in luxury hospitality service." },
     { icon: featureIcons.insights, text: "Discover practical insights on creating memorable guest experiences." },

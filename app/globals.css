@@ -2672,6 +2672,10 @@ html.font-size-xlarge .hero-subtitle {
 
 /* Header: cleaner stacking on small screens */
 @media (max-width: 640px) {
+  * {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
   .header-inner {
     flex-direction: column;
     align-items: stretch;

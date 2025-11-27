@@ -133,16 +133,6 @@ export default function EsHomePage() {
     }
   }, []);
 
-    if (!snippet) return;
-    if (typeof window === "undefined") return;
-
-    const next = getRandomSnippet(LANG, { excludeId: snippet.id });
-    if (next) {
-      setSnippet(next);
-      window.localStorage.setItem(SNIPPET_KEY, next.id);
-    }
-  };
-
   const featureItems = [
     { icon: featureIcons.experience, text: "Aprenda de la experiencia práctica en servicio de hospitalidad de lujo." },
     { icon: featureIcons.insights, text: "Descubra perspectivas prácticas sobre la creación de experiencias memorables para huéspedes." },
