@@ -166,7 +166,7 @@ export default function AdminUnlock() {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Enter username (adms52)"
+                placeholder="Enter username"
                 disabled={sendingPassword}
                 autoFocus
                 style={{
